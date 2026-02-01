@@ -1,0 +1,44 @@
+name: RevisCore
+version: '0.1'
+main: zxc.fxreason.revisCore.RevisCore
+api-version: '1.21'
+
+commands:
+  reviscore:
+    description: Перегазгрузка конфигурации
+    usage: /reviscore reload
+  sethome:
+    description: Установить точку дома
+    usage: /sethome [name]
+    aliases:
+      - shome
+  home:
+    description: Телепортирует на точку дома
+    usage: /home
+  setspawn:
+    description: Устанавливает точку спавна
+    usage: /setspawn
+  spawn:
+    description: Телепортирует на точку спавна
+    usage: /spawn
+  setwarp:
+    description: Установка точки варпа
+    usage: /setwap
+  warp:
+    description: Телепортация на точку варпа
+    usage: /warp [name]
+
+
+permissions:
+  sethome.set:
+    description: Установка дома
+    default: true
+  sethome.unlimited:
+    description: Установка точек дома без лимита
+    default: op
+  reviscore.setspawn:
+    description: Установка точки спавна
+    default: op
+  reviscore.reload:
+    description: Перезагрузка конфигурации
+    default: op

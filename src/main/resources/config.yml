@@ -1,0 +1,15 @@
+# RevisCore by fxreason
+# Build: DEV 0.1
+
+settings:
+  # Телепортация на спавн при первом входе игрока
+  teleport-on-first-join: true
+
+# Координаты спавна
+spawn:
+  x: 0.0
+  y: 0.0
+  z: 0.0
+  yaw: 0.0
+  pitch: 0.0
+  world: world
