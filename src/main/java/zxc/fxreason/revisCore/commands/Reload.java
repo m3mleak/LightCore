@@ -22,14 +22,20 @@ public class Reload implements CommandExecutor {
 
         if (sender.hasPermission("reviscore.reload")) {
             if (args.length == 1 && args[0].equals("reload")) {
+                try {
+                    plugin.reloadConfig();
 
-                plugin.reloadConfig();
+                    ConfigManager newCfgManager = new ConfigManager(plugin.getConfig());
 
-                ConfigManager newConfigManager = new ConfigManager(plugin.getConfig());
-
-
-
-                sender.sendMessage("§fКонфигурация успешно перезагружена!");
+                    if (plugin.updateCfgManager(newCfgManager)) {
+                        sender.sendMessage("§aКонфигурация успешо перезагружена!");
+                    } else {
+                        sender.sendMessage("§cОшибка при обновлении конфигурации!");
+                    }
+                } catch (Exception e) {
+                    sender.sendMessage("§cОшибка перезагрузки: " + e.getMessage());
+                    plugin.getLogger().severe("Ошибка при перезагрузке конфигурации: " + e);
+                }
             } else {
                 sender.sendMessage("§cИспользование: /reviscore reload");
             }

@@ -10,6 +10,11 @@ public class ConfigManager {
         config.options().copyDefaults(true);
     }
 
+    public void reload(FileConfiguration newCfg) {
+        this.config = newCfg;
+        config.options().copyDefaults(true);
+    }
+
     public void setSpawnLocation(double x, double y, double z, float yaw, float pitch) {
         config.set("spawn.x", x);
         config.set("spawn.y", y);

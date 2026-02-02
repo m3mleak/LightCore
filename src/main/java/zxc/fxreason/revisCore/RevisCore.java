@@ -60,6 +60,16 @@ public final class RevisCore extends JavaPlugin {
 
     }
 
+    public boolean updateCfgManager(ConfigManager newManager) {
+        try {
+            this.configManager = newManager;
+            return true;
+        } catch (Exception e) {
+            getLogger().severe("Не удалось обновить ConfigManager: " + e.getMessage());
+            return false;
+        }
+    }
+
     private void initConfig() {
         getConfig().options().copyDefaults(true);
         saveDefaultConfig();
