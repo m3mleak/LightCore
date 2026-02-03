@@ -41,7 +41,7 @@ public final class RevisCore extends JavaPlugin {
         getCommand("setwarp").setExecutor(new SetWarp(this));
 
         // warp
-        getCommand("warp").setExecutor(new Warp());
+        getCommand("warp").setExecutor(new Warp(this));
 
         // reviscore reload
         getCommand("reviscore").setExecutor(new Reload(this, configManager));

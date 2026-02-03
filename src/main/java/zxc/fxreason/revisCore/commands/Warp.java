@@ -11,6 +11,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import zxc.fxreason.revisCore.RevisCore;
 
 import java.io.File;
 import java.io.FileReader;
@@ -22,9 +23,19 @@ import java.util.List;
 import java.util.Map;
 
 public class Warp implements CommandExecutor {
-
+    private final RevisCore plugin;
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private File warpsFile;
+
+    public Warp(RevisCore plugin) {
+        this.plugin = plugin;
+        setupFile();
+    }
+
+    private void setupFile() {
+        File pluginFolder = plugin.getDataFolder();
+        warpsFile = new File(pluginFolder, "warps.json");
+    }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
