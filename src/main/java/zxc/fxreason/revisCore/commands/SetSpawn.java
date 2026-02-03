@@ -6,14 +6,17 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import zxc.fxreason.revisCore.RevisCore;
 import zxc.fxreason.revisCore.manager.ConfigManager;
 
 public class SetSpawn implements CommandExecutor {
 
     private ConfigManager configManager;
+    private final RevisCore plugin;
 
-    public SetSpawn(ConfigManager configManager) {
+    public SetSpawn(ConfigManager configManager, RevisCore plugin) {
         this.configManager = configManager;
+        this.plugin = plugin;
     }
 
     @Override
@@ -35,8 +38,7 @@ public class SetSpawn implements CommandExecutor {
 
             String world = loc.getWorld().getName();
 
-            configManager.setSpawnLocation(x, y, z, yaw, pitch);
-            configManager.setWorld(world);
+            saveSpawn(x, y, z, yaw, pitch, world);
 
             player.sendMessage("§aТочка спавна установлена!");
         } else {
@@ -44,5 +46,13 @@ public class SetSpawn implements CommandExecutor {
         }
 
         return true;
+    }
+
+    public void saveSpawn(double x, double y, double z, float yaw, float pitch, String world) {
+        configManager.setSpawnLocation(x, y, z, yaw, pitch);
+        configManager.setWorld(world);
+        plugin.saveConfig();
+        plugin.reloadConfig();
+        configManager.reload(plugin.getConfig());
     }
 }

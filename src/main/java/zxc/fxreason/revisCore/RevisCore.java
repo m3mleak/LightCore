@@ -26,7 +26,7 @@ public final class RevisCore extends JavaPlugin {
         this.configManager = new ConfigManager(getConfig());
 
         // setspawn
-        getCommand("setspawn").setExecutor(new SetSpawn(configManager));
+        getCommand("setspawn").setExecutor(new SetSpawn(configManager, this));
 
         // spawn
         getCommand("spawn").setExecutor(new Spawn(this));
@@ -38,8 +38,10 @@ public final class RevisCore extends JavaPlugin {
         getCommand("home").setExecutor(new Home(this));
 
         // setwarp
+        getCommand("setwarp").setExecutor(new SetWarp(this));
 
         // warp
+        getCommand("warp").setExecutor(new Warp());
 
         // reviscore reload
         getCommand("reviscore").setExecutor(new Reload(this, configManager));

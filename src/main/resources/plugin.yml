@@ -36,6 +36,9 @@ permissions:
   sethome.unlimited:
     description: Установка точек дома без лимита
     default: op
+  reviscore.setwarp:
+    description: Установка точки варпа
+    default: op
   reviscore.setspawn:
     description: Установка точки спавна
     default: op
