@@ -29,16 +29,16 @@ public final class RevisCore extends JavaPlugin {
         getCommand("setspawn").setExecutor(new SetSpawn(configManager, this));
 
         // spawn
-        getCommand("spawn").setExecutor(new Spawn(this));
+        getCommand("spawn").setExecutor(new Spawn(configManager,this));
 
         // sethome
-        getCommand("sethome").setExecutor(new SetHome(this));
+        getCommand("sethome").setExecutor(new SetHome(configManager, this));
 
         // home
-        getCommand("home").setExecutor(new Home(this));
+        getCommand("home").setExecutor(new Home(configManager, this));
 
         // setwarp
-        getCommand("setwarp").setExecutor(new SetWarp(this));
+        getCommand("setwarp").setExecutor(new SetWarp(configManager,this));
 
         // warp
         getCommand("warp").setExecutor(new Warp(this));

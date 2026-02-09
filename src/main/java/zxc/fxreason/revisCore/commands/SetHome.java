@@ -12,17 +12,20 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import zxc.fxreason.revisCore.RevisCore;
+import zxc.fxreason.revisCore.manager.ConfigManager;
 
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.*;
 
 public class SetHome implements CommandExecutor, TabCompleter {
+    private ConfigManager configManager;
     private final RevisCore plugin;
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private File homesFile;
 
-    public SetHome(RevisCore plugin) {
+    public SetHome(ConfigManager configManager, RevisCore plugin) {
+        this.configManager = configManager;
         this.plugin = plugin;
         this.setupFile();
     }
@@ -46,7 +49,7 @@ public class SetHome implements CommandExecutor, TabCompleter {
         Player player = (Player) sender;
 
         if (args.length == 0) {
-            player.sendMessage("§fУкажите название точки дома (/sethome name)");
+            player.sendMessage(configManager.getEnterHomePoint());
             return true;
         } else if (args.length == 1) {
             if (!player.hasPermission("sethome.set")) {
@@ -62,7 +65,7 @@ public class SetHome implements CommandExecutor, TabCompleter {
             if (homes != null) {
                 for (Map<String, Object> f : homes) {
                     if (f.get("namehome").equals(home) && f.get("username").equals(nickname)) {
-                        player.sendMessage("§cДом с таким названием уже существует!");
+                        player.sendMessage(configManager.getDuplicateNameHome());
                         return true;
                     }
                 }
@@ -71,7 +74,7 @@ public class SetHome implements CommandExecutor, TabCompleter {
             if (!player.hasPermission("sethome.unlimited")) {
                 int currentHomes = getPlayerHomesCount(nickname);
                 if (currentHomes >= 2) {
-                    player.sendMessage("§cВы уже установили максимальное количество точек дома (" + 2 + ")!");
+                    player.sendMessage(configManager.getMaxPointsHome());
                     return true;
                 }
             }
@@ -84,7 +87,7 @@ public class SetHome implements CommandExecutor, TabCompleter {
             jsonSave(player, nickname, home, world, x, y, z);
             return true;
         } else {
-            player.sendMessage("§fУкажите название точки дома (/sethome name)");
+            player.sendMessage(configManager.getEnterHomePoint());
         }
 
         return true;
@@ -127,7 +130,7 @@ public class SetHome implements CommandExecutor, TabCompleter {
         boolean homeExists = false;
         for (Map<String, Object> f : homes) {
             if (f.get("namehome").equals(home) && f.get("username").equals(username)) {
-                player.sendMessage("§cДом с таким названием уже существует!");
+                player.sendMessage(configManager.getDuplicateNameHome());
                 homeExists = true;
                 break;
             }
@@ -135,7 +138,7 @@ public class SetHome implements CommandExecutor, TabCompleter {
 
         if (!homeExists) {
             homes.add(newHome);
-            player.sendMessage("§aТочка дома успешно установлена");
+            player.sendMessage(configManager.getSuccesEnterSetHome());
         }
 
         saveData(data);

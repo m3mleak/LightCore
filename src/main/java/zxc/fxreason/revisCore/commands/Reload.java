@@ -23,6 +23,7 @@ public class Reload implements CommandExecutor {
         if (sender.hasPermission("reviscore.reload")) {
             if (args.length == 1 && args[0].equals("reload")) {
                 try {
+                    plugin.saveConfig();
                     plugin.reloadConfig();
 
                     ConfigManager newCfgManager = new ConfigManager(plugin.getConfig());

@@ -40,9 +40,9 @@ public class SetSpawn implements CommandExecutor {
 
             saveSpawn(x, y, z, yaw, pitch, world);
 
-            player.sendMessage("§aТочка спавна установлена!");
+            player.sendMessage(configManager.getSuccesSetSpawn());
         } else {
-            player.sendMessage("§cНедостаточно прав!");
+            player.sendMessage(configManager.getNoPerms());
         }
 
         return true;

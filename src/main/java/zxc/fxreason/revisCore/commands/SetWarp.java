@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import zxc.fxreason.revisCore.RevisCore;
+import zxc.fxreason.revisCore.manager.ConfigManager;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -19,11 +20,13 @@ import java.util.List;
 import java.util.Map;
 
 public class SetWarp implements CommandExecutor {
+    private ConfigManager configManager;
     private final RevisCore plugin;
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private File warpsFile;
 
-    public SetWarp(RevisCore plugin) {
+    public SetWarp(ConfigManager configManager, RevisCore plugin) {
+        this.configManager = configManager;
         this.plugin = plugin;
         this.setupFile();
     }
@@ -47,10 +50,10 @@ public class SetWarp implements CommandExecutor {
         Player player = (Player) sender;
 
         if (args.length == 0) {
-            player.sendMessage("§fИспользуйте команду /setwarp name");
+            player.sendMessage(configManager.getSetWarpName());
         } else if (args.length == 1) {
             if (!player.hasPermission("reviscore.setwarp:")) {
-                player.sendMessage("§cНедостаточно прав!");
+                player.sendMessage(configManager.getNoPerms());
                 return true;
             }
 
@@ -61,7 +64,7 @@ public class SetWarp implements CommandExecutor {
             if (warps != null) {
                 for (Map<String, Object> f : warps) {
                     if (f.get("warpname").equals(warp)) {
-                        player.sendMessage("§cВарп с таким названием уже существует!");
+                        player.sendMessage(configManager.getDuplicateWarp());
                         return true;
                     }
                 }
@@ -75,7 +78,7 @@ public class SetWarp implements CommandExecutor {
             jsonSave(player, warp, world, x, y, z);
             return true;
         } else {
-            player.sendMessage("§fУкажите название точки дома (/setwarp name)");
+            player.sendMessage(configManager.getSetWarpName());
         }
 
         return true;
@@ -98,7 +101,7 @@ public class SetWarp implements CommandExecutor {
             }
 
             if (!data.containsKey("warps")) {
-                data.put("homes", new ArrayList<>());
+                data.put("warps", new ArrayList<>());
             }
 
             return data;
@@ -128,7 +131,7 @@ public class SetWarp implements CommandExecutor {
         boolean warpExists = false;
         for (Map<String, Object> f : warps) {
             if (f.get("warpname").equals(warpName)) {
-                player.sendMessage("§cВарп с таким названием уже существует");
+                player.sendMessage(configManager.getDuplicateWarp());
                 warpExists = true;
                 break;
             }
@@ -136,7 +139,7 @@ public class SetWarp implements CommandExecutor {
 
         if (!warpExists) {
             warps.add(newWarp);
-            player.sendMessage("§aТочка дома успешно установлена");
+            player.sendMessage(configManager.getSetWarpSucces());
         }
 
         saveData(data);

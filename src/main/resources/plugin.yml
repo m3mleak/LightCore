@@ -10,8 +10,6 @@ commands:
   sethome:
     description: Установить точку дома
     usage: /sethome [name]
-    aliases:
-      - shome
   home:
     description: Телепортирует на точку дома
     usage: /home

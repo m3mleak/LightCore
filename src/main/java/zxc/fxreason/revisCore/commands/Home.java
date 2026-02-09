@@ -12,7 +12,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import zxc.fxreason.revisCore.RevisCore;
+import zxc.fxreason.revisCore.manager.ConfigManager;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -23,11 +25,13 @@ import java.util.List;
 import java.util.Map;
 
 public class Home implements CommandExecutor {
+    private ConfigManager configManager;
     private final RevisCore plugin;
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private File homesFile;
 
-    public Home(RevisCore plugin) {
+    public Home(ConfigManager configManager, RevisCore plugin) {
+        this.configManager = configManager;
         this.plugin = plugin;
         setupFile();
     }
@@ -46,17 +50,19 @@ public class Home implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        int playerHomesCount = getPlayerHomesCount(player.getName());
+        String playerName = player.getName();
 
-        if (playerHomesCount == 0) {
-            player.sendMessage("§cУ вас нет точек дома! Создайте точку дома с помощью /sethome");
+        Map<String, Object> data = loadData();
+
+        if (data == null) {
+            player.sendMessage(configManager.getHomeDataError());
             return true;
         }
 
-        Map<String, Object> data = loadData();
         List<Map<String, Object>> homes = (List<Map<String, Object>>) data.get("homes");
-
         List<Map<String, Object>> playerHomes = new ArrayList<>();
+        int playerHomesCount = getPlayerHomesCount(player.getName());
+
         List<String> homesPlayerNames = new ArrayList<>();
 
         for (Map<String, Object> f : homes) {
@@ -66,22 +72,28 @@ public class Home implements CommandExecutor {
             }
         }
 
+        if (playerHomesCount == 0) {
+            player.sendMessage(configManager.getNoHomesPoint());
+            return true;
+        }
+
         if (playerHomesCount == 1) {
             Map<String, Object> playerHome = playerHomes.get(0);
 
             if (args.length == 0 || (args.length == 1 && args[0].equals(playerHome.get("namehome")))) {
                 teleportToHome(player, playerHome);
+                player.sendMessage(configManager.getTeleportedPlayerToHome() + "§f.");
                 return true;
             } else if (args.length == 1) {
                 String homeName = playerHome.get("namehome").toString();
-                player.sendMessage("§cУ вас только одна точка дома с именем: " + homeName);
+                player.sendMessage(configManager.getOneHomesPoint() + homeName);
                 return true;
             }
         }
         else if (playerHomesCount > 1) {
             if (args.length == 0) {
-                player.sendMessage("§cУ вас несколько точек дома, укажите имя:");
-                player.sendMessage("§fДоступные дома: " + String.join(", ", homesPlayerNames));
+                player.sendMessage(configManager.getMorePointsHome());
+                player.sendMessage("§fДоступные точки: §a" + String.join("§f, §a", homesPlayerNames));
                 return true;
             } else if (args.length == 1) {
                 String targetHomeName = args[0];
@@ -96,16 +108,17 @@ public class Home implements CommandExecutor {
 
                 if (targetHome != null) {
                     teleportToHome(player, targetHome);
-                    player.sendMessage("§aВы телепортированы к дому " + targetHomeName + ".");
+                    player.sendMessage(configManager.getTeleportedPlayerToHome() + targetHomeName + "§f.");
+                    return true;
                 } else {
-                    player.sendMessage("§cДом с именем '" + targetHomeName + "' не найден!");
-                    player.sendMessage("§fДоступные дома: " + String.join(", ", homesPlayerNames));
+                    player.sendMessage(configManager.getNotFoundPointHome() + targetHomeName + " §fне найдена!");
+                    player.sendMessage("§fДоступные точки дома: §a" + String.join("§f, §a", homesPlayerNames));
+                    return true;
                 }
-                return true;
             }
         }
 
-        player.sendMessage("§cИспользование: /home [название]");
+        player.sendMessage(configManager.getUsageHome());
         return true;
     }
 
@@ -121,10 +134,10 @@ public class Home implements CommandExecutor {
             if (world != null) {
                 player.teleport(new Location(world, x, y, z));
             } else {
-                player.sendMessage("§cМир не найден!");
+                player.sendMessage(configManager.getWorldHomeNotFound());
             }
         } catch (Exception e) {
-            player.sendMessage("§cОшибка при загрузке координат дома!");
+            player.sendMessage(configManager.getErrorLoadsCoordHome());
         }
     }
 
@@ -151,7 +164,7 @@ public class Home implements CommandExecutor {
             Map<String, Object> data = gson.fromJson(reader, type);
             return data;
         } catch (IOException e) {
-            System.out.println("[RevisCore] Ошибка чтения базы данных");
+            plugin.getLogger().warning("Ошибка чтения базы данных (homes)");
             return null;
         }
     }

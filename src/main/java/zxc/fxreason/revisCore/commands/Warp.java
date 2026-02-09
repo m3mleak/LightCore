@@ -12,6 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import zxc.fxreason.revisCore.RevisCore;
+import zxc.fxreason.revisCore.manager.ConfigManager;
 
 import java.io.File;
 import java.io.FileReader;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Warp implements CommandExecutor {
+    private ConfigManager configManager;
     private final RevisCore plugin;
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private File warpsFile;
@@ -54,7 +56,7 @@ public class Warp implements CommandExecutor {
 
             boolean teleportation = false;
             for (Map<String, Object> f : warps) {
-                if (args[0].equals(f.get("namewarp"))) {
+                if (args[0].equals(f.get("warpname"))) {
                     teleportation = true;
                     targetWarp = f;
                 }
@@ -64,7 +66,7 @@ public class Warp implements CommandExecutor {
                 TeleportToWarp(player, targetWarp);
             }
         } else {
-            player.sendMessage("§fИспользование: /warp name");
+            player.sendMessage(configManager.getWarpUsage());
         }
         return true;
     }
@@ -81,10 +83,10 @@ public class Warp implements CommandExecutor {
             if (world != null) {
                 player.teleport(new Location(world, x, y, z));
             } else {
-                player.sendMessage("§cМир не найден!");
+                player.sendMessage(configManager.getWorldNotFoundWarp());
             }
         } catch (Exception e) {
-            player.sendMessage("§cОшибка при загрузке координат варпа!");
+            player.sendMessage(configManager.getErrorLoadsCoordsWarp());
         }
     }
 

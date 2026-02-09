@@ -11,9 +11,11 @@ import zxc.fxreason.revisCore.RevisCore;
 import zxc.fxreason.revisCore.manager.ConfigManager;
 
 public class Spawn implements CommandExecutor {
+    private ConfigManager configManager;
     private final RevisCore plugin;
 
-    public Spawn(RevisCore plugin) {
+    public Spawn(ConfigManager configManager, RevisCore plugin) {
+        this.configManager = configManager;
         this.plugin = plugin;
     }
 
@@ -31,7 +33,7 @@ public class Spawn implements CommandExecutor {
         if (args.length == 0) {
             player.teleport(loadSpawnLoc());
         } else {
-            sender.sendMessage("§cИспользуйте /spawn для телеопртации на спавн.");
+            sender.sendMessage(configManager.getSpawnCorrect());
         }
 
         return true;
