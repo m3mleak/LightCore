@@ -37,14 +37,23 @@ public final class RevisCore extends JavaPlugin {
         // home
         getCommand("home").setExecutor(new Home(configManager, this));
 
+        // delhome
+        getCommand("delhome").setExecutor(new DeleteHome(this, configManager));
+
         // setwarp
         getCommand("setwarp").setExecutor(new SetWarp(configManager,this));
 
         // warp
-        getCommand("warp").setExecutor(new Warp(this));
+        getCommand("warp").setExecutor(new Warp(configManager, this));
 
         // reviscore reload
         getCommand("reviscore").setExecutor(new Reload(this, configManager));
+
+        // fly
+        getCommand("fly").setExecutor(new Fly(this, configManager));
+
+        // gm
+        getCommand("gm").setExecutor(new Gamemode(this, configManager));
 
         // respawn event
         Bukkit.getPluginManager().registerEvents(new RespawnEvent(this), this);

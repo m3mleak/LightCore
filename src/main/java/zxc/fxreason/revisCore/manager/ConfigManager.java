@@ -119,6 +119,46 @@ public class ConfigManager {
         return config.getString("messages.error-loads-coords-warp");
     }
 
+    public String getSuccesTeleportToSpawn() {
+        return config.getString("messages.success-teleport-to-spawn");
+    }
+
+    public String getSuccessTeleportToWarp() {
+        return config.getString("messages.success-teleport-to-warp");
+    }
+
+    public String getEnterHomeForDelete() {
+        return config.getString("messages.enter-home-point-for-del");
+    }
+
+    public String getHomePointNotFound() {
+        return config.getString("messages.home-point-not-found");
+    }
+
+    public String getSuccessDeleteHomePoint() {
+        return config.getString("messages.success-delete-home-point");
+    }
+
+    public String getFlyEnable() {
+        return config.getString("messages.fly-enable");
+    }
+
+    public String getFlyDisable() {
+        return config.getString("messages.fly-disable");
+    }
+
+    public String getGamemodeCorrectUse() {
+        return config.getString("messages.gamemode-correct-use");
+    }
+
+    public String getGamemodeInstalled() {
+        return config.getString("messages.gamemode-installed");
+    }
+
+    public String getIncorrectGamemode() {
+        return config.getString("messages.incorrect-gamemode");
+    }
+
     public Double getx() {
         return config.getDouble("spawn.x");
     }

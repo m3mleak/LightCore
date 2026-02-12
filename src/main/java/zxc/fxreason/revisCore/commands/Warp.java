@@ -29,7 +29,8 @@ public class Warp implements CommandExecutor {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private File warpsFile;
 
-    public Warp(RevisCore plugin) {
+    public Warp(ConfigManager configManager, RevisCore plugin) {
+        this.configManager = configManager;
         this.plugin = plugin;
         setupFile();
     }
@@ -63,6 +64,7 @@ public class Warp implements CommandExecutor {
             }
 
             if (teleportation) {
+                player.sendMessage(configManager.getSuccessTeleportToWarp() + targetWarp.get("warpname"));
                 TeleportToWarp(player, targetWarp);
             }
         } else {

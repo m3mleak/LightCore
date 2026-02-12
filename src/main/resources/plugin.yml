@@ -13,6 +13,9 @@ commands:
   home:
     description: Телепортирует на точку дома
     usage: /home
+  delhome:
+    description: Удаляет указанную точку дома
+    usage: /delhome
   setspawn:
     description: Устанавливает точку спавна
     usage: /setspawn
@@ -25,6 +28,12 @@ commands:
   warp:
     description: Телепортация на точку варпа
     usage: /warp [name]
+  fly:
+    description: Включает полет игроку
+    usage: /fly
+  gm:
+    description: Смена режима игры
+    usage: /gm [0/1/2/3]
 
 
 permissions:
@@ -42,4 +51,10 @@ permissions:
     default: op
   reviscore.reload:
     description: Перезагрузка конфигурации
+    default: op
+  reviscore.fly:
+    description: Возможность использовать fly
+    default: op
+  reviscore.gamemode:
+    description: Смена режима игры
     default: op

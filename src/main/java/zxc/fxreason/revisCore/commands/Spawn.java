@@ -31,6 +31,7 @@ public class Spawn implements CommandExecutor {
 
 
         if (args.length == 0) {
+            player.sendMessage(configManager.getSuccesTeleportToSpawn());
             player.teleport(loadSpawnLoc());
         } else {
             sender.sendMessage(configManager.getSpawnCorrect());
