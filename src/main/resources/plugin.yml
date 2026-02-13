@@ -34,6 +34,15 @@ commands:
   gm:
     description: Смена режима игры
     usage: /gm [0/1/2/3]
+  enderchest:
+    description: Открыть эндер сундук
+    usage: /ec
+    aliases:
+      - ec
+  invsee:
+    description: Просмотр инвентаря игрока
+    usage: /invsee
+
 
 
 permissions:
@@ -57,4 +66,13 @@ permissions:
     default: op
   reviscore.gamemode:
     description: Смена режима игры
+    default: op
+  reviscore.enderchest-open:
+    description: Открыть свой эндерчест
+    default: op
+  reviscore.enderchest-open-other:
+    description: Открывает эндерчест указанного игрока
+    default: op
+  reviscore.invsee:
+    description: Просмотр чужих инвентарей
     default: op

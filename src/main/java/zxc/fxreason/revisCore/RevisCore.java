@@ -55,6 +55,12 @@ public final class RevisCore extends JavaPlugin {
         // gm
         getCommand("gm").setExecutor(new Gamemode(this, configManager));
 
+        // ec
+        getCommand("enderchest").setExecutor(new EnderChest());
+
+        // invsee
+        getCommand("invsee").setExecutor(new Invsee());
+
         // respawn event
         Bukkit.getPluginManager().registerEvents(new RespawnEvent(this), this);
 
