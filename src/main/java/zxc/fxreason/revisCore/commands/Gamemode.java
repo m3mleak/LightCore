@@ -34,25 +34,25 @@ public class Gamemode implements CommandExecutor {
                 int gamemode = Integer.parseInt(args[0]);
 
                 switch (gamemode) {
-                    case 1:
+                    case 1 -> {
                         player.sendMessage(configManager.getGamemodeInstalled() + "креатив");
                         player.setGameMode(GameMode.CREATIVE);
-                        break;
-                    case 0:
+                    }
+                    case 0 -> {
                         player.sendMessage(configManager.getGamemodeInstalled() + "выживание");
                         player.setGameMode(GameMode.SURVIVAL);
-                        break;
-                    case 2:
+                    }
+                    case 2 -> {
                         player.sendMessage(configManager.getGamemodeInstalled() + "приключение");
                         player.setGameMode(GameMode.ADVENTURE);
-                        break;
-                    case 3:
+                    }
+                    case 3 -> {
                         player.sendMessage(configManager.getGamemodeInstalled() + "наблюдатель");
                         player.setGameMode(GameMode.SPECTATOR);
-                        break;
-                    default:
+                    }
+                    default -> {
                         player.sendMessage(configManager.getIncorrectGamemode());
-                        break;
+                    }
             }
 
             return true;

@@ -73,6 +73,8 @@ public final class RevisCore extends JavaPlugin {
         // Plugin shutdown logic
         saveConfig();
 
+        System.out.println();
+
         getLogger().info("Disabled");
 
     }
