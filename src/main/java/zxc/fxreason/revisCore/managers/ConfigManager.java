@@ -159,6 +159,22 @@ public class ConfigManager {
         return config.getString("messages.incorrect-gamemode");
     }
 
+    public String getNicknameNotFound() {
+        return config.getString("messages.not-found-player");
+    }
+
+    public String getUsageInvsee() {
+        return config.getString("messages.usage-invsee");
+    }
+
+    public String getUsageTpa() {
+        return config.getString("messages.usage-tpa");
+    }
+
+    public String getInvseeNameInv() {
+        return config.getString("inventory_names.invsee");
+    }
+
     public Double getx() {
         return config.getDouble("spawn.x");
     }
