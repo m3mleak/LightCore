@@ -1,6 +1,7 @@
 package zxc.fxreason.revisCore.commands;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -8,56 +9,77 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import zxc.fxreason.revisCore.RevisCore;
+import zxc.fxreason.revisCore.managers.ConfigManager;
 
 public class Invsee implements CommandExecutor {
-    @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
+    private final RevisCore plugin;
+
+    private ConfigManager configManager;
+
+    public Invsee(RevisCore plugin, ConfigManager configManager) {
+        this.plugin = plugin;
+        this.configManager = configManager;
+    }
+
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player)) {
             sender.sendMessage("§cКоманда доступна только для игроков");
             return true;
         }
 
         Player player = (Player) sender;
-
         if (player.hasPermission("reviscore.invsee")) {
             if (args.length == 1) {
+
                 String username = args[0];
                 Player target = Bukkit.getPlayer(username);
 
                 if (target != null) {
-                    String menuName = "Invsee" + username;
+
+                    String menuName = this.configManager.getInvseeNameInv() + target.getName();
                     Inventory targetInventory = Bukkit.createInventory(null, 54, menuName);
 
+                    targetInventory.setItem(49, ItemStack.of(Material.ARMOR_STAND));
+
+                    targetInventory.setItem(36, ItemStack.of(Material.LIGHT_BLUE_STAINED_GLASS_PANE));
+                    targetInventory.setItem(44, ItemStack.of(Material.LIGHT_BLUE_STAINED_GLASS_PANE));
+
+                    targetInventory.setItem(37, ItemStack.of(Material.WHITE_STAINED_GLASS_PANE));
+                    targetInventory.setItem(38, ItemStack.of(Material.WHITE_STAINED_GLASS_PANE));
+                    targetInventory.setItem(42, ItemStack.of(Material.WHITE_STAINED_GLASS_PANE));
+                    targetInventory.setItem(43, ItemStack.of(Material.WHITE_STAINED_GLASS_PANE));
+
+                    for (int i = 0; i < 3; i++) {
+                        targetInventory.setItem(39 + i, ItemStack.of(Material.LIGHT_BLUE_STAINED_GLASS_PANE));
+                    }
+
                     ItemStack[] contents = target.getInventory().getContents();
-                    for (int i = 0; i < 36; i++) {
-                        if (contents[i] != null) {
-                            targetInventory.setItem(i, contents[i].clone());
-                        }
+                    for (int j = 0; j < 36; j++) {
+                        if (contents[j] != null)
+                            targetInventory.setItem(j, contents[j].clone());
                     }
 
                     ItemStack[] armor = target.getInventory().getArmorContents();
-                    for (int i = 0; i < armor.length; i++) {
-                        if (armor[i] != null) {
-                            targetInventory.setItem(36 + i, armor[i].clone());
-                        }
+                    for (int k = 0; k < armor.length; k++) {
+                        if (armor[k] != null)
+                            targetInventory.setItem(45 + k, armor[k].clone());
                     }
 
                     if (target.getInventory().getItemInOffHand() != null) {
-                        targetInventory.setItem(40, target.getInventory().getItemInOffHand().clone());
+                        targetInventory.setItem(53, target.getInventory().getItemInOffHand().clone());
                     }
 
                     player.openInventory(targetInventory);
                 } else {
-                    player.sendMessage("Игрок не найден");
+                    player.sendMessage(this.configManager.getNicknameNotFound());
                 }
             } else {
-                player.sendMessage("неправильное использование");
+                player.sendMessage(this.configManager.getUsageInvsee());
             }
             return true;
-        } else {
-            player.sendMessage("нет прав");
         }
-
+        player.sendMessage(this.configManager.getNoPerms());
         return true;
     }
 }

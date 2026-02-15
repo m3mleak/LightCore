@@ -3,6 +3,7 @@ package zxc.fxreason.revisCore;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import zxc.fxreason.revisCore.commands.*;
+import zxc.fxreason.revisCore.events.CMoveInvEvent;
 import zxc.fxreason.revisCore.events.RespawnEvent;
 import zxc.fxreason.revisCore.managers.ConfigManager;
 
@@ -59,10 +60,16 @@ public final class RevisCore extends JavaPlugin {
         getCommand("enderchest").setExecutor(new EnderChest());
 
         // invsee
-        getCommand("invsee").setExecutor(new Invsee());
+        getCommand("invsee").setExecutor(new Invsee(this, configManager));
+
+        // tpa
+        getCommand("tpa").setExecutor(new Tpa(configManager));
 
         // respawn event
         Bukkit.getPluginManager().registerEvents(new RespawnEvent(this), this);
+
+        // canceled move inv event
+        Bukkit.getPluginManager().registerEvents(new CMoveInvEvent(this, configManager), this);
 
         initConfig();
         getLogger().info("Enabled");

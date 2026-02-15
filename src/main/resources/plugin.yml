@@ -42,8 +42,9 @@ commands:
   invsee:
     description: Просмотр инвентаря игрока
     usage: /invsee
-
-
+  tpa:
+    description: Телепортация к игроку
+    usage: /tpa [name]
 
 permissions:
   sethome.set:
@@ -75,4 +76,19 @@ permissions:
     default: op
   reviscore.invsee:
     description: Просмотр чужих инвентарей
+    default: op
+  reviscore.noncooldown-tpa:
+    description: Без кд тп
+    default: op
+  reviscore.cooldown-tpa.15:
+    description: 15 sec
+    default: op
+  reviscore.cooldown-tpa.20:
+    description: 20 sec
+    default: op
+  reviscore.cooldown-tpa.30:
+    description: 30 sec
+    default: op
+  reviscore.cooldown-tpa.45:
+    description: 45 sec
     default: op

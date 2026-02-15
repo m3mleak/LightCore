@@ -40,21 +40,27 @@ public class Tpa implements CommandExecutor {
         }
         long timeLeft = this.cdManager.getCooldown(player);
         if (timeLeft > 0L && !player.hasPermission("reviscore.noncooldown-tpa")) {
-            player.sendMessage(this.configManager.getCooldownCMD());
+            player.sendMessage(this.configManager.getCooldownCMD() + timeLeft + " §fсекунд.");
             return true;
         }
         if (args.length == 1) {
+
             String target = args[0];
+
             if (target.equals(player.getName())) {
                 player.sendMessage(this.configManager.getNonTpToMe());
                 return false;
             }
+
             Player targetPlayer = Bukkit.getPlayer(target);
             World world = targetPlayer.getWorld();
+
             double x = targetPlayer.getX();
             double y = targetPlayer.getY();
             double z = targetPlayer.getZ();
+            
             player.teleport(new Location(world, x, y, z));
+
         } else {
             player.sendMessage(this.configManager.getUsageTpa());
         }
