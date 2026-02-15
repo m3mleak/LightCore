@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import zxc.fxreason.revisCore.RevisCore;
-import zxc.fxreason.revisCore.manager.ConfigManager;
+import zxc.fxreason.revisCore.managers.ConfigManager;
 
 import java.io.*;
 import java.lang.reflect.Type;

@@ -5,7 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 import zxc.fxreason.revisCore.RevisCore;
-import zxc.fxreason.revisCore.manager.ConfigManager;
+import zxc.fxreason.revisCore.managers.ConfigManager;
 
 public class Reload implements CommandExecutor {
 

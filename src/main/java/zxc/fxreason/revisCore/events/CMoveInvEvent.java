@@ -1,20 +1,25 @@
 package zxc.fxreason.revisCore.events;
 
-/*
- * By fxreason
- * 13.02.2026
- **/
-
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import zxc.fxreason.revisCore.commands.Invsee;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import zxc.fxreason.revisCore.RevisCore;
+import zxc.fxreason.revisCore.managers.ConfigManager;
 
 public class CMoveInvEvent implements Listener {
+    private final RevisCore plugin;
 
-    @EventHandler
-    public void onIventoryClick(InventoryCloseEvent event) {
-        //if (event.getView().getTitle().equals(Invsee.))
+    private ConfigManager configManager;
+
+    public CMoveInvEvent(RevisCore plugin, ConfigManager configManager) {
+        this.plugin = plugin;
+        this.configManager = configManager;
     }
 
+    @EventHandler
+    public void onIventoryClick(InventoryClickEvent event) {
+        String title = event.getView().getTitle();
+        if (title.startsWith(this.configManager.getInvseeNameInv()))
+            event.setCancelled(true);
+    }
 }

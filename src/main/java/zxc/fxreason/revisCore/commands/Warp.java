@@ -12,14 +12,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import zxc.fxreason.revisCore.RevisCore;
-import zxc.fxreason.revisCore.manager.ConfigManager;
+import zxc.fxreason.revisCore.managers.ConfigManager;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

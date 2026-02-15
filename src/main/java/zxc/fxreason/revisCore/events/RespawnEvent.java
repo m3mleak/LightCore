@@ -9,7 +9,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import zxc.fxreason.revisCore.RevisCore;
-import zxc.fxreason.revisCore.manager.ConfigManager;
+import zxc.fxreason.revisCore.managers.ConfigManager;
 
 public class RespawnEvent implements Listener {
 

@@ -1,4 +1,4 @@
-package zxc.fxreason.revisCore.manager;
+package zxc.fxreason.revisCore.managers;
 
 /*
  * By fxreason

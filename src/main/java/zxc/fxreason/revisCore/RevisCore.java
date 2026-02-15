@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import zxc.fxreason.revisCore.commands.*;
 import zxc.fxreason.revisCore.events.RespawnEvent;
-import zxc.fxreason.revisCore.manager.ConfigManager;
+import zxc.fxreason.revisCore.managers.ConfigManager;
 
 public final class RevisCore extends JavaPlugin {
 
