@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import zxc.fxreason.revisCore.RevisCore;
+import zxc.fxreason.revisCore.utils.MessageUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,12 +14,14 @@ public class TpReqManager {
     private final Map<UUID, TpaRequest> activeRequests = new HashMap<>();
     private final RevisCore plugin;
     private final ConfigManager configManager;
+    private final MessageUtil messageUtil;
 
     private static final int REQUEST_TIMEOUT = 30;
 
-    public TpReqManager(RevisCore plugin, ConfigManager configManager) {
+    public TpReqManager(RevisCore plugin, ConfigManager configManager, MessageUtil messageUtil) {
         this.plugin = plugin;
         this.configManager = configManager;
+        this.messageUtil = messageUtil;
     }
 
     public void sendRequest(Player sender, Player target) {
@@ -27,10 +30,13 @@ public class TpReqManager {
         TpaRequest request = new TpaRequest(sender.getUniqueId(), target.getUniqueId());
         activeRequests.put(target.getUniqueId(), request);
 
-        sender.sendMessage("§aЗапрос на телепортацию отправлен игроку §e" + target.getName());
+        String nameTarget = target.getName();
+        String namePlayer = sender.getName();
 
-        target.sendMessage("§e" + sender.getName() + " §aхочет телепортироваться к вам.");
-        target.sendMessage("§aИспользуйте §e/tpaccept §aили §e/tpdeny");
+        messageUtil.sendMessage(sender, nameTarget, configManager.getTpaResponse());
+
+        messageUtil.sendMessage(target, namePlayer, configManager.getTpaResponseToTaget());
+        sender.sendMessage(configManager.getAcceptDenyTpa());
 
         new BukkitRunnable() {
             @Override

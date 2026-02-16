@@ -6,25 +6,24 @@ import zxc.fxreason.revisCore.commands.*;
 import zxc.fxreason.revisCore.events.CMoveInvEvent;
 import zxc.fxreason.revisCore.events.RespawnEvent;
 import zxc.fxreason.revisCore.managers.ConfigManager;
+import zxc.fxreason.revisCore.managers.TpReqManager;
+import zxc.fxreason.revisCore.utils.MessageUtil;
 
 public final class RevisCore extends JavaPlugin {
 
     private ConfigManager configManager;
-    private static RevisCore instance;
 
     public ConfigManager getConfigManager() {
         return configManager;
     }
 
-    public static RevisCore getInstance() {
-        return instance;
-    }
 
     @Override
     public void onEnable() {
-        instance = this;
         // Plugin startup logic
         this.configManager = new ConfigManager(getConfig());
+        MessageUtil messageUtil = new MessageUtil(configManager);
+        TpReqManager tpReqManager = new TpReqManager(this, configManager, messageUtil);
 
         // setspawn
         getCommand("setspawn").setExecutor(new SetSpawn(configManager, this));
@@ -63,7 +62,13 @@ public final class RevisCore extends JavaPlugin {
         getCommand("invsee").setExecutor(new Invsee(this, configManager));
 
         // tpa
-        getCommand("tpa").setExecutor(new Tpa(configManager));
+        getCommand("tpa").setExecutor(new Tpa(configManager, tpReqManager));
+
+        // tpaccept
+        getCommand("tpaccept").setExecutor(new TpaAccept(tpReqManager));
+
+        // tpdeny
+        getCommand("tpdeny").setExecutor(new TpaDeny(tpReqManager));
 
         // respawn event
         Bukkit.getPluginManager().registerEvents(new RespawnEvent(this), this);

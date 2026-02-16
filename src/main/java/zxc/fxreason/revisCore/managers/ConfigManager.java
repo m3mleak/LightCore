@@ -179,6 +179,22 @@ public class ConfigManager {
         return this.config.getString("messages.nontp-to-me");
     }
 
+    public String getTpaResponse() {
+        return this.config.getString("messages.tpa-response");
+    }
+
+    public String getTpaResponseToTaget() {
+        return this.config.getString("messages.tpa-response-to-target");
+    }
+
+    public String getAcceptDenyTpa() {
+        return this.config.getString("messages.accept-deny-tpa");
+    }
+
+    public String getNotMessage() {
+        return this.config.getString("messages.not-message");
+    }
+
     public String getInvseeNameInv() {
         return this.config.getString("inventory_names.invsee");
     }

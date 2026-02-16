@@ -45,6 +45,12 @@ commands:
   tpa:
     description: Телепортация к игроку
     usage: /tpa [name]
+  tpaccept:
+    description: Принять тп
+    usage: /tpaccept
+  tpdeny:
+    description: Отказать тп
+    usage: /tpdeny
 
 permissions:
   sethome.set:
