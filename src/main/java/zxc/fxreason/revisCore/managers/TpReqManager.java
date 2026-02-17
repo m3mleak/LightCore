@@ -36,7 +36,7 @@ public class TpReqManager {
         messageUtil.sendMessage(sender, nameTarget, configManager.getTpaResponse());
 
         messageUtil.sendMessage(target, namePlayer, configManager.getTpaResponseToTaget());
-        sender.sendMessage(configManager.getAcceptDenyTpa());
+        target.sendMessage(configManager.getAcceptDenyTpa());
 
         new BukkitRunnable() {
             @Override
@@ -48,10 +48,10 @@ public class TpReqManager {
                     Player senderPlayer = Bukkit.getPlayer(sender.getUniqueId());
 
                     if (targetPlayer != null && targetPlayer.isOnline()) {
-                        targetPlayer.sendMessage("§cЗапрос на телепортацию от §e" + sender.getName() + " §cистек.");
+                        messageUtil.sendMessage(targetPlayer, namePlayer, configManager.getTimesUpTp());
                     }
                     if (senderPlayer != null && senderPlayer.isOnline()) {
-                        senderPlayer.sendMessage("§cВаш запрос на телепортацию к §e" + target.getName() + " §cистек.");
+                        messageUtil.sendMessage(senderPlayer, nameTarget, configManager.getTimesUpTplayer());
                     }
                 }
             }
@@ -62,38 +62,38 @@ public class TpReqManager {
         TpaRequest request = activeRequests.remove(target.getUniqueId());
 
         if (request == null) {
-            target.sendMessage("§cУ вас нет активных запросов на телепортацию!");
+            target.sendMessage(configManager.getNotActiveReq());
             return;
         }
 
         Player sender = Bukkit.getPlayer(request.getSenderUuid());
 
         if (sender == null || !sender.isOnline()) {
-            target.sendMessage("§cИгрок, отправивший запрос, вышел из игры!");
+            target.sendMessage(configManager.getSenderTpLeave());
             return;
         }
 
         sender.teleport(target.getLocation());
 
-        sender.sendMessage("§aТелепортация к §e" + target.getName() + " §aвыполнена!");
-        target.sendMessage("§e" + sender.getName() + " §aтелепортировался к вам!");
+        messageUtil.sendMessage(sender, target.getName(), configManager.getSucessTeleportation());
+        messageUtil.sendMessage(target, sender.getName(), configManager.getSuccesTpForYou());
     }
 
     public void denyRequest(Player target) {
         TpaRequest request = activeRequests.remove(target.getUniqueId());
 
         if (request == null) {
-            target.sendMessage("§cУ вас нет активных запросов на телепортацию!");
+            target.sendMessage(configManager.getNotActiveReq());
             return;
         }
 
         Player sender = Bukkit.getPlayer(request.getSenderUuid());
 
         if (sender != null && sender.isOnline()) {
-            sender.sendMessage("§e" + target.getName() + " §cотклонил ваш запрос на телепортацию!");
+            messageUtil.sendMessage(sender, target.getName(), configManager.getTpDeny());
         }
 
-        target.sendMessage("§cВы отклонили запрос на телепортацию!");
+        target.sendMessage(configManager.getTpDenyYou());
     }
 
     public boolean hasRequest(Player target) {

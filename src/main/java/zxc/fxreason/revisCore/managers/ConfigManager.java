@@ -163,6 +163,26 @@ public class ConfigManager {
         return this.config.getString("messages.not-found-player");
     }
 
+    public String getTimesUpTp() {
+        return this.config.getString("messages.times-up-tp");
+    }
+
+    public String getTimesUpTplayer() {
+        return this.config.getString("messages.times-up-tplayer");
+    }
+
+    public String getNotActiveReq() {
+        return this.config.getString("messages.not-active-reqtp");
+    }
+
+    public String getSenderTpLeave() {
+        return this.config.getString("messages.sender-tp-leave");
+    }
+
+    public String getSucessTeleportation() {
+        return this.config.getString("messages.succes-teleportation");
+    }
+
     public String getUsageInvsee() {
         return this.config.getString("messages.usage-invsee");
     }
@@ -193,6 +213,18 @@ public class ConfigManager {
 
     public String getNotMessage() {
         return this.config.getString("messages.not-message");
+    }
+
+    public String getSuccesTpForYou() {
+        return this.config.getString("messages.succes-tp-for-you");
+    }
+
+    public String getTpDeny() {
+        return this.config.getString("messages.tp-deny");
+    }
+
+    public String getTpDenyYou() {
+        return this.config.getString("messages.tp-deny-you");
     }
 
     public String getInvseeNameInv() {

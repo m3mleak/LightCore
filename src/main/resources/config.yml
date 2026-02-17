@@ -43,7 +43,15 @@ messages:
   tpa-response: "§b✽ §7➛ §fЗапрос на телепортацию отправлен к игроку: §a%player%"
   not-message: "§b✽ §7➛ §fНе удалось обработать сообщение, обратитесь к администратору!"
   tpa-response-to-target: "§b✽ §7➛ §fИгрок §a%player% §fхочет телепортироваться к вам!"
-  accept-deny-tpa: "§a/tpaccept§f - принять запрос, §a/tpdeny§f - отклонить запрос"
+  accept-deny-tpa: "§a/tpaccept§f - принять запрос, §c/tpdeny§f - отклонить запрос"
+  times-up-tp: "§b✽ §7➛ §fВремя запроса на телепортацию от игрока §a%player% §fистекло."
+  times-up-tplayer: "§b✽ §7➛ §fВремя вашего запроса на телепортацию к игроку §a%player% §fистекло"
+  not-active-reqtp: "§b✽ §7➛ §fУ вас нет активных запросов на телепортацию!"
+  sender-tp-leave: "§b✽ §7➛ §fИгрок, отправивший запрос покинул игру!"
+  succes-teleportation: "§b✽ §7➛ §fТелепортация к игроку §a%player% §fуспешно выполнена!"
+  succes-tp-for-you: "§b✽ §7➛ §fИгрок §a%player% §fбыл телепортирован к вам!"
+  tp-deny: "§b✽ §7➛ §fИгрок §a%player% §fотменил ваш запрос на телепортацию!"
+  tp-deny-you: "§b✽ §7➛ §fВы отклонили запрос на телепортацию!"
 
 inventory_names:
   invsee: '§0⚡ Инвентарь: §a'
