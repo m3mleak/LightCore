@@ -51,6 +51,12 @@ commands:
   tpdeny:
     description: Отказать тп
     usage: /tpdeny
+  tp:
+    description: Телепортация к игроку
+    usage: /tp [name]
+  feed:
+    description: Восполнить голод игроку
+    usage: /feed [name]
 
 permissions:
   sethome.set:
@@ -97,4 +103,13 @@ permissions:
     default: op
   reviscore.cooldown-tpa.45:
     description: 45 sec
+    default: op
+  reviscore.tp:
+    description: Телепортация к игроку
+    default: op
+  reviscore.feed:
+    description: Восполняет голод игроку
+    default: op
+  reviscore.feed-all:
+    description: Возможность восполнять голод всем
     default: op

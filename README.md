@@ -1,7 +1,7 @@
 # RevisCore plugin for RevisCube
 
 ## Build: 
-```./gradlew jar```
+```./gradlew build```
 ## Run:
 ```./gradlew runServer```
 
@@ -22,6 +22,7 @@
 - /tpa -> телепортация к игроку
 - /tpaccept -> принять телепортацию
 - /tpdeny -> отклонить телепортацию
+- /feed -> Восполнить голод
 
 ### Function Block:
 - Телепортация на установленную точку спавна при смерти и для новых игроков
@@ -36,3 +37,5 @@
 - reviscore.gamemode -> смена режима игры
 - reviscore.noncooldown-tpa -> телепортация без кд
 - reviscore.cooldown-tpa.* -> телепортация с определенным кд
+- reviscore.feed -> Восполнение голода игроку
+- reviscore.feed-all -> Восполнение голода любому игроку

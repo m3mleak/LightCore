@@ -227,6 +227,26 @@ public class ConfigManager {
         return this.config.getString("messages.tp-deny-you");
     }
 
+    public String getUsageTp() {
+        return this.config.getString("messages.usage-tp");
+    }
+
+    public String getNotTpToYou() {
+        return this.config.getString("messages.not-tp-to-you");
+    }
+
+    public String getFeedUsage() {
+        return this.config.getString("messages.feed-usage");
+    }
+
+    public String getFeedSuccess() {
+        return this.config.getString("message.feed-success");
+    }
+
+    public String getFeedOnlyYou() {
+        return this.config.getString("messages.feed-only-you");
+    }
+
     public String getInvseeNameInv() {
         return this.config.getString("inventory_names.invsee");
     }

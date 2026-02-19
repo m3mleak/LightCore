@@ -70,6 +70,12 @@ public final class RevisCore extends JavaPlugin {
         // tpdeny
         getCommand("tpdeny").setExecutor(new TpaDeny(tpReqManager));
 
+        // tp
+        getCommand("tp").setExecutor(new Tp(configManager, messageUtil));
+
+        // feed
+        getCommand("feed").setExecutor(new Feed(configManager));
+
         // respawn event
         Bukkit.getPluginManager().registerEvents(new RespawnEvent(this), this);
 
