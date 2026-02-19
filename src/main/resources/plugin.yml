@@ -57,6 +57,9 @@ commands:
   feed:
     description: Восполнить голод игроку
     usage: /feed [name]
+  suicide:
+    description: Суицыд
+    usage: /suicide
 
 permissions:
   sethome.set:

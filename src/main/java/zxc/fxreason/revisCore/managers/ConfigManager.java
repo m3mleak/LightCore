@@ -240,11 +240,19 @@ public class ConfigManager {
     }
 
     public String getFeedSuccess() {
-        return this.config.getString("message.feed-success");
+        return this.config.getString("messages.feed-success");
     }
 
     public String getFeedOnlyYou() {
         return this.config.getString("messages.feed-only-you");
+    }
+
+    public String getSuicideMsg() {
+        return this.config.getString("messages.suicide");
+    }
+
+    public String getSuicideUsage() {
+        return this.config.getString("messages.suicide-usage");
     }
 
     public String getInvseeNameInv() {
