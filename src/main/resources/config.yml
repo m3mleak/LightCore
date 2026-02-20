@@ -59,6 +59,9 @@ messages:
   feed-only-you: "§b✽ §7➛ §fИзвините, но восполнить голод вы можете только себе!"
   suicide: "§b✽ §7➛ §fВы покончили жизнь самоубийством!"
   suicide-usage: "§b✽ §7➛ §fИспользоваие: /suicide"
+  success-tphere: "§b✽ §7➛ §fВы успешно телепортировали игрока к себе!"
+  tphere-usage: "§b✽ §7➛ §fИспользование: /tphere [никнейм]"
+  tphere-not-you-to-you: "§b✽ §7➛ §fВы неможете телепортировать себя к себе"
 
 inventory_names:
   invsee: '§0⚡ Инвентарь: §a'

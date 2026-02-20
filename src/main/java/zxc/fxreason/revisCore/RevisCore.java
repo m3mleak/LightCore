@@ -76,6 +76,12 @@ public final class RevisCore extends JavaPlugin {
         // feed
         getCommand("feed").setExecutor(new Feed(configManager));
 
+        // suicide
+        getCommand("suicide").setExecutor(new Suicide(configManager));
+
+        // tphere
+        getCommand("tphere").setExecutor(new Tphere(configManager));
+
         // respawn event
         Bukkit.getPluginManager().registerEvents(new RespawnEvent(this), this);
 

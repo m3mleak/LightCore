@@ -255,6 +255,18 @@ public class ConfigManager {
         return this.config.getString("messages.suicide-usage");
     }
 
+    public String getSuccessTphere() {
+        return this.config.getString("messages.success-tphere");
+    }
+
+    public String getUsageTphere() {
+        return this.config.getString("messages.tphere-usage");
+    }
+
+    public String getNotTphereYou() {
+        return this.config.getString("tphere-not-you-to-you");
+    }
+
     public String getInvseeNameInv() {
         return this.config.getString("inventory_names.invsee");
     }

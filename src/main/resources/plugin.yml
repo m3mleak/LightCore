@@ -6,60 +6,44 @@ api-version: '1.21'
 commands:
   reviscore:
     description: Перегазгрузка конфигурации
-    usage: /reviscore reload
   sethome:
     description: Установить точку дома
-    usage: /sethome [name]
   home:
     description: Телепортирует на точку дома
-    usage: /home
   delhome:
     description: Удаляет указанную точку дома
-    usage: /delhome
   setspawn:
     description: Устанавливает точку спавна
-    usage: /setspawn
   spawn:
     description: Телепортирует на точку спавна
-    usage: /spawn
   setwarp:
     description: Установка точки варпа
-    usage: /setwap
   warp:
     description: Телепортация на точку варпа
-    usage: /warp [name]
   fly:
     description: Включает полет игроку
-    usage: /fly
   gm:
     description: Смена режима игры
-    usage: /gm [0/1/2/3]
   enderchest:
     description: Открыть эндер сундук
-    usage: /ec
     aliases:
       - ec
   invsee:
     description: Просмотр инвентаря игрока
-    usage: /invsee
   tpa:
     description: Телепортация к игроку
-    usage: /tpa [name]
   tpaccept:
     description: Принять тп
-    usage: /tpaccept
   tpdeny:
     description: Отказать тп
-    usage: /tpdeny
   tp:
     description: Телепортация к игроку
-    usage: /tp [name]
   feed:
     description: Восполнить голод игроку
-    usage: /feed [name]
   suicide:
-    description: Суицыд
-    usage: /suicide
+    description: Суицид
+  tpher
+    description: Телепортировать игрока к себе
 
 permissions:
   sethome.set:
@@ -115,4 +99,7 @@ permissions:
     default: op
   reviscore.feed-all:
     description: Возможность восполнять голод всем
+    default: op
+  reviscore.tphere:
+    description: Возмонжость телепортации игроков к себе без запроса
     default: op
