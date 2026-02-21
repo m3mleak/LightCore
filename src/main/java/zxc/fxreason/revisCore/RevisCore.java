@@ -1,5 +1,6 @@
 package zxc.fxreason.revisCore;
 
+import net.thenextlvl.service.api.economy.EconomyController;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import zxc.fxreason.revisCore.commands.*;
@@ -12,6 +13,7 @@ import zxc.fxreason.revisCore.utils.MessageUtil;
 public final class RevisCore extends JavaPlugin {
 
     private ConfigManager configManager;
+    private EconomyController economyController;
 
     public ConfigManager getConfigManager() {
         return configManager;
@@ -24,6 +26,16 @@ public final class RevisCore extends JavaPlugin {
         this.configManager = new ConfigManager(getConfig());
         MessageUtil messageUtil = new MessageUtil(configManager);
         TpReqManager tpReqManager = new TpReqManager(this, configManager, messageUtil);
+
+        this.economyController = getServer().getServicesManager().load(EconomyController.class);
+
+        if (economyController == null) {
+            getLogger().severe("ServiceIO не найден! Плагин отключается.");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        getLogger().info("Успешно подключено к ServiceIO");
 
         // setspawn
         getCommand("setspawn").setExecutor(new SetSpawn(configManager, this));
@@ -137,5 +149,9 @@ public final class RevisCore extends JavaPlugin {
     private void initConfig() {
         getConfig().options().copyDefaults(true);
         saveDefaultConfig();
+    }
+
+    public EconomyController getEconomyController() {
+        return economyController;
     }
 }
