@@ -315,6 +315,14 @@ public class ConfigManager {
         return this.config.getString("messages.rain-usage");
     }
 
+    public String getTpPosSuccess() {
+        return this.config.getString("messages.tppos-succcess");
+    }
+
+    public String getTpPosUsage() {
+        return this.config.getString("messages.tppos-usage");
+    }
+
     public String getInvseeNameInv() {
         return this.config.getString("inventory_names.invsee");
     }

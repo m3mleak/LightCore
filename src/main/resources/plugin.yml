@@ -58,6 +58,8 @@ commands:
     description: Установить ясную погоду
   rain:
     description: Установить дождливую погоду
+  tppos:
+    description: Телепортироваться в указанную точку
 
 permissions:
   sethome.set:
@@ -131,4 +133,7 @@ permissions:
     default: op
   reviscore.rain:
     description: Установить дождливую погоду
+    default: op
+  reviscore.tppos:
+    description: Телепортироваться в указанную точку
     default: op

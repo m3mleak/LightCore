@@ -100,6 +100,9 @@ public final class RevisCore extends JavaPlugin {
         // rain
         getCommand("rain").setExecutor(new Rain(configManager));
 
+        // tppos
+        getCommand("tppos").setExecutor(new TpPos(configManager));
+
         // respawn event
         Bukkit.getPluginManager().registerEvents(new RespawnEvent(this), this);
 
