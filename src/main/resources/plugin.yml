@@ -56,6 +56,8 @@ commands:
     description: Установить ночь
   sun:
     description: Установить ясную погоду
+  rain:
+    description: Установить дождливую погоду
 
 permissions:
   sethome.set:
