@@ -264,7 +264,23 @@ public class ConfigManager {
     }
 
     public String getNotTphereYou() {
-        return this.config.getString("tphere-not-you-to-you");
+        return this.config.getString("messages.tphere-not-you-to-you");
+    }
+
+    public String getTpahereResponse() {
+        return this.config.getString("messages.tpahere-response");
+    }
+
+    public String getTpahereAccept() {
+        return this.config.getString("messages.tpahere-accept");
+    }
+
+    public String getTpahereTp() {
+        return this.config.getString("messages.tpahere-tp");
+    }
+
+    public String getTpahereUsage() {
+        return this.config.getString("messages.tpahere-usage");
     }
 
     public String getInvseeNameInv() {

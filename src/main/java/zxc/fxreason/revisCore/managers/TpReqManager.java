@@ -24,19 +24,26 @@ public class TpReqManager {
         this.messageUtil = messageUtil;
     }
 
-    public void sendRequest(Player sender, Player target) {
+    public void sendRequest(Player sender, Player target, String type) {
         activeRequests.remove(target.getUniqueId());
 
-        TpaRequest request = new TpaRequest(sender.getUniqueId(), target.getUniqueId());
+        TpaRequest request = new TpaRequest(sender.getUniqueId(), target.getUniqueId(), type);
         activeRequests.put(target.getUniqueId(), request);
 
         String nameTarget = target.getName();
         String namePlayer = sender.getName();
 
+        // запрос отправлен
         messageUtil.sendMessage(sender, nameTarget, configManager.getTpaResponse());
 
-        messageUtil.sendMessage(target, namePlayer, configManager.getTpaResponseToTaget());
-        target.sendMessage(configManager.getAcceptDenyTpa());
+        // игрок хочет телепортироваться к вам
+        if (type.equals("tpa")) {
+            messageUtil.sendMessage(target, namePlayer, configManager.getTpaResponseToTaget());
+            target.sendMessage(configManager.getAcceptDenyTpa());
+        } else {
+            messageUtil.sendMessage(target, namePlayer, configManager.getTpahereResponse());
+            target.sendMessage(configManager.getAcceptDenyTpa());
+        }
 
         new BukkitRunnable() {
             @Override
@@ -73,10 +80,16 @@ public class TpReqManager {
             return;
         }
 
-        sender.teleport(target.getLocation());
+        if (request.getType().equals("tpa")) {
+            sender.teleport(target.getLocation());
+            messageUtil.sendMessage(sender, target.getName(), configManager.getSucessTeleportation());
+            messageUtil.sendMessage(target, sender.getName(), configManager.getSuccesTpForYou());
+        } else {
+            target.teleport((sender.getLocation()));
+            sender.sendMessage(configManager.getTpahereAccept());
+            messageUtil.sendMessage(target, sender.getName(), configManager.getTpahereTp());
+        }
 
-        messageUtil.sendMessage(sender, target.getName(), configManager.getSucessTeleportation());
-        messageUtil.sendMessage(target, sender.getName(), configManager.getSuccesTpForYou());
     }
 
     public void denyRequest(Player target) {
@@ -104,10 +117,12 @@ public class TpReqManager {
         private final UUID senderUuid;
         private final UUID targetUuid;
         private final long timestamp;
+        private final String type;
 
-        public TpaRequest(UUID senderUuid, UUID targetUuid) {
+        public TpaRequest(UUID senderUuid, UUID targetUuid, String type) {
             this.senderUuid = senderUuid;
             this.targetUuid = targetUuid;
+            this.type = type;
             this.timestamp = System.currentTimeMillis();
         }
 
@@ -121,6 +136,10 @@ public class TpReqManager {
 
         public long getTimestamp() {
             return timestamp;
+        }
+
+        public String getType() {
+            return type;
         }
 
         @Override

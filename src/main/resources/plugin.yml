@@ -42,8 +42,14 @@ commands:
     description: Восполнить голод игроку
   suicide:
     description: Суицид
-  tpher
+  tphere:
     description: Телепортировать игрока к себе
+  tpahere:
+    description: Отправить запрос на телепортацию к себе
+  workbench:
+    description: Открыть виртуальный верстак
+    aliases:
+      - wb
 
 permissions:
   sethome.set:
@@ -101,5 +107,8 @@ permissions:
     description: Возможность восполнять голод всем
     default: op
   reviscore.tphere:
-    description: Возмонжость телепортации игроков к себе без запроса
+    description: Возможность телепортации игроков к себе без запроса
+    default: op
+  reviscore.workbench:
+    description: Возможность открыть виртуальный верстак
     default: op

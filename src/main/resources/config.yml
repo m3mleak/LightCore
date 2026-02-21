@@ -62,6 +62,10 @@ messages:
   success-tphere: "§b✽ §7➛ §fВы успешно телепортировали игрока к себе!"
   tphere-usage: "§b✽ §7➛ §fИспользование: /tphere [никнейм]"
   tphere-not-you-to-you: "§b✽ §7➛ §fВы неможете телепортировать себя к себе"
+  tpahere-response: "§b✽ §7➛ §fИгрок §a%player% §fхочет телепортировать вас к себе"
+  tpahere-accept: "§b✽ §7➛ §fИгрок принял ваш запрос!"
+  tpahere-tp: "§b✽ §7➛ §fВы были телепортированы к игроку §a%player% §f."
+  tpahere-usage: "§b✽ §7➛ §fИспользование: /tpahere [никнейм]"
 
 inventory_names:
   invsee: '§0⚡ Инвентарь: §a'
