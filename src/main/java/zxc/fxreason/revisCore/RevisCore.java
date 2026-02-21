@@ -88,6 +88,18 @@ public final class RevisCore extends JavaPlugin {
         // workbench
         getCommand("workbench").setExecutor(new Workbench(configManager));
 
+        // day
+        getCommand("day").setExecutor(new Day(configManager));
+
+        // night
+        getCommand("night").setExecutor(new Night(configManager));
+
+        // sun
+        getCommand("sun").setExecutor(new Sun(configManager));
+
+        // rain
+        getCommand("rain").setExecutor(new Rain(configManager));
+
         // respawn event
         Bukkit.getPluginManager().registerEvents(new RespawnEvent(this), this);
 

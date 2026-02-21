@@ -50,6 +50,12 @@ commands:
     description: Открыть виртуальный верстак
     aliases:
       - wb
+  day:
+    description: Установить день
+  night:
+    description: Установить ночь
+  sun:
+    description: Установить ясную погоду
 
 permissions:
   sethome.set:
@@ -111,4 +117,16 @@ permissions:
     default: op
   reviscore.workbench:
     description: Возможность открыть виртуальный верстак
+    default: op
+  reviscore.day:
+    description: Установить день
+    default: op
+  reviscore.night:
+    description: Установить ночь
+    default: op
+  reviscore.sun:
+    description: Установить ясную погоду
+    default: op
+  reviscore.rain:
+    description: Установить дождливую погоду
     default: op

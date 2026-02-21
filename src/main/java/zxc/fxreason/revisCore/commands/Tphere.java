@@ -38,6 +38,7 @@ public class Tphere implements CommandExecutor {
 
                 if (targetName.equals(playerName)) {
                     player.sendMessage(configManager.getNotTphereYou());
+                    return true;
                 }
 
                 if (target != null) {

@@ -283,6 +283,38 @@ public class ConfigManager {
         return this.config.getString("messages.tpahere-usage");
     }
 
+    public String getSetDay() {
+        return this.config.getString("messages.setday");
+    }
+
+    public String getDayUsage() {
+        return this.config.getString("messages.day-usage");
+    }
+
+    public String getSetNight() {
+        return this.config.getString("messages.setnight");
+    }
+
+    public String getNightUsage() {
+        return this.config.getString("messages.night-usage");
+    }
+
+    public String getSetSun() {
+        return this.config.getString("messages.setsun");
+    }
+
+    public String getSunUsage() {
+        return this.config.getString("messages.sun-usage");
+    }
+
+    public String getSetRain() {
+        return this.config.getString("messages.setrain");
+    }
+
+    public String getRainUsage() {
+        return this.config.getString("messages.rain-usage");
+    }
+
     public String getInvseeNameInv() {
         return this.config.getString("inventory_names.invsee");
     }

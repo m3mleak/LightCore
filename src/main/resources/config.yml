@@ -66,6 +66,14 @@ messages:
   tpahere-accept: "§b✽ §7➛ §fИгрок принял ваш запрос!"
   tpahere-tp: "§b✽ §7➛ §fВы были телепортированы к игроку §a%player% §f."
   tpahere-usage: "§b✽ §7➛ §fИспользование: /tpahere [никнейм]"
+  setday: "§b✽ §7➛ §fУстановлено время суток: §aдень§f."
+  day-usage: "§b✽ §7➛ §fИспользование: /day"
+  setnight: "§b✽ §7➛ §fУстановлено время суток: §aночь§f."
+  night-usage: "§b✽ §7➛ §fИспользование: /night"
+  setsun: "§b✽ §7➛ §fУстановлена ясная погода."
+  sun-usage: "§b✽ §7➛ §fИспользование: /sun"
+  setrain: "§b✽ §7➛ §fУстановлена дождливая погода"
+  rain-usage: "§b✽ §7➛ §fИспользование: /rain"
 
 inventory_names:
   invsee: '§0⚡ Инвентарь: §a'
