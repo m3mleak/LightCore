@@ -19,16 +19,17 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class CustomEcoLogic implements EconomyAPI{
 
-    private Map<UUID, BigDecimal> balances = new ConcurrentHashMap<>();
-    private RevisCore plugin;
-    private File dataEconomy;
+    private final Map<UUID, BigDecimal> balances = new ConcurrentHashMap<>();
+    private final RevisCore plugin;
+    private final File dataEconomy;
     private ConfigManager configManager;
-    private BigDecimal defaultBalance = configManager.getDefautltBalance();
+    private final BigDecimal defaultBalance;
 
     public CustomEcoLogic(RevisCore plugin, ConfigManager configManager) {
         this.plugin = plugin;
         this.dataEconomy = new File(plugin.getDataFolder(), "economydata");
         this.configManager = configManager;
+        this.defaultBalance = configManager.getDefaultBalance();
         if (!dataEconomy.exists()) dataEconomy.mkdirs();
     }
 

@@ -5,7 +5,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import zxc.fxreason.revisCore.commands.*;
 import zxc.fxreason.revisCore.economy.CustomEcoLogic;
-import zxc.fxreason.revisCore.economy.EconomyAPI;
+import zxc.fxreason.revisCore.economy.CustomEconomy;
+import zxc.fxreason.revisCore.economy.commands.Money;
+import zxc.fxreason.revisCore.economy.listeners.EcoListener;
 import zxc.fxreason.revisCore.events.CMoveInvEvent;
 import zxc.fxreason.revisCore.events.RespawnEvent;
 import zxc.fxreason.revisCore.managers.ConfigManager;
@@ -15,8 +17,6 @@ import zxc.fxreason.revisCore.utils.MessageUtil;
 public final class RevisCore extends JavaPlugin {
 
     private ConfigManager configManager;
-    private EconomyController economyController;
-    private EconomyAPI economyAPI;
 
     public ConfigManager getConfigManager() {
         return configManager;
@@ -25,21 +25,13 @@ public final class RevisCore extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        initConfig();
         // Plugin startup logic
         this.configManager = new ConfigManager(getConfig());
         MessageUtil messageUtil = new MessageUtil(configManager);
         TpReqManager tpReqManager = new TpReqManager(this, configManager, messageUtil);
-        economyAPI = new CustomEcoLogic(this, configManager);
-
-        this.economyController = getServer().getServicesManager().load(EconomyController.class);
-
-        if (economyController == null) {
-            getLogger().severe("ServiceIO не найден! Плагин отключается.");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-
-        getLogger().info("Успешно подключено к ServiceIO");
+        CustomEcoLogic customEcoLogic = new CustomEcoLogic(this, configManager);
+        CustomEconomy customEconomy = new CustomEconomy(customEcoLogic);
 
         // setspawn
         getCommand("setspawn").setExecutor(new SetSpawn(configManager, this));
@@ -119,11 +111,17 @@ public final class RevisCore extends JavaPlugin {
         // tppos
         getCommand("tppos").setExecutor(new TpPos(configManager));
 
+        // money
+        getCommand("money").setExecutor(new Money(customEconomy, configManager));
+
         // respawn event
-        Bukkit.getPluginManager().registerEvents(new RespawnEvent(this), this);
+        getServer().getPluginManager().registerEvents(new RespawnEvent(this), this);
 
         // canceled move inv event
-        Bukkit.getPluginManager().registerEvents(new CMoveInvEvent(this, configManager), this);
+        getServer().getPluginManager().registerEvents(new CMoveInvEvent(this, configManager), this);
+
+        // join/quit events for economy
+        getServer().getPluginManager().registerEvents(new EcoListener(customEcoLogic), this);
 
         initConfig();
         getLogger().info("Enabled");
@@ -153,9 +151,7 @@ public final class RevisCore extends JavaPlugin {
     private void initConfig() {
         getConfig().options().copyDefaults(true);
         saveDefaultConfig();
+        reloadConfig();
     }
 
-    public EconomyController getEconomyController() {
-        return economyController;
-    }
 }

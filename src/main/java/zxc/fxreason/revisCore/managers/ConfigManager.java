@@ -325,11 +325,23 @@ public class ConfigManager {
         return this.config.getString("messages.tppos-usage");
     }
 
+    public String getMoneyMsg() {
+        return this.config.getString("messages.money");
+    }
+
+    public String getMoneyPlayerMsg() {
+        return this.config.getString("messages.money-player");
+    }
+
+    public String getMoneyUsage() {
+        return this.config.getString("messages.money-usage");
+    }
+
     public String getInvseeNameInv() {
         return this.config.getString("inventory_names.invsee");
     }
 
-    public BigDecimal getDefautltBalance() {
+    public BigDecimal getDefaultBalance() {
         return BigDecimal.valueOf(this.config.getDouble("settings.default-balance", 100.0));
     }
 

@@ -60,6 +60,8 @@ commands:
     description: Установить дождливую погоду
   tppos:
     description: Телепортироваться в указанную точку
+  money:
+    description: Посмотреть баланс
 
 permissions:
   sethome.set:
@@ -136,4 +138,7 @@ permissions:
     default: op
   reviscore.tppos:
     description: Телепортироваться в указанную точку
+    default: op
+  reviscore.money-see-all:
+    description: Просмотр баланса у всех игроков
     default: op

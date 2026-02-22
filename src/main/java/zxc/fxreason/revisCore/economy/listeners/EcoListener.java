@@ -11,13 +11,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import zxc.fxreason.revisCore.economy.CustomEcoLogic;
-import zxc.fxreason.revisCore.economy.CustomEconomy;
 
 public class EcoListener implements Listener {
 
     private final CustomEcoLogic customEcoLogic;
 
-    public EcoListener(CustomEconomy customEconomy, CustomEcoLogic customEcoLogic) {
+    public EcoListener(CustomEcoLogic customEcoLogic) {
         this.customEcoLogic = customEcoLogic;
     }
 

@@ -5,7 +5,7 @@ package zxc.fxreason.revisCore.economy;
  * 21.02.2026
  **/
 
-import net.thenextlvl.service.api.economy.Account;
+/*import net.thenextlvl.service.api.economy.Account;
 import net.thenextlvl.service.api.economy.EconomyController;
 import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
@@ -110,3 +110,4 @@ public class CustomEcoProvider implements EconomyController {
         return "";
     }
 }
+*/
