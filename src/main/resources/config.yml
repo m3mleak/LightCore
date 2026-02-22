@@ -83,6 +83,8 @@ inventory_names:
 settings:
   # Телепортация на спавн при первом входе игрока
   teleport-on-first-join: true
+  # Начальный баланс игроков
+  default-balance: 100.0
 
 # Координаты спавна
 spawn:

@@ -4,6 +4,8 @@ import net.thenextlvl.service.api.economy.EconomyController;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import zxc.fxreason.revisCore.commands.*;
+import zxc.fxreason.revisCore.economy.CustomEcoLogic;
+import zxc.fxreason.revisCore.economy.EconomyAPI;
 import zxc.fxreason.revisCore.events.CMoveInvEvent;
 import zxc.fxreason.revisCore.events.RespawnEvent;
 import zxc.fxreason.revisCore.managers.ConfigManager;
@@ -14,6 +16,7 @@ public final class RevisCore extends JavaPlugin {
 
     private ConfigManager configManager;
     private EconomyController economyController;
+    private EconomyAPI economyAPI;
 
     public ConfigManager getConfigManager() {
         return configManager;
@@ -26,6 +29,7 @@ public final class RevisCore extends JavaPlugin {
         this.configManager = new ConfigManager(getConfig());
         MessageUtil messageUtil = new MessageUtil(configManager);
         TpReqManager tpReqManager = new TpReqManager(this, configManager, messageUtil);
+        economyAPI = new CustomEcoLogic(this, configManager);
 
         this.economyController = getServer().getServicesManager().load(EconomyController.class);
 

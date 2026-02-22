@@ -2,6 +2,8 @@ package zxc.fxreason.revisCore.managers;
 
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.math.BigDecimal;
+
 public class ConfigManager {
     private FileConfiguration config;
 
@@ -325,6 +327,10 @@ public class ConfigManager {
 
     public String getInvseeNameInv() {
         return this.config.getString("inventory_names.invsee");
+    }
+
+    public BigDecimal getDefautltBalance() {
+        return BigDecimal.valueOf(this.config.getDouble("settings.default-balance", 100.0));
     }
 
     public Double getx() {

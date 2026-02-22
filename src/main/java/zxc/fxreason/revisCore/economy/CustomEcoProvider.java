@@ -17,17 +17,17 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
-public class CusEconomyProvider implements EconomyController {
+public class CustomEcoProvider implements EconomyController {
 
     private CustomEconomy customEconomy;
 
-    public CusEconomyProvider(CustomEconomy customEconomy) {
+    public CustomEcoProvider(CustomEconomy customEconomy) {
         this.customEconomy = customEconomy;
     }
 
     @Override
     public String format(Number amount) {
-        return customEconomy.format(amount);
+        return "$";
     }
 
     @Override
