@@ -3,6 +3,8 @@ version: '0.1'
 main: zxc.fxreason.revisCore.RevisCore
 api-version: '1.21'
 
+softdepend: [Vault]
+
 commands:
   reviscore:
     description: Перегазгрузка конфигурации
@@ -62,6 +64,15 @@ commands:
     description: Телепортироваться в указанную точку
   money:
     description: Посмотреть баланс
+    aliases:
+      - balance
+      - bal
+  baltop:
+    description: Топ игроков по балансу
+  pay:
+    description: Перевод денег
+  givemoney:
+    description: Выдача монет
 
 permissions:
   sethome.set:
@@ -141,4 +152,7 @@ permissions:
     default: op
   reviscore.money-see-all:
     description: Просмотр баланса у всех игроков
+    default: op
+  reviscore.givemoney:
+    description: Выдать монеты
     default: op

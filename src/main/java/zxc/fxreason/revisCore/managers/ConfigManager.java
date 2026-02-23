@@ -337,6 +337,50 @@ public class ConfigManager {
         return this.config.getString("messages.money-usage");
     }
 
+    public String getPayUsage() {
+        return this.config.getString("messages.pay-usage");
+    }
+
+    public String getNotPayYou() {
+        return this.config.getString("messages.not-pay-you");
+    }
+
+    public String getPayNotPostive() {
+        return this.config.getString("messages.pay-not-postive");
+    }
+
+    public String getPayNotMoney() {
+        return this.config.getString("messages.pay-not-money");
+    }
+
+    public String getErrAmount() {
+        return this.config.getString("messages.err-amount");
+    }
+
+    public String getPayNotSend() {
+        return this.config.getString("messages.pay-not-send");
+    }
+
+    public String getPayMeSend() {
+        return this.config.getString("messages.pay-me-send");
+    }
+
+    public String getPayToSend() {
+        return this.config.getString("messages.pay-to-send");
+    }
+
+    public String getMoneyGiveNotPositive() {
+        return this.config.getString("messages.givemoney-not-positive");
+    }
+
+    public String getGiveMoneyUsage() {
+        return this.config.getString("messages.givemoney-usage");
+    }
+
+    public String getGiveMoneyMsg() {
+        return this.config.getString("messages.givemoney");
+    }
+
     public String getInvseeNameInv() {
         return this.config.getString("inventory_names.invsee");
     }

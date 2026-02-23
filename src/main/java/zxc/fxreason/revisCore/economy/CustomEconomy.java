@@ -13,6 +13,9 @@ public class CustomEconomy {
 
     private CustomEcoLogic customEcoLogic;
 
+    private String currencySingular = "$";
+    private String currencyPlural = "$";
+
     public CustomEconomy(CustomEcoLogic customEcoLogic) {
         this.customEcoLogic = customEcoLogic;
     }
@@ -44,7 +47,7 @@ public class CustomEconomy {
 
         customEcoLogic.getBalances().put(uuid, current.subtract(amount));
         customEcoLogic.savePlayerData(uuid);
-        return false;
+        return true;
     }
 
     public boolean transfer(UUID from, UUID to, BigDecimal amount) {
@@ -58,9 +61,9 @@ public class CustomEconomy {
     public String format(BigDecimal amount) {
         double doubleAmount = amount.doubleValue();
         if (doubleAmount == 1.0) {
-            return doubleAmount + " " + "$";
+            return doubleAmount + " " + currencySingular;
         } else {
-            return doubleAmount + " " + "$";
+            return doubleAmount + " " + currencyPlural;
         }
     }
 
@@ -73,5 +76,17 @@ public class CustomEconomy {
             result.put(list.get(i).getKey(), list.get(i).getValue());
         }
         return result;
+    }
+
+    public boolean hasAccount(UUID uuid) {
+        return customEcoLogic.hasAccount(uuid);
+    }
+
+    public String getCurrencyPlural() {
+        return currencyPlural;
+    }
+
+    public String getCurrencySingular() {
+        return currencySingular;
     }
 }

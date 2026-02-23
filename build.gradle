@@ -13,15 +13,19 @@ repositories {
         url = "https://repo.papermc.io/repository/maven-public/"
     }
     maven {
-        name = "thenextlvl-repo"
-        url = "https://repo.thenextlvl.net/releases"
+        url "https://jitpack.io"
+        content {
+            includeGroup "com.github.MilkBowl"
+        }
     }
 }
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
     implementation 'com.google.code.gson:gson:2.10.1'
-    compileOnly("net.thenextlvl.services:service-io:2.3.1")
+    compileOnly("com.github.MilkBowl:VaultAPI:1.7") {
+        exclude group: 'org.bukkit', module: 'bukkit'
+    }
 }
 
 tasks {

@@ -1,12 +1,17 @@
 package zxc.fxreason.revisCore;
 
-import net.thenextlvl.service.api.economy.EconomyController;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import zxc.fxreason.revisCore.commands.*;
 import zxc.fxreason.revisCore.economy.CustomEcoLogic;
+import zxc.fxreason.revisCore.economy.CustomEcoProvider;
 import zxc.fxreason.revisCore.economy.CustomEconomy;
+import zxc.fxreason.revisCore.economy.commands.Baltop;
 import zxc.fxreason.revisCore.economy.commands.Money;
+import zxc.fxreason.revisCore.economy.commands.MoneyGive;
+import zxc.fxreason.revisCore.economy.commands.Pay;
 import zxc.fxreason.revisCore.economy.listeners.EcoListener;
 import zxc.fxreason.revisCore.events.CMoveInvEvent;
 import zxc.fxreason.revisCore.events.RespawnEvent;
@@ -17,6 +22,7 @@ import zxc.fxreason.revisCore.utils.MessageUtil;
 public final class RevisCore extends JavaPlugin {
 
     private ConfigManager configManager;
+    private CustomEconomy customEconomy;
 
     public ConfigManager getConfigManager() {
         return configManager;
@@ -31,7 +37,13 @@ public final class RevisCore extends JavaPlugin {
         MessageUtil messageUtil = new MessageUtil(configManager);
         TpReqManager tpReqManager = new TpReqManager(this, configManager, messageUtil);
         CustomEcoLogic customEcoLogic = new CustomEcoLogic(this, configManager);
-        CustomEconomy customEconomy = new CustomEconomy(customEcoLogic);
+        customEconomy = new CustomEconomy(customEcoLogic);
+
+        if (setupVault()) {
+            getLogger().info("Vault успешно подключен!");
+        } else {
+            getLogger().warning("Vault не обнаружен!");
+        }
 
         // setspawn
         getCommand("setspawn").setExecutor(new SetSpawn(configManager, this));
@@ -114,6 +126,15 @@ public final class RevisCore extends JavaPlugin {
         // money
         getCommand("money").setExecutor(new Money(customEconomy, configManager));
 
+        // baltop
+        getCommand("baltop").setExecutor(new Baltop(customEconomy));
+
+        // pay
+        getCommand("pay").setExecutor(new Pay(customEconomy, configManager, messageUtil));
+
+        // givemoney
+        getCommand("givemoney").setExecutor(new MoneyGive(configManager, customEconomy, messageUtil));
+
         // respawn event
         getServer().getPluginManager().registerEvents(new RespawnEvent(this), this);
 
@@ -136,6 +157,24 @@ public final class RevisCore extends JavaPlugin {
 
         getLogger().info("Disabled");
 
+    }
+
+    private boolean setupVault() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+        try {
+            getServer().getServicesManager().register(
+                    Economy.class,
+                    new CustomEcoProvider(customEconomy),
+                    this,
+                    ServicePriority.Highest
+            );
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public boolean updateCfgManager(ConfigManager newManager) {
