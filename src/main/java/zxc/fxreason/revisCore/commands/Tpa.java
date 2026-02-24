@@ -51,7 +51,7 @@ public class Tpa implements CommandExecutor {
 
             if (target.equals(player.getName())) {
                 player.sendMessage(configManager.getNonTpToMe());
-                return false;
+                return true;
             }
 
             Player targetPlayer = Bukkit.getPlayer(target);

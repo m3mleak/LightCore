@@ -90,6 +90,8 @@ messages:
   givemoney-not-positive: "§b✽ §7➛ §fКоличество выдаваемых монет не может быть отрицательным."
   givemoney-usage: "§b✽ §7➛ §fИспользование: /givemoney [никнейм] [количество]"
   givemoney: "§b✽ §7➛ §fВы выдали §a%amount% §fигроку §a"
+  not-near-players: "§b✽ §7➛ §fИгроков неподалеку не обнаружено!"
+  near-usage: "§b✽ §7➛ §fИспользование: /near"
 
 inventory_names:
   invsee: '§0⚡ Инвентарь: §a'

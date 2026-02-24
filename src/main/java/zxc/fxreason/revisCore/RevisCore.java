@@ -135,6 +135,9 @@ public final class RevisCore extends JavaPlugin {
         // givemoney
         getCommand("givemoney").setExecutor(new MoneyGive(configManager, customEconomy, messageUtil));
 
+        // near
+        getCommand("near").setExecutor(new Near(this, configManager));
+
         // respawn event
         getServer().getPluginManager().registerEvents(new RespawnEvent(this), this);
 

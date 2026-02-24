@@ -73,6 +73,8 @@ commands:
     description: Перевод денег
   givemoney:
     description: Выдача монет
+  near:
+    description: Поиск игроков неподалеку
 
 permissions:
   sethome.set:
@@ -155,4 +157,7 @@ permissions:
     default: op
   reviscore.givemoney:
     description: Выдать монеты
+    default: op
+  reviscore.near:
+    description: Поиск игроков неподалеку
     default: op

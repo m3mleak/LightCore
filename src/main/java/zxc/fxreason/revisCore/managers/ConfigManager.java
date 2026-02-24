@@ -381,6 +381,14 @@ public class ConfigManager {
         return this.config.getString("messages.givemoney");
     }
 
+    public String getNotFoundNearPLayers() {
+        return this.config.getString("messages.not-near-players");
+    }
+
+    public String getNearUsage() {
+        return this.config.getString("messages.near-usage");
+    }
+
     public String getInvseeNameInv() {
         return this.config.getString("inventory_names.invsee");
     }
