@@ -389,8 +389,20 @@ public class ConfigManager {
         return this.config.getString("messages.near-usage");
     }
 
+    public String getSalarySuccess() {
+        return this.config.getString("messages.salary-success");
+    }
+
+    public String getSalaryErr() {
+        return this.config.getString("messages.salary-err");
+    }
+
     public String getInvseeNameInv() {
         return this.config.getString("inventory_names.invsee");
+    }
+
+    public String getSalaryNameInv() {
+        return this.config.getString("inventory_names.salary");
     }
 
     public BigDecimal getDefaultBalance() {

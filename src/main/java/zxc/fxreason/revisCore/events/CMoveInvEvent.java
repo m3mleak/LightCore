@@ -19,7 +19,8 @@ public class CMoveInvEvent implements Listener {
     @EventHandler
     public void onIventoryClick(InventoryClickEvent event) {
         String title = event.getView().getTitle();
-        if (title.startsWith(this.configManager.getInvseeNameInv()))
+        if (title.startsWith(this.configManager.getInvseeNameInv())) {
             event.setCancelled(true);
+        }
     }
 }

@@ -29,6 +29,11 @@ public class Suicide implements CommandExecutor {
 
         Player player = (Player) sender;
 
+        if (!player.hasPermission("reviscore.suicide")) {
+            player.sendMessage(configManager.getNoPerms());
+            return true;
+        }
+
         if (args.length == 0) {
             player.setHealth(0.0);
             player.sendMessage(configManager.getSuicideMsg());

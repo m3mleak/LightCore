@@ -21,12 +21,10 @@ public class Pay implements CommandExecutor {
 
     private final CustomEconomy economy;
     private final ConfigManager configManager;
-    private final MessageUtil messageUtil;
 
-    public Pay(CustomEconomy economy, ConfigManager configManager, MessageUtil messageUtil) {
+    public Pay(CustomEconomy economy, ConfigManager configManager) {
         this.economy = economy;
         this.configManager = configManager;
-        this.messageUtil = messageUtil;
     }
 
     @Override
@@ -74,10 +72,10 @@ public class Pay implements CommandExecutor {
                 String am = economy.format(amount);
 
                 String message1 = configManager.getPayMeSend() + target.getName();
-                messageUtil.sendMessageMoney(player, am, message1);
+                MessageUtil.sendMessageMoney(player, am, message1);
 
                 String message2 = configManager.getPayToSend() + player.getName();
-                messageUtil.sendMessageMoney(target, am, message2);
+                MessageUtil.sendMessageMoney(target, am, message2);
             } else {
                 player.sendMessage(configManager.getPayNotSend());
             }

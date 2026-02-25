@@ -75,6 +75,8 @@ commands:
     description: Выдача монет
   near:
     description: Поиск игроков неподалеку
+  salary:
+    description: Зарплата
 
 permissions:
   sethome.set:
@@ -161,3 +163,22 @@ permissions:
   reviscore.near:
     description: Поиск игроков неподалеку
     default: op
+  reviscore.suicide:
+    description: Самоубийство
+    default: op
+  reviscore.phantom:
+    default: false
+  reviscore.keeper:
+    default: false
+  reviscore.void:
+    default: false
+  reviscore.rubin:
+    default: false
+  reviscore.elder:
+    default: false
+  reviscore.warden:
+    default: false
+  reviscore.ancient:
+    default: false
+  reviscore.custom:
+    default: false

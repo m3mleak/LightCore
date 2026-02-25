@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import zxc.fxreason.revisCore.managers.ConfigManager;
 
 public class MessageUtil {
-    private ConfigManager configManager;
+    private static ConfigManager configManager;
 
     public MessageUtil(ConfigManager configManager) {
         this.configManager = configManager;
@@ -27,7 +27,7 @@ public class MessageUtil {
     }
 
     // for money
-    public void sendMessageMoney(CommandSender player, String amount, String message) {
+    public static void sendMessageMoney(CommandSender player, String amount, String message) {
         if (message != null && !message.isEmpty()) {
             message = message.replace("%amount%", amount);
             player.sendMessage(message);

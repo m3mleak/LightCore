@@ -1,7 +1,6 @@
 package zxc.fxreason.revisCore;
 
 import net.milkbowl.vault.economy.Economy;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import zxc.fxreason.revisCore.commands.*;
@@ -38,6 +37,7 @@ public final class RevisCore extends JavaPlugin {
         TpReqManager tpReqManager = new TpReqManager(this, configManager, messageUtil);
         CustomEcoLogic customEcoLogic = new CustomEcoLogic(this, configManager);
         customEconomy = new CustomEconomy(customEcoLogic);
+        Salary salaryInstance = new Salary(this, configManager, customEconomy);
 
         if (setupVault()) {
             getLogger().info("Vault успешно подключен!");
@@ -130,13 +130,19 @@ public final class RevisCore extends JavaPlugin {
         getCommand("baltop").setExecutor(new Baltop(customEconomy));
 
         // pay
-        getCommand("pay").setExecutor(new Pay(customEconomy, configManager, messageUtil));
+        getCommand("pay").setExecutor(new Pay(customEconomy, configManager));
 
         // givemoney
-        getCommand("givemoney").setExecutor(new MoneyGive(configManager, customEconomy, messageUtil));
+        getCommand("givemoney").setExecutor(new MoneyGive(configManager, customEconomy));
 
         // near
         getCommand("near").setExecutor(new Near(this, configManager));
+
+        // salary
+        getCommand("salary").setExecutor(salaryInstance);
+
+        // salary event
+        getServer().getPluginManager().registerEvents(salaryInstance, this);
 
         // respawn event
         getServer().getPluginManager().registerEvents(new RespawnEvent(this), this);

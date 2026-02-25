@@ -21,12 +21,10 @@ public class MoneyGive implements CommandExecutor {
 
     private final ConfigManager configManager;
     private final CustomEconomy economy;
-    private final MessageUtil messageUtil;
 
-    public MoneyGive(ConfigManager configManager, CustomEconomy economy, MessageUtil messageUtil) {
+    public MoneyGive(ConfigManager configManager, CustomEconomy economy) {
         this.configManager = configManager;
         this.economy = economy;
-        this.messageUtil = messageUtil;
     }
 
     @Override
@@ -58,7 +56,7 @@ public class MoneyGive implements CommandExecutor {
                 economy.deposit(target.getUniqueId(), amount);
                 String message = configManager.getGiveMoneyMsg() + targetName;
 
-                messageUtil.sendMessageMoney(sender, economy.format(amount), message);
+                MessageUtil.sendMessageMoney(sender, economy.format(amount), message);
 
                 return true;
             } catch (NumberFormatException e) {

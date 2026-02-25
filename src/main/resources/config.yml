@@ -92,9 +92,12 @@ messages:
   givemoney: "§b✽ §7➛ §fВы выдали §a%amount% §fигроку §a"
   not-near-players: "§b✽ §7➛ §fИгроков неподалеку не обнаружено!"
   near-usage: "§b✽ §7➛ §fИспользование: /near"
+  salary-success: "§b✽ §7➛ §fВы получили зарплату в размере §a%amount% §f!"
+  salary-err: "§b✽ §7➛ §fУ вас нет доступной зарплаты!"
 
 inventory_names:
   invsee: '§0⚡ Инвентарь: §a'
+  salary: '§0⚡ Зарплата'
 
 settings:
   # Телепортация на спавн при первом входе игрока
