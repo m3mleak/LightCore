@@ -12,23 +12,23 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import zxc.fxreason.revisCore.economy.CustomEconomy;
+import zxc.fxreason.revisCore.RevisCore;
 
 import java.math.BigDecimal;
 import java.util.*;
 
 public class Baltop implements CommandExecutor {
 
-    private final CustomEconomy economy;
+    private final RevisCore plugin;
 
-    public Baltop(CustomEconomy economy) {
-        this.economy = economy;
+    public Baltop(RevisCore plugin) {
+        this.plugin = plugin;
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
 
-        LinkedHashMap<UUID, BigDecimal> allTop = economy.getTopBalances(10);
+        LinkedHashMap<UUID, BigDecimal> allTop = plugin.getCustomEconomy().getTopBalances(10);
 
         if (allTop.isEmpty()) {
             sender.sendMessage("Игроков в топе не найдено");
@@ -49,7 +49,7 @@ public class Baltop implements CommandExecutor {
             int position = i + 1;
 
             String playerName = getPlayerName(entry.getKey());
-            String formattedBal = economy.format(entry.getValue());
+            String formattedBal = plugin.getCustomEconomy().format(entry.getValue());
 
             String positionColor;
             String nameColor = "§f";

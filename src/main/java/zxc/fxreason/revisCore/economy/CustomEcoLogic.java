@@ -24,10 +24,10 @@ public class CustomEcoLogic implements EconomyAPI{
     private final File dataEconomy;
     private final BigDecimal defaultBalance;
 
-    public CustomEcoLogic(RevisCore plugin, ConfigManager configManager) {
+    public CustomEcoLogic(RevisCore plugin) {
         this.plugin = plugin;
         this.dataEconomy = new File(plugin.getDataFolder(), "economy_data");
-        this.defaultBalance = configManager.getDefaultBalance();
+        this.defaultBalance = plugin.getConfigManager().getDefaultBalance();
         if (!dataEconomy.exists()) dataEconomy.mkdirs();
     }
 

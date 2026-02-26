@@ -12,20 +12,18 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import zxc.fxreason.revisCore.RevisCore;
-import zxc.fxreason.revisCore.managers.ConfigManager;
 
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.*;
 
 public class SetHome implements CommandExecutor, TabCompleter {
-    private ConfigManager configManager;
+
     private final RevisCore plugin;
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private File homesFile;
 
-    public SetHome(ConfigManager configManager, RevisCore plugin) {
-        this.configManager = configManager;
+    public SetHome(RevisCore plugin) {
         this.plugin = plugin;
         this.setupFile();
     }
@@ -49,7 +47,7 @@ public class SetHome implements CommandExecutor, TabCompleter {
         Player player = (Player) sender;
 
         if (args.length == 0) {
-            player.sendMessage(configManager.getEnterHomePoint());
+            player.sendMessage(plugin.getConfigManager().getEnterHomePoint());
             return true;
         } else if (args.length == 1) {
             if (!player.hasPermission("sethome.set")) {
@@ -65,7 +63,7 @@ public class SetHome implements CommandExecutor, TabCompleter {
             if (homes != null) {
                 for (Map<String, Object> f : homes) {
                     if (f.get("namehome").equals(home) && f.get("username").equals(nickname)) {
-                        player.sendMessage(configManager.getDuplicateNameHome());
+                        player.sendMessage(plugin.getConfigManager().getDuplicateNameHome());
                         return true;
                     }
                 }
@@ -74,7 +72,7 @@ public class SetHome implements CommandExecutor, TabCompleter {
             if (!player.hasPermission("sethome.unlimited")) {
                 int currentHomes = getPlayerHomesCount(nickname);
                 if (currentHomes >= 2) {
-                    player.sendMessage(configManager.getMaxPointsHome());
+                    player.sendMessage(plugin.getConfigManager().getMaxPointsHome());
                     return true;
                 }
             }
@@ -87,7 +85,7 @@ public class SetHome implements CommandExecutor, TabCompleter {
             jsonSave(player, nickname, home, world, x, y, z);
             return true;
         } else {
-            player.sendMessage(configManager.getEnterHomePoint());
+            player.sendMessage(plugin.getConfigManager().getEnterHomePoint());
         }
 
         return true;
@@ -130,7 +128,7 @@ public class SetHome implements CommandExecutor, TabCompleter {
         boolean homeExists = false;
         for (Map<String, Object> f : homes) {
             if (f.get("namehome").equals(home) && f.get("username").equals(username)) {
-                player.sendMessage(configManager.getDuplicateNameHome());
+                player.sendMessage(plugin.getConfigManager().getDuplicateNameHome());
                 homeExists = true;
                 break;
             }
@@ -138,7 +136,7 @@ public class SetHome implements CommandExecutor, TabCompleter {
 
         if (!homeExists) {
             homes.add(newHome);
-            player.sendMessage(configManager.getSuccesEnterSetHome());
+            player.sendMessage(plugin.getConfigManager().getSuccesEnterSetHome());
         }
 
         saveData(data);

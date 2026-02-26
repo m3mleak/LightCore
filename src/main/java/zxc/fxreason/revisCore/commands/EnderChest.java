@@ -9,6 +9,13 @@ import org.jetbrains.annotations.NotNull;
 import zxc.fxreason.revisCore.RevisCore;
 
 public class EnderChest implements CommandExecutor {
+
+    private final RevisCore plugin;
+
+    public EnderChest(RevisCore plugin) {
+        this.plugin = plugin;
+    }
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
         if (!(sender instanceof Player)) {
@@ -28,14 +35,21 @@ public class EnderChest implements CommandExecutor {
                     if (target != null) {
                         player.openInventory(target.getEnderChest());
                     } else {
-                        player.sendMessage("игрок не в сети");
+                        player.sendMessage(plugin.getConfigManager().getNicknameNotFound());
+                        return true;
                     }
+                } else {
+                    player.sendMessage(plugin.getConfigManager().getNoPerms());
+                    return true;
                 }
             } else {
-                player.sendMessage("fuck");
+                player.sendMessage(plugin.getConfigManager().getEcUsage());
+                return true;
             }
+        } else {
+            player.sendMessage(plugin.getConfigManager().getNoPerms());
+            return true;
         }
-
         return true;
     }
 }

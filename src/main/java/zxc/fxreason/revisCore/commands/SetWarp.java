@@ -10,7 +10,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import zxc.fxreason.revisCore.RevisCore;
-import zxc.fxreason.revisCore.managers.ConfigManager;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -20,13 +19,11 @@ import java.util.List;
 import java.util.Map;
 
 public class SetWarp implements CommandExecutor {
-    private ConfigManager configManager;
     private final RevisCore plugin;
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private File warpsFile;
 
-    public SetWarp(ConfigManager configManager, RevisCore plugin) {
-        this.configManager = configManager;
+    public SetWarp(RevisCore plugin) {
         this.plugin = plugin;
         this.setupFile();
     }
@@ -50,10 +47,10 @@ public class SetWarp implements CommandExecutor {
         Player player = (Player) sender;
 
         if (args.length == 0) {
-            player.sendMessage(configManager.getSetWarpName());
+            player.sendMessage(plugin.getConfigManager().getSetWarpName());
         } else if (args.length == 1) {
             if (!player.hasPermission("reviscore.setwarp:")) {
-                player.sendMessage(configManager.getNoPerms());
+                player.sendMessage(plugin.getConfigManager().getNoPerms());
                 return true;
             }
 
@@ -64,7 +61,7 @@ public class SetWarp implements CommandExecutor {
             if (warps != null) {
                 for (Map<String, Object> f : warps) {
                     if (f.get("warpname").equals(warp)) {
-                        player.sendMessage(configManager.getDuplicateWarp());
+                        player.sendMessage(plugin.getConfigManager().getDuplicateWarp());
                         return true;
                     }
                 }
@@ -78,7 +75,7 @@ public class SetWarp implements CommandExecutor {
             jsonSave(player, warp, world, x, y, z);
             return true;
         } else {
-            player.sendMessage(configManager.getSetWarpName());
+            player.sendMessage(plugin.getConfigManager().getSetWarpName());
         }
 
         return true;
@@ -131,7 +128,7 @@ public class SetWarp implements CommandExecutor {
         boolean warpExists = false;
         for (Map<String, Object> f : warps) {
             if (f.get("warpname").equals(warpName)) {
-                player.sendMessage(configManager.getDuplicateWarp());
+                player.sendMessage(plugin.getConfigManager().getDuplicateWarp());
                 warpExists = true;
                 break;
             }
@@ -139,7 +136,7 @@ public class SetWarp implements CommandExecutor {
 
         if (!warpExists) {
             warps.add(newWarp);
-            player.sendMessage(configManager.getSetWarpSucces());
+            player.sendMessage(plugin.getConfigManager().getSetWarpSucces());
         }
 
         saveData(data);

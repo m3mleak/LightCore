@@ -11,14 +11,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import zxc.fxreason.revisCore.managers.ConfigManager;
+import zxc.fxreason.revisCore.RevisCore;
 
 public class Tphere implements CommandExecutor {
 
-    private ConfigManager configManager;
+    private final RevisCore plugin;
 
-    public Tphere(ConfigManager configManager) {
-        this.configManager = configManager;
+    public Tphere(RevisCore plugin) {
+        this.plugin = plugin;
     }
 
     @Override
@@ -37,23 +37,23 @@ public class Tphere implements CommandExecutor {
                 String playerName = player.getName();
 
                 if (targetName.equals(playerName)) {
-                    player.sendMessage(configManager.getNotTphereYou());
+                    player.sendMessage(plugin.getConfigManager().getNotTphereYou());
                     return true;
                 }
 
                 if (target != null) {
                     target.teleport(player.getLocation());
-                    player.sendMessage(configManager.getSuccessTphere());
+                    player.sendMessage(plugin.getConfigManager().getSuccessTphere());
                 } else {
-                    player.sendMessage(configManager.getNicknameNotFound());
+                    player.sendMessage(plugin.getConfigManager().getNicknameNotFound());
                 }
                 return true;
             } else {
-                player.sendMessage(configManager.getUsageTphere());
+                player.sendMessage(plugin.getConfigManager().getUsageTphere());
                 return true;
             }
         } else {
-            player.sendMessage(configManager.getNoPerms());
+            player.sendMessage(plugin.getConfigManager().getNoPerms());
             return true;
         }
     }

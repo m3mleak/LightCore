@@ -5,44 +5,42 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 import zxc.fxreason.revisCore.RevisCore;
-import zxc.fxreason.revisCore.managers.ConfigManager;
 
 public class Reload implements CommandExecutor {
 
     private final RevisCore plugin;
-    private final ConfigManager configManager;
 
-    public Reload(RevisCore plugin, ConfigManager configManager) {
+    public Reload(RevisCore plugin) {
         this.plugin = plugin;
-        this.configManager = configManager;
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
-        if (sender.hasPermission("reviscore.reload")) {
-            if (args.length == 1 && args[0].equals("reload")) {
-                try {
-                    plugin.saveConfig();
-                    plugin.reloadConfig();
-
-                    ConfigManager newCfgManager = new ConfigManager(plugin.getConfig());
-
-                    if (plugin.updateCfgManager(newCfgManager)) {
-                        sender.sendMessage("§aКонфигурация успешо перезагружена!");
-                    } else {
-                        sender.sendMessage("§cОшибка при обновлении конфигурации!");
-                    }
-                } catch (Exception e) {
-                    sender.sendMessage("§cОшибка перезагрузки: " + e.getMessage());
-                    plugin.getLogger().severe("Ошибка при перезагрузке конфигурации: " + e);
-                }
-            } else {
-                sender.sendMessage("§cИспользование: /reviscore reload");
-            }
-        } else {
-            sender.sendMessage("§cНедостаточно прав!");
+        if (!sender.hasPermission("reviscore.reload")) {
+            sender.sendMessage(plugin.getConfigManager().getNoPerms());
+            return true;
         }
+
+        if (args.length != 1 || !args[0].equalsIgnoreCase("reload")) {
+            sender.sendMessage("§cИспользование: /" + label + " reload");
+            return true;
+        }
+
+        sender.sendMessage("§eПерезагрузка плагина...");
+
+        try {
+            plugin.reloadPlugin();
+            sender.sendMessage("§a✓ Плагин успешно перезагружен!");
+
+            plugin.getLogger().info("Плагин перезагружен игроком: " + sender.getName());
+
+        } catch (Exception e) {
+            sender.sendMessage("§c✗ Ошибка при перезагрузке: " + e.getMessage());
+            plugin.getLogger().severe("Ошибка перезагрузки: " + e);
+            e.printStackTrace();
+        }
+
         return true;
     }
 }

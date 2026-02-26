@@ -12,7 +12,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import zxc.fxreason.revisCore.RevisCore;
-import zxc.fxreason.revisCore.managers.ConfigManager;
 
 import java.io.File;
 import java.io.FileReader;
@@ -24,13 +23,12 @@ import java.util.List;
 import java.util.Map;
 
 public class Home implements CommandExecutor {
-    private ConfigManager configManager;
+
     private final RevisCore plugin;
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private File homesFile;
 
-    public Home(ConfigManager configManager, RevisCore plugin) {
-        this.configManager = configManager;
+    public Home(RevisCore plugin) {
         this.plugin = plugin;
         setupFile();
     }
@@ -54,7 +52,7 @@ public class Home implements CommandExecutor {
         Map<String, Object> data = loadData();
 
         if (data == null) {
-            player.sendMessage(configManager.getHomeDataError());
+            player.sendMessage(plugin.getConfigManager().getHomeDataError());
             return true;
         }
 
@@ -72,7 +70,7 @@ public class Home implements CommandExecutor {
         }
 
         if (playerHomesCount == 0) {
-            player.sendMessage(configManager.getNoHomesPoint());
+            player.sendMessage(plugin.getConfigManager().getNoHomesPoint());
             return true;
         }
 
@@ -81,17 +79,17 @@ public class Home implements CommandExecutor {
 
             if (args.length == 0 || (args.length == 1 && args[0].equals(playerHome.get("namehome")))) {
                 teleportToHome(player, playerHome);
-                player.sendMessage(configManager.getTeleportedPlayerToHome() + "§f.");
+                player.sendMessage(plugin.getConfigManager().getTeleportedPlayerToHome() + "§f.");
                 return true;
             } else if (args.length == 1) {
                 String homeName = playerHome.get("namehome").toString();
-                player.sendMessage(configManager.getOneHomesPoint() + homeName);
+                player.sendMessage(plugin.getConfigManager().getOneHomesPoint() + homeName);
                 return true;
             }
         }
         else if (playerHomesCount > 1) {
             if (args.length == 0) {
-                player.sendMessage(configManager.getMorePointsHome());
+                player.sendMessage(plugin.getConfigManager().getMorePointsHome());
                 player.sendMessage("§fДоступные точки: §a" + String.join("§f, §a", homesPlayerNames));
                 return true;
             } else if (args.length == 1) {
@@ -107,17 +105,17 @@ public class Home implements CommandExecutor {
 
                 if (targetHome != null) {
                     teleportToHome(player, targetHome);
-                    player.sendMessage(configManager.getTeleportedPlayerToHome() + targetHomeName + "§f.");
+                    player.sendMessage(plugin.getConfigManager().getTeleportedPlayerToHome() + targetHomeName + "§f.");
                     return true;
                 } else {
-                    player.sendMessage(configManager.getNotFoundPointHome() + targetHomeName + " §fне найдена!");
+                    player.sendMessage(plugin.getConfigManager().getNotFoundPointHome() + targetHomeName + " §fне найдена!");
                     player.sendMessage("§fДоступные точки дома: §a" + String.join("§f, §a", homesPlayerNames));
                     return true;
                 }
             }
         }
 
-        player.sendMessage(configManager.getUsageHome());
+        player.sendMessage(plugin.getConfigManager().getUsageHome());
         return true;
     }
 
@@ -133,10 +131,10 @@ public class Home implements CommandExecutor {
             if (world != null) {
                 player.teleport(new Location(world, x, y, z));
             } else {
-                player.sendMessage(configManager.getWorldHomeNotFound());
+                player.sendMessage(plugin.getConfigManager().getWorldHomeNotFound());
             }
         } catch (Exception e) {
-            player.sendMessage(configManager.getErrorLoadsCoordHome());
+            player.sendMessage(plugin.getConfigManager().getErrorLoadsCoordHome());
         }
     }
 

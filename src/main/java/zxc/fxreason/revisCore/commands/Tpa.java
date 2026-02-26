@@ -6,19 +6,16 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import zxc.fxreason.revisCore.managers.ConfigManager;
+import zxc.fxreason.revisCore.RevisCore;
 import zxc.fxreason.revisCore.managers.CooldownManager;
-import zxc.fxreason.revisCore.managers.TpReqManager;
 
 public class Tpa implements CommandExecutor {
-    private ConfigManager configManager;
 
+    private final RevisCore plugin;
     private final CooldownManager cdManager = new CooldownManager();
-    private final TpReqManager tpReqManager;
 
-    public Tpa(ConfigManager configManager, TpReqManager tpReqManager) {
-        this.configManager = configManager;
-        this.tpReqManager = tpReqManager;
+    public Tpa(RevisCore plugin) {
+        this.plugin = plugin;
     }
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -41,7 +38,7 @@ public class Tpa implements CommandExecutor {
         }
         long timeLeft = this.cdManager.getCooldown(player);
         if (timeLeft > 0L && !player.hasPermission("reviscore.noncooldown-tpa")) {
-            player.sendMessage(configManager.getCooldownCMD() + timeLeft + " §fсекунд.");
+            player.sendMessage(plugin.getConfigManager().getCooldownCMD() + timeLeft + " §fсекунд.");
             return true;
         }
         if (args.length == 1) {
@@ -50,21 +47,21 @@ public class Tpa implements CommandExecutor {
             String type = "tpa";
 
             if (target.equals(player.getName())) {
-                player.sendMessage(configManager.getNonTpToMe());
+                player.sendMessage(plugin.getConfigManager().getNonTpToMe());
                 return true;
             }
 
             Player targetPlayer = Bukkit.getPlayer(target);
 
             if (targetPlayer != null) {
-                tpReqManager.sendRequest(player, targetPlayer, type);
+                plugin.getTpReqManager().sendRequest(player, targetPlayer, type);
             } else {
-                player.sendMessage(configManager.getNicknameNotFound());
+                player.sendMessage(plugin.getConfigManager().getNicknameNotFound());
             }
 
 
         } else {
-            player.sendMessage(this.configManager.getUsageTpa());
+            player.sendMessage(this.plugin.getConfigManager().getUsageTpa());
         }
         this.cdManager.setCooldown(player, seconds);
         return true;

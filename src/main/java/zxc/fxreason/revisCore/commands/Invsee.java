@@ -10,16 +10,13 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import zxc.fxreason.revisCore.RevisCore;
-import zxc.fxreason.revisCore.managers.ConfigManager;
 
 public class Invsee implements CommandExecutor {
+
     private final RevisCore plugin;
 
-    private ConfigManager configManager;
-
-    public Invsee(RevisCore plugin, ConfigManager configManager) {
+    public Invsee(RevisCore plugin) {
         this.plugin = plugin;
-        this.configManager = configManager;
     }
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -37,7 +34,7 @@ public class Invsee implements CommandExecutor {
 
                 if (target != null) {
 
-                    String menuName = this.configManager.getInvseeNameInv() + target.getName();
+                    String menuName = plugin.getConfigManager().getInvseeNameInv() + target.getName();
                     Inventory targetInventory = Bukkit.createInventory(null, 54, menuName);
 
                     targetInventory.setItem(49, ItemStack.of(Material.ARMOR_STAND));
@@ -72,14 +69,14 @@ public class Invsee implements CommandExecutor {
 
                     player.openInventory(targetInventory);
                 } else {
-                    player.sendMessage(this.configManager.getNicknameNotFound());
+                    player.sendMessage(plugin.getConfigManager().getNicknameNotFound());
                 }
             } else {
-                player.sendMessage(this.configManager.getUsageInvsee());
+                player.sendMessage(plugin.getConfigManager().getUsageInvsee());
             }
             return true;
         }
-        player.sendMessage(this.configManager.getNoPerms());
+        player.sendMessage(plugin.getConfigManager().getNoPerms());
         return true;
     }
 }

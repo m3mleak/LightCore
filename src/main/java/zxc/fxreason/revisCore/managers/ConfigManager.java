@@ -397,6 +397,34 @@ public class ConfigManager {
         return this.config.getString("messages.salary-err");
     }
 
+    public String getHatUsage() {
+        return this.config.getString("messages.hat-usage");
+    }
+
+    public String getHatHelmErr() {
+        return this.config.getString("messages.hat-helmet-err");
+    }
+
+    public String getHatNotItemMH() {
+        return this.config.getString("messages.hat-not-item-mh");
+    }
+
+    public String getHatUsageNotBlocks() {
+        return this.config.getString("messages.hat-usage-not-blocks");
+    }
+
+    public String getHatSuccess() {
+        return this.config.getString("messages.hat-success");
+    }
+
+    public String getEcUsage() {
+        return this.config.getString("messages.ec-usage");
+    }
+
+    public String getWbUsage() {
+        return this.config.getString("messages.wb-usage");
+    }
+
     public String getInvseeNameInv() {
         return this.config.getString("inventory_names.invsee");
     }

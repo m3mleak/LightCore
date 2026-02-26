@@ -6,15 +6,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import zxc.fxreason.revisCore.RevisCore;
-import zxc.fxreason.revisCore.managers.ConfigManager;
 
 public class Fly implements CommandExecutor {
-    private final RevisCore plugin;
-    private ConfigManager configManager;
 
-    public Fly(RevisCore plugin, ConfigManager configManager) {
+    private final RevisCore plugin;
+
+    public Fly(RevisCore plugin) {
         this.plugin = plugin;
-        this.configManager = configManager;
     }
 
     @Override
@@ -34,12 +32,12 @@ public class Fly implements CommandExecutor {
                 player.setFlying(false);
             }
 
-            String stateMessage = newState ? configManager.getFlyEnable() : configManager.getFlyDisable();
+            String stateMessage = newState ? plugin.getConfigManager().getFlyEnable() : plugin.getConfigManager().getFlyDisable();
 
             player.sendMessage(stateMessage);
 
         } else {
-            player.sendMessage(configManager.getNoPerms());
+            player.sendMessage(plugin.getConfigManager().getNoPerms());
         }
 
         return true;

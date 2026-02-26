@@ -12,7 +12,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import zxc.fxreason.revisCore.RevisCore;
-import zxc.fxreason.revisCore.managers.ConfigManager;
 
 import java.io.File;
 import java.io.FileReader;
@@ -23,13 +22,11 @@ import java.util.List;
 import java.util.Map;
 
 public class Warp implements CommandExecutor {
-    private ConfigManager configManager;
     private final RevisCore plugin;
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private File warpsFile;
 
-    public Warp(ConfigManager configManager, RevisCore plugin) {
-        this.configManager = configManager;
+    public Warp(RevisCore plugin) {
         this.plugin = plugin;
         setupFile();
     }
@@ -63,11 +60,11 @@ public class Warp implements CommandExecutor {
             }
 
             if (teleportation) {
-                player.sendMessage(configManager.getSuccessTeleportToWarp() + targetWarp.get("warpname"));
+                player.sendMessage(plugin.getConfigManager().getSuccessTeleportToWarp() + targetWarp.get("warpname"));
                 TeleportToWarp(player, targetWarp);
             }
         } else {
-            player.sendMessage(configManager.getWarpUsage());
+            player.sendMessage(plugin.getConfigManager().getWarpUsage());
         }
         return true;
     }
@@ -84,10 +81,10 @@ public class Warp implements CommandExecutor {
             if (world != null) {
                 player.teleport(new Location(world, x, y, z));
             } else {
-                player.sendMessage(configManager.getWorldNotFoundWarp());
+                player.sendMessage(plugin.getConfigManager().getWorldNotFoundWarp());
             }
         } catch (Exception e) {
-            player.sendMessage(configManager.getErrorLoadsCoordsWarp());
+            player.sendMessage(plugin.getConfigManager().getErrorLoadsCoordsWarp());
         }
     }
 

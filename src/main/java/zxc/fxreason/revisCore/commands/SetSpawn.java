@@ -11,11 +11,9 @@ import zxc.fxreason.revisCore.managers.ConfigManager;
 
 public class SetSpawn implements CommandExecutor {
 
-    private ConfigManager configManager;
     private final RevisCore plugin;
 
-    public SetSpawn(ConfigManager configManager, RevisCore plugin) {
-        this.configManager = configManager;
+    public SetSpawn(RevisCore plugin) {
         this.plugin = plugin;
     }
 
@@ -40,19 +38,19 @@ public class SetSpawn implements CommandExecutor {
 
             saveSpawn(x, y, z, yaw, pitch, world);
 
-            player.sendMessage(configManager.getSuccesSetSpawn());
+            player.sendMessage(plugin.getConfigManager().getSuccesSetSpawn());
         } else {
-            player.sendMessage(configManager.getNoPerms());
+            player.sendMessage(plugin.getConfigManager().getNoPerms());
         }
 
         return true;
     }
 
     public void saveSpawn(double x, double y, double z, float yaw, float pitch, String world) {
-        configManager.setSpawnLocation(x, y, z, yaw, pitch);
-        configManager.setWorld(world);
+        plugin.getConfigManager().setSpawnLocation(x, y, z, yaw, pitch);
+        plugin.getConfigManager().setWorld(world);
         plugin.saveConfig();
         plugin.reloadConfig();
-        configManager.reload(plugin.getConfig());
+        plugin.getConfigManager().reload(plugin.getConfig());
     }
 }

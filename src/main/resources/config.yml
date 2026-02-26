@@ -94,6 +94,13 @@ messages:
   near-usage: "§b✽ §7➛ §fИспользование: /near"
   salary-success: "§b✽ §7➛ §fВы получили зарплату в размере §a%amount% §f!"
   salary-err: "§b✽ §7➛ §fУ вас нет доступной зарплаты!"
+  hat-usage: "§b✽ §7➛ §fИспользование: /hat"
+  hat-helmet-err: "§b✽ §7➛ §fНа вас уже надет шлем!"
+  hat-not-item-mh: "§b✽ §7➛ §fУ вас нет предмета в основной руке!"
+  hat-usage-not-blocks: "§b✽ §7➛ §fВы можете надевать только блоки!"
+  hat-success: "§b✽ §7➛ §fПредмет успешно надет на голову!"
+  ec-usage: "§b✽ §7➛ §fИспользование: /ec"
+  wb-usage: "§b✽ §7➛ §fИспользование: /wb"
 
 inventory_names:
   invsee: '§0⚡ Инвентарь: §a'

@@ -7,6 +7,7 @@ package zxc.fxreason.revisCore.commands;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,8 +20,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import zxc.fxreason.revisCore.RevisCore;
-import zxc.fxreason.revisCore.economy.CustomEconomy;
-import zxc.fxreason.revisCore.managers.ConfigManager;
 import zxc.fxreason.revisCore.managers.CooldownManager;
 import zxc.fxreason.revisCore.utils.ColorUtils;
 
@@ -32,13 +31,9 @@ public class Salary implements CommandExecutor, Listener {
 
     private final CooldownManager cdManager = new CooldownManager();
     private final RevisCore plugin;
-    private final ConfigManager configManager;
-    private final CustomEconomy economy;
 
-    public Salary(RevisCore plugin, ConfigManager configManager, CustomEconomy economy) {
+    public Salary(RevisCore plugin) {
         this.plugin = plugin;
-        this.configManager = configManager;
-        this.economy = economy;
     }
 
     @Override
@@ -50,13 +45,13 @@ public class Salary implements CommandExecutor, Listener {
 
         long timeLeft = this.cdManager.getCooldown(player);
         if (timeLeft > 0L) {
-            player.sendMessage(ColorUtils.parse(configManager.getCooldownCMD() + " " + timeLeft + " секунд."));
+            player.sendMessage(ColorUtils.parse(plugin.getConfigManager().getCooldownCMD() + " " + timeLeft + " секунд."));
             return true;
         }
 
         BigDecimal amount = calculateAmount(player);
 
-        Component menuTitle = ColorUtils.parse(configManager.getSalaryNameInv());
+        String menuTitle = plugin.getConfigManager().getSalaryNameInv();
         Inventory salaryInv = plugin.getServer().createInventory(null, 27, menuTitle);
 
         ItemStack lightBlue = new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE);
@@ -71,13 +66,14 @@ public class Salary implements CommandExecutor, Listener {
         salaryInv.setItem(13, createSalaryItem(amount));
 
         player.openInventory(salaryInv);
+        player.playSound(player.getLocation(), Sound.BLOCK_AMETHYST_CLUSTER_STEP, 10, 1);
         return true;
     }
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
-        Component title = e.getView().title();
-        if (!title.equals(ColorUtils.parse(configManager.getSalaryNameInv()))) return;
+        String title = e.getView().getTitle();
+        if (!title.equals(plugin.getConfigManager().getSalaryNameInv())) return;
 
         e.setCancelled(true);
 
@@ -87,13 +83,15 @@ public class Salary implements CommandExecutor, Listener {
         BigDecimal amount = calculateAmount(player);
 
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
-            player.sendMessage(configManager.getSalaryErr());
+            player.sendMessage(plugin.getConfigManager().getSalaryErr());
+            player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 10, 1);
             player.closeInventory();
         } else {
-            economy.deposit(player.getUniqueId(), amount);
+            plugin.getCustomEconomy().deposit(player.getUniqueId(), amount);
 
             this.cdManager.setCooldown(player, 86400);
-            player.sendMessage(configManager.getSalarySuccess());
+            player.sendMessage(plugin.getConfigManager().getSalarySuccess());
+            player.playSound(player.getLocation(), Sound.BLOCK_SCULK_CATALYST_FALL, 10, 1);
             player.closeInventory();
         }
     }

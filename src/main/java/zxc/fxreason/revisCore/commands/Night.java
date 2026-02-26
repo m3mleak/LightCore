@@ -12,14 +12,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import zxc.fxreason.revisCore.managers.ConfigManager;
+import zxc.fxreason.revisCore.RevisCore;
 
 public class Night implements CommandExecutor {
 
-    private ConfigManager configManager;
+    private final RevisCore plugin;
 
-    public Night(ConfigManager configManager) {
-        this.configManager = configManager;
+    public Night(RevisCore plugin) {
+        this.plugin = plugin;
     }
 
     @Override
@@ -35,16 +35,16 @@ public class Night implements CommandExecutor {
             if (args.length == 0) {
                 World world = player.getWorld();
                 world.setTime(13000);
-                player.sendMessage(configManager.getSetNight());
+                player.sendMessage(plugin.getConfigManager().getSetNight());
 
                 return true;
             } else {
-                player.sendMessage(configManager.getNightUsage());
+                player.sendMessage(plugin.getConfigManager().getNightUsage());
 
                 return true;
             }
         } else {
-            player.sendMessage(configManager.getNoPerms());
+            player.sendMessage(plugin.getConfigManager().getNoPerms());
 
             return true;
         }

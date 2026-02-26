@@ -12,14 +12,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import zxc.fxreason.revisCore.managers.ConfigManager;
+import zxc.fxreason.revisCore.RevisCore;
 
 public class Day implements CommandExecutor {
 
-    private ConfigManager configManager;
+    private final RevisCore plugin;
 
-    public Day(ConfigManager configManager) {
-        this.configManager = configManager;
+    public Day(RevisCore plugin) {
+        this.plugin = plugin;
     }
 
     @Override
@@ -35,16 +35,16 @@ public class Day implements CommandExecutor {
             if (args.length == 0) {
                 World world = player.getWorld();
                 world.setTime(0);
-                player.sendMessage(configManager.getSetDay());
+                player.sendMessage(plugin.getConfigManager().getSetDay());
 
                 return true;
             } else {
-                player.sendMessage(configManager.getDayUsage());
+                player.sendMessage(plugin.getConfigManager().getDayUsage());
 
                 return true;
             }
         } else {
-            player.sendMessage(configManager.getNoPerms());
+            player.sendMessage(plugin.getConfigManager().getNoPerms());
 
             return true;
         }

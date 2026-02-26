@@ -12,14 +12,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import zxc.fxreason.revisCore.managers.ConfigManager;
+import zxc.fxreason.revisCore.RevisCore;
 
 public class TpPos implements CommandExecutor {
 
-    private ConfigManager configManager;
+    private final RevisCore plugin;
 
-    public TpPos(ConfigManager configManager) {
-        this.configManager = configManager;
+    public TpPos(RevisCore plugin) {
+        this.plugin = plugin;
     }
 
     @Override
@@ -32,7 +32,7 @@ public class TpPos implements CommandExecutor {
         Player player = (Player) sender;
 
         if (!player.hasPermission("reviscore.tppos")) {
-            player.sendMessage(configManager.getNoPerms());
+            player.sendMessage(plugin.getConfigManager().getNoPerms());
             return true;
         }
 
@@ -47,11 +47,11 @@ public class TpPos implements CommandExecutor {
 
             player.teleport(loc);
 
-            player.sendMessage(configManager.getTpPosSuccess());
+            player.sendMessage(plugin.getConfigManager().getTpPosSuccess());
 
             return true;
         } else {
-            player.sendMessage(configManager.getTpPosUsage());
+            player.sendMessage(plugin.getConfigManager().getTpPosUsage());
 
             return true;
         }

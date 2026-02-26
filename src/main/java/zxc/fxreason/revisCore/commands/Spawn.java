@@ -11,11 +11,10 @@ import zxc.fxreason.revisCore.RevisCore;
 import zxc.fxreason.revisCore.managers.ConfigManager;
 
 public class Spawn implements CommandExecutor {
-    private ConfigManager configManager;
+
     private final RevisCore plugin;
 
-    public Spawn(ConfigManager configManager, RevisCore plugin) {
-        this.configManager = configManager;
+    public Spawn(RevisCore plugin) {
         this.plugin = plugin;
     }
 
@@ -31,10 +30,10 @@ public class Spawn implements CommandExecutor {
 
 
         if (args.length == 0) {
-            player.sendMessage(configManager.getSuccesTeleportToSpawn());
+            player.sendMessage(plugin.getConfigManager().getSuccesTeleportToSpawn());
             player.teleport(loadSpawnLoc());
         } else {
-            sender.sendMessage(configManager.getSpawnCorrect());
+            sender.sendMessage(plugin.getConfigManager().getSpawnCorrect());
         }
 
         return true;

@@ -11,14 +11,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import zxc.fxreason.revisCore.managers.ConfigManager;
+import zxc.fxreason.revisCore.RevisCore;
 
 public class Rain implements CommandExecutor {
 
-    private ConfigManager configManager;
+    private final RevisCore plugin;
 
-    public Rain(ConfigManager configManager) {
-        this.configManager = configManager;
+    public Rain(RevisCore plugin) {
+        this.plugin = plugin;
     }
 
     @Override
@@ -35,16 +35,16 @@ public class Rain implements CommandExecutor {
                 World world = player.getWorld();
                 world.setStorm(true);
                 world.setThundering(false);
-                player.sendMessage(configManager.getSetRain());
+                player.sendMessage(plugin.getConfigManager().getSetRain());
 
                 return true;
             } else {
-                player.sendMessage(configManager.getRainUsage());
+                player.sendMessage(plugin.getConfigManager().getRainUsage());
 
                 return true;
             }
         } else {
-            player.sendMessage(configManager.getNoPerms());
+            player.sendMessage(plugin.getConfigManager().getNoPerms());
 
             return true;
         }

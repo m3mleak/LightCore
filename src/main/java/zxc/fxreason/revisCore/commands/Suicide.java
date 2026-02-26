@@ -10,14 +10,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import zxc.fxreason.revisCore.managers.ConfigManager;
+import zxc.fxreason.revisCore.RevisCore;
 
 public class Suicide implements CommandExecutor {
 
-    private ConfigManager configManager;
+    private final RevisCore plugin;
 
-    public Suicide(ConfigManager configManager) {
-        this.configManager = configManager;
+    public Suicide(RevisCore plugin) {
+        this.plugin = plugin;
     }
 
     @Override
@@ -30,15 +30,15 @@ public class Suicide implements CommandExecutor {
         Player player = (Player) sender;
 
         if (!player.hasPermission("reviscore.suicide")) {
-            player.sendMessage(configManager.getNoPerms());
+            player.sendMessage(plugin.getConfigManager().getNoPerms());
             return true;
         }
 
         if (args.length == 0) {
             player.setHealth(0.0);
-            player.sendMessage(configManager.getSuicideMsg());
+            player.sendMessage(plugin.getConfigManager().getSuicideMsg());
         } else {
-            player.sendMessage(configManager.getSuicideUsage());
+            player.sendMessage(plugin.getConfigManager().getSuicideUsage());
         }
 
         return false;

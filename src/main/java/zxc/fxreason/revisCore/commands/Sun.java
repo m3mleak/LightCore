@@ -12,14 +12,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import zxc.fxreason.revisCore.managers.ConfigManager;
+import zxc.fxreason.revisCore.RevisCore;
 
 public class Sun implements CommandExecutor {
 
-    private ConfigManager configManager;
+    private final RevisCore plugin;
 
-    public Sun(ConfigManager configManager) {
-        this.configManager = configManager;
+    public Sun(RevisCore plugin) {
+        this.plugin = plugin;
     }
 
     @Override
@@ -36,16 +36,16 @@ public class Sun implements CommandExecutor {
                 World world = player.getWorld();
                 world.setStorm(false);
                 world.setThundering(false);
-                player.sendMessage(configManager.getSetSun());
+                player.sendMessage(plugin.getConfigManager().getSetSun());
 
                 return true;
             } else {
-                player.sendMessage(configManager.getSunUsage());
+                player.sendMessage(plugin.getConfigManager().getSunUsage());
 
                 return true;
             }
         } else {
-            player.sendMessage(configManager.getNoPerms());
+            player.sendMessage(plugin.getConfigManager().getNoPerms());
 
             return true;
         }

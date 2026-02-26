@@ -9,21 +9,19 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import zxc.fxreason.revisCore.RevisCore;
-import zxc.fxreason.revisCore.managers.ConfigManager;
 
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.*;
 
 public class DeleteHome implements CommandExecutor {
+
     private final RevisCore plugin;
     private File homesFile;
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private ConfigManager configManager;
 
-    public DeleteHome(RevisCore plugin, ConfigManager configManager) {
+    public DeleteHome(RevisCore plugin) {
         this.plugin = plugin;
-        this.configManager = configManager;
         setupFile();
     }
 
@@ -46,7 +44,7 @@ public class DeleteHome implements CommandExecutor {
         Player player = (Player) sender;
 
         if (args.length == 0) {
-            player.sendMessage(configManager.getEnterHomeForDelete());
+            player.sendMessage(plugin.getConfigManager().getEnterHomeForDelete());
             return true;
         } else if (args.length == 1) {
             String homeName = args[0];
@@ -75,13 +73,13 @@ public class DeleteHome implements CommandExecutor {
 
             if (homeFound) {
                 saveData(data);
-                player.sendMessage(configManager.getSuccessDeleteHomePoint());
+                player.sendMessage(plugin.getConfigManager().getSuccessDeleteHomePoint());
             } else {
-                player.sendMessage(configManager.getHomePointNotFound());
+                player.sendMessage(plugin.getConfigManager().getHomePointNotFound());
             }
             return true;
         } else {
-            player.sendMessage(configManager.getEnterHomeForDelete());
+            player.sendMessage(plugin.getConfigManager().getEnterHomeForDelete());
         }
 
         return true;

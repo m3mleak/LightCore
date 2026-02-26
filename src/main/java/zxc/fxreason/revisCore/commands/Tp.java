@@ -11,17 +11,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import zxc.fxreason.revisCore.managers.ConfigManager;
-import zxc.fxreason.revisCore.utils.MessageUtil;
+import zxc.fxreason.revisCore.RevisCore;
 
 public class Tp implements CommandExecutor {
 
-    private ConfigManager configManager;
-    private MessageUtil messageUtil;
+    private final RevisCore plugin;
 
-    public Tp(ConfigManager configManager, MessageUtil messageUtil) {
-        this.configManager = configManager;
-        this.messageUtil = messageUtil;
+    public Tp(RevisCore plugin) {
+        this.plugin = plugin;
     }
 
     @Override
@@ -34,7 +31,7 @@ public class Tp implements CommandExecutor {
         Player player = (Player) sender;
 
         if (!player.hasPermission("reviscore.tp")) {
-            player.sendMessage(configManager.getNoPerms());
+            player.sendMessage(plugin.getConfigManager().getNoPerms());
             return true;
         }
 
@@ -43,19 +40,19 @@ public class Tp implements CommandExecutor {
             Player target = Bukkit.getPlayer(targetName);
 
             if (target.equals(player.getName())) {
-                player.sendMessage(configManager.getNotTpToYou());
+                player.sendMessage(plugin.getConfigManager().getNotTpToYou());
             }
 
             if (target != null) {
                 player.teleport(target.getLocation());
-                messageUtil.sendMessage(player, targetName, configManager.getSucessTeleportation());
+                plugin.getMessageUtil().sendMessage(player, targetName, plugin.getConfigManager().getSucessTeleportation());
                 return true;
             } else {
-                player.sendMessage(configManager.getNicknameNotFound());
+                player.sendMessage(plugin.getConfigManager().getNicknameNotFound());
                 return true;
             }
         } else {
-            player.sendMessage(configManager.getUsageTp());
+            player.sendMessage(plugin.getConfigManager().getUsageTp());
             return true;
         }
     }

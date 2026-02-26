@@ -10,13 +10,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import zxc.fxreason.revisCore.managers.TpReqManager;
+import zxc.fxreason.revisCore.RevisCore;
 
 public class TpaAccept implements CommandExecutor {
-    private final TpReqManager tpReqManager;
 
-    public TpaAccept(TpReqManager tpReqManager) {
-        this.tpReqManager = tpReqManager;
+    private final RevisCore plugin;
+
+    public TpaAccept(RevisCore plugin) {
+        this.plugin = plugin;
     }
 
     @Override
@@ -27,7 +28,7 @@ public class TpaAccept implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        tpReqManager.acceptRequest(player);
+        plugin.getTpReqManager().acceptRequest(player);
         return true;
     }
 }

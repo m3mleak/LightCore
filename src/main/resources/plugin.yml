@@ -1,5 +1,5 @@
 name: RevisCore
-version: '0.1'
+version: '0.2.1'
 main: zxc.fxreason.revisCore.RevisCore
 api-version: '1.21'
 
@@ -77,6 +77,8 @@ commands:
     description: Поиск игроков неподалеку
   salary:
     description: Зарплата
+  hat:
+    description: Надеть предмет на голову
 
 permissions:
   sethome.set:

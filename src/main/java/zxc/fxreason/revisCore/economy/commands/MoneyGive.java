@@ -11,27 +11,24 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import zxc.fxreason.revisCore.economy.CustomEconomy;
-import zxc.fxreason.revisCore.managers.ConfigManager;
+import zxc.fxreason.revisCore.RevisCore;
 import zxc.fxreason.revisCore.utils.MessageUtil;
 
 import java.math.BigDecimal;
 
 public class MoneyGive implements CommandExecutor {
 
-    private final ConfigManager configManager;
-    private final CustomEconomy economy;
+    private final RevisCore plugin;
 
-    public MoneyGive(ConfigManager configManager, CustomEconomy economy) {
-        this.configManager = configManager;
-        this.economy = economy;
+    public MoneyGive(RevisCore plugin) {
+        this.plugin = plugin;
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
 
         if (!sender.hasPermission("reviscore.givemoney")) {
-            sender.sendMessage(configManager.getNoPerms());
+            sender.sendMessage(plugin.getConfigManager().getNoPerms());
             return true;
         }
 
@@ -44,28 +41,28 @@ public class MoneyGive implements CommandExecutor {
                 BigDecimal amount = new BigDecimal(amnt);
 
                 if (target == null) {
-                    sender.sendMessage(configManager.getNicknameNotFound());
+                    sender.sendMessage(plugin.getConfigManager().getNicknameNotFound());
                     return true;
                 }
 
                 if (amount.compareTo(BigDecimal.ZERO) < 0) {
-                    sender.sendMessage(configManager.getMoneyGiveNotPositive());
+                    sender.sendMessage(plugin.getConfigManager().getMoneyGiveNotPositive());
                     return true;
                 }
 
-                economy.deposit(target.getUniqueId(), amount);
-                String message = configManager.getGiveMoneyMsg() + targetName;
+                plugin.getCustomEconomy().deposit(target.getUniqueId(), amount);
+                String message = plugin.getConfigManager().getGiveMoneyMsg() + targetName;
 
-                MessageUtil.sendMessageMoney(sender, economy.format(amount), message);
+                MessageUtil.sendMessageMoney(sender, plugin.getCustomEconomy().format(amount), message);
 
                 return true;
             } catch (NumberFormatException e) {
-                sender.sendMessage(configManager.getErrAmount());
+                sender.sendMessage(plugin.getConfigManager().getErrAmount());
                 return true;
             }
 
         } else {
-            sender.sendMessage(configManager.getGiveMoneyUsage());
+            sender.sendMessage(plugin.getConfigManager().getGiveMoneyUsage());
             return true;
         }
     }

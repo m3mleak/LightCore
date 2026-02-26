@@ -11,14 +11,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import zxc.fxreason.revisCore.managers.ConfigManager;
+import zxc.fxreason.revisCore.RevisCore;
 
 public class Feed implements CommandExecutor {
 
-    private ConfigManager configManager;
+    private final RevisCore plugin;
 
-    public Feed(ConfigManager configManager) {
-        this.configManager = configManager;
+    public Feed(RevisCore plugin) {
+        this.plugin = plugin;
     }
 
 
@@ -32,7 +32,7 @@ public class Feed implements CommandExecutor {
 
                 if (!sender.hasPermission("reviscore.feed-all")) {
                     if (!targetName.equals(sender.getName()) && !sender.isOp()) {
-                        sender.sendMessage(configManager.getFeedOnlyYou());
+                        sender.sendMessage(plugin.getConfigManager().getFeedOnlyYou());
                         return true;
                     }
                 }
@@ -40,17 +40,17 @@ public class Feed implements CommandExecutor {
                 if (target != null) {
                     target.setFoodLevel(20);
                     target.setSaturation(20.0f);
-                    sender.sendMessage(configManager.getFeedSuccess());
+                    sender.sendMessage(plugin.getConfigManager().getFeedSuccess());
                     return true;
                 } else {
-                    sender.sendMessage(configManager.getNicknameNotFound());
+                    sender.sendMessage(plugin.getConfigManager().getNicknameNotFound());
                 }
             } else {
-                sender.sendMessage(configManager.getFeedUsage());
+                sender.sendMessage(plugin.getConfigManager().getFeedUsage());
                 return true;
             }
         } else {
-            sender.sendMessage(configManager.getNoPerms());
+            sender.sendMessage(plugin.getConfigManager().getNoPerms());
             return true;
         }
         return true;

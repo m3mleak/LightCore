@@ -1,6 +1,7 @@
 package zxc.fxreason.revisCore;
 
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import zxc.fxreason.revisCore.commands.*;
@@ -22,156 +23,101 @@ public final class RevisCore extends JavaPlugin {
 
     private ConfigManager configManager;
     private CustomEconomy customEconomy;
+    private MessageUtil messageUtil;
+    private TpReqManager tpReqManager;
+    private CustomEcoLogic customEcoLogic;
+    private Salary salaryInstance;
 
-    public ConfigManager getConfigManager() {
-        return configManager;
-    }
-
+    public ConfigManager getConfigManager() { return configManager; }
+    public CustomEconomy getCustomEconomy() { return customEconomy; }
+    public MessageUtil getMessageUtil() { return messageUtil; }
+    public TpReqManager getTpReqManager() { return tpReqManager; }
 
     @Override
     public void onEnable() {
-        initConfig();
-        // Plugin startup logic
+        saveDefaultConfig();
+        reloadConfig();
+
+        initializeManagers();
+
+        setupVault();
+
+        registerCommands();
+        registerEvents();
+
+        getLogger().info("RevisCore успешно включен!");
+    }
+
+    private void initializeManagers() {
         this.configManager = new ConfigManager(getConfig());
-        MessageUtil messageUtil = new MessageUtil(configManager);
-        TpReqManager tpReqManager = new TpReqManager(this, configManager, messageUtil);
-        CustomEcoLogic customEcoLogic = new CustomEcoLogic(this, configManager);
-        customEconomy = new CustomEconomy(customEcoLogic);
-        Salary salaryInstance = new Salary(this, configManager, customEconomy);
+        this.messageUtil = new MessageUtil(this);
+        this.customEcoLogic = new CustomEcoLogic(this);
+        this.customEconomy = new CustomEconomy(customEcoLogic);
+        this.tpReqManager = new TpReqManager(this);
+        this.salaryInstance = new Salary(this);
+    }
 
-        if (setupVault()) {
-            getLogger().info("Vault успешно подключен!");
+    private void registerCommands() {
+        registerCommand("setspawn", new SetSpawn(this));
+        registerCommand("spawn", new Spawn(this));
+        registerCommand("sethome", new SetHome(this));
+        registerCommand("home", new Home(this));
+        registerCommand("delhome", new DeleteHome(this));
+        registerCommand("setwarp", new SetWarp(this));
+        registerCommand("warp", new Warp(this));
+        registerCommand("reviscore", new Reload(this));
+
+        registerCommand("fly", new Fly(this));
+        registerCommand("gm", new Gamemode(this));
+        registerCommand("enderchest", new EnderChest(this));
+        registerCommand("invsee", new Invsee(this));
+        registerCommand("feed", new Feed(this));
+        registerCommand("suicide", new Suicide(this));
+        registerCommand("workbench", new Workbench(this));
+        registerCommand("hat", new Hat(this));
+
+        registerCommand("tpa", new Tpa(this));
+        registerCommand("tpaccept", new TpaAccept(this));
+        registerCommand("tpdeny", new TpaDeny(this));
+        registerCommand("tp", new Tp(this));
+        registerCommand("tphere", new Tphere(this));
+        registerCommand("tpahere", new Tpahere(this));
+        registerCommand("tppos", new TpPos(this));
+        registerCommand("near", new Near(this));
+
+        registerCommand("day", new Day(this));
+        registerCommand("night", new Night(this));
+        registerCommand("sun", new Sun(this));
+        registerCommand("rain", new Rain(this));
+
+        registerCommand("money", new Money(this));
+        registerCommand("baltop", new Baltop(this));
+        registerCommand("pay", new Pay(this));
+        registerCommand("givemoney", new MoneyGive(this));
+        registerCommand("salary", salaryInstance);
+    }
+
+    private void registerCommand(String name, CommandExecutor executor) {
+        if (getCommand(name) != null) {
+            getCommand(name).setExecutor(executor);
         } else {
-            getLogger().warning("Vault не обнаружен!");
+            getLogger().warning("Команда " + name + " не найдена в plugin.yml");
         }
+    }
 
-        // setspawn
-        getCommand("setspawn").setExecutor(new SetSpawn(configManager, this));
-
-        // spawn
-        getCommand("spawn").setExecutor(new Spawn(configManager,this));
-
-        // sethome
-        getCommand("sethome").setExecutor(new SetHome(configManager, this));
-
-        // home
-        getCommand("home").setExecutor(new Home(configManager, this));
-
-        // delhome
-        getCommand("delhome").setExecutor(new DeleteHome(this, configManager));
-
-        // setwarp
-        getCommand("setwarp").setExecutor(new SetWarp(configManager,this));
-
-        // warp
-        getCommand("warp").setExecutor(new Warp(configManager, this));
-
-        // reviscore reload
-        getCommand("reviscore").setExecutor(new Reload(this, configManager));
-
-        // fly
-        getCommand("fly").setExecutor(new Fly(this, configManager));
-
-        // gm
-        getCommand("gm").setExecutor(new Gamemode(this, configManager));
-
-        // ec
-        getCommand("enderchest").setExecutor(new EnderChest());
-
-        // invsee
-        getCommand("invsee").setExecutor(new Invsee(this, configManager));
-
-        // tpa
-        getCommand("tpa").setExecutor(new Tpa(configManager, tpReqManager));
-
-        // tpaccept
-        getCommand("tpaccept").setExecutor(new TpaAccept(tpReqManager));
-
-        // tpdeny
-        getCommand("tpdeny").setExecutor(new TpaDeny(tpReqManager));
-
-        // tp
-        getCommand("tp").setExecutor(new Tp(configManager, messageUtil));
-
-        // feed
-        getCommand("feed").setExecutor(new Feed(configManager));
-
-        // suicide
-        getCommand("suicide").setExecutor(new Suicide(configManager));
-
-        // tphere
-        getCommand("tphere").setExecutor(new Tphere(configManager));
-
-        // tpahere
-        getCommand("tpahere").setExecutor(new Tpahere(tpReqManager, configManager));
-
-        // workbench
-        getCommand("workbench").setExecutor(new Workbench(configManager));
-
-        // day
-        getCommand("day").setExecutor(new Day(configManager));
-
-        // night
-        getCommand("night").setExecutor(new Night(configManager));
-
-        // sun
-        getCommand("sun").setExecutor(new Sun(configManager));
-
-        // rain
-        getCommand("rain").setExecutor(new Rain(configManager));
-
-        // tppos
-        getCommand("tppos").setExecutor(new TpPos(configManager));
-
-        // money
-        getCommand("money").setExecutor(new Money(customEconomy, configManager));
-
-        // baltop
-        getCommand("baltop").setExecutor(new Baltop(customEconomy));
-
-        // pay
-        getCommand("pay").setExecutor(new Pay(customEconomy, configManager));
-
-        // givemoney
-        getCommand("givemoney").setExecutor(new MoneyGive(configManager, customEconomy));
-
-        // near
-        getCommand("near").setExecutor(new Near(this, configManager));
-
-        // salary
-        getCommand("salary").setExecutor(salaryInstance);
-
-        // salary event
+    private void registerEvents() {
         getServer().getPluginManager().registerEvents(salaryInstance, this);
-
-        // respawn event
         getServer().getPluginManager().registerEvents(new RespawnEvent(this), this);
-
-        // canceled move inv event
-        getServer().getPluginManager().registerEvents(new CMoveInvEvent(this, configManager), this);
-
-        // join/quit events for economy
+        getServer().getPluginManager().registerEvents(new CMoveInvEvent(this), this);
         getServer().getPluginManager().registerEvents(new EcoListener(customEcoLogic), this);
-
-        initConfig();
-        getLogger().info("Enabled");
     }
 
-    @Override
-    public void onDisable() {
-        // Plugin shutdown logic
-        saveConfig();
-
-        System.out.println();
-
-        getLogger().info("Disabled");
-
-    }
-
-    private boolean setupVault() {
+    private void setupVault() {
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
-            return false;
+            getLogger().warning("Vault не обнаружен!");
+            return;
         }
+
         try {
             getServer().getServicesManager().register(
                     Economy.class,
@@ -179,27 +125,33 @@ public final class RevisCore extends JavaPlugin {
                     this,
                     ServicePriority.Highest
             );
-            return true;
+            getLogger().info("Vault успешно подключен!");
         } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+            getLogger().severe("Ошибка подключения Vault: " + e.getMessage());
         }
     }
 
-    public boolean updateCfgManager(ConfigManager newManager) {
+    public void reloadPlugin() {
         try {
-            this.configManager = newManager;
-            return true;
+            reloadConfig();
+
+            ConfigManager newConfigManager = new ConfigManager(getConfig());
+
+            this.configManager = newConfigManager;
+
+            getLogger().info("Плагин успешно перезагружен!");
+
         } catch (Exception e) {
-            getLogger().severe("Не удалось обновить ConfigManager: " + e.getMessage());
-            return false;
+            getLogger().severe("Ошибка при перезагрузке плагина: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
-    private void initConfig() {
-        getConfig().options().copyDefaults(true);
-        saveDefaultConfig();
-        reloadConfig();
+    @Override
+    public void onDisable() {
+        if (customEcoLogic != null) {
+            customEcoLogic.saveAllData();
+        }
+        getLogger().info("RevisCore отключен!");
     }
-
 }

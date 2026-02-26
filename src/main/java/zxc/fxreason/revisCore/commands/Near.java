@@ -13,7 +13,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import zxc.fxreason.revisCore.RevisCore;
-import zxc.fxreason.revisCore.managers.ConfigManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +20,10 @@ import java.util.List;
 public class Near implements CommandExecutor {
 
     private final RevisCore plugin;
-    private final ConfigManager configManager;
     private final int defaultRadius = 100;
 
-    public Near(RevisCore plugin, ConfigManager configManager) {
+    public Near(RevisCore plugin) {
         this.plugin = plugin;
-        this.configManager = configManager;
     }
 
     @Override
@@ -39,12 +36,12 @@ public class Near implements CommandExecutor {
         Player player = (Player) sender;
 
         if (!player.hasPermission("reviscore.near")) {
-            player.sendMessage(configManager.getNoPerms());
+            player.sendMessage(plugin.getConfigManager().getNoPerms());
             return true;
         }
 
         if (args.length > 0) {
-            player.sendMessage(configManager.getNearUsage());
+            player.sendMessage(plugin.getConfigManager().getNearUsage());
             return true;
         }
 
@@ -53,7 +50,7 @@ public class Near implements CommandExecutor {
         List<String> nearPlayers = getNearPlayers(player, radius);
 
         if (nearPlayers.isEmpty()) {
-            player.sendMessage(configManager.getNotFoundNearPLayers());
+            player.sendMessage(plugin.getConfigManager().getNotFoundNearPLayers());
         } else {
             player.sendMessage("§b✽ §7➛ §fИгроки рядом с вами в радиусе (" + radius + " м.):");
             for (int i = 0; i < nearPlayers.size(); i++) {

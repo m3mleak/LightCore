@@ -12,17 +12,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import zxc.fxreason.revisCore.economy.CustomEconomy;
-import zxc.fxreason.revisCore.managers.ConfigManager;
+import zxc.fxreason.revisCore.RevisCore;
 
 public class Money implements CommandExecutor {
 
-    private final CustomEconomy economy;
-    private final ConfigManager configManager;
+    private final RevisCore plugin;
 
-    public Money(CustomEconomy economy, ConfigManager configManager) {
-        this.economy = economy;
-        this.configManager = configManager;
+    public Money(RevisCore plugin) {
+        this.plugin = plugin;
     }
 
     @Override
@@ -35,8 +32,8 @@ public class Money implements CommandExecutor {
                 return true;
             }
 
-            double balance = economy.getBalance(player.getUniqueId()).doubleValue();
-            player.sendMessage(String.format(configManager.getMoneyMsg() + economy.format(economy.getBalance(player.getUniqueId()))));
+            double balance = plugin.getCustomEconomy().getBalance(player.getUniqueId()).doubleValue();
+            player.sendMessage(String.format(plugin.getConfigManager().getMoneyMsg() + plugin.getCustomEconomy().format(plugin.getCustomEconomy().getBalance(player.getUniqueId()))));
 
             return true;
         }
@@ -45,18 +42,18 @@ public class Money implements CommandExecutor {
                 Player target = Bukkit.getPlayer(args[0]);
 
                 if (target != null) {
-                    double balance = economy.getBalance(target.getUniqueId()).doubleValue();
-                    player.sendMessage(configManager.getMoneyPlayerMsg() + economy.format(economy.getBalance(target.getUniqueId())));
+                    double balance = plugin.getCustomEconomy().getBalance(target.getUniqueId()).doubleValue();
+                    player.sendMessage(plugin.getConfigManager().getMoneyPlayerMsg() + plugin.getCustomEconomy().format(plugin.getCustomEconomy().getBalance(target.getUniqueId())));
                 } else {
-                    player.sendMessage(configManager.getNicknameNotFound());
+                    player.sendMessage(plugin.getConfigManager().getNicknameNotFound());
                 }
             } else {
-                player.sendMessage(configManager.getNoPerms());
+                player.sendMessage(plugin.getConfigManager().getNoPerms());
 
             }
             return true;
         } else {
-            player.sendMessage(configManager.getMoneyUsage());
+            player.sendMessage(plugin.getConfigManager().getMoneyUsage());
         }
         return true;
     }

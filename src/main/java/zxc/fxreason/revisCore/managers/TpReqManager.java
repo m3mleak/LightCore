@@ -4,24 +4,20 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import zxc.fxreason.revisCore.RevisCore;
-import zxc.fxreason.revisCore.utils.MessageUtil;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 public class TpReqManager {
+
     private final Map<UUID, TpaRequest> activeRequests = new HashMap<>();
     private final RevisCore plugin;
-    private final ConfigManager configManager;
-    private final MessageUtil messageUtil;
 
     private static final int REQUEST_TIMEOUT = 30;
 
-    public TpReqManager(RevisCore plugin, ConfigManager configManager, MessageUtil messageUtil) {
+    public TpReqManager(RevisCore plugin) {
         this.plugin = plugin;
-        this.configManager = configManager;
-        this.messageUtil = messageUtil;
     }
 
     public void sendRequest(Player sender, Player target, String type) {
@@ -34,15 +30,15 @@ public class TpReqManager {
         String namePlayer = sender.getName();
 
         // запрос отправлен
-        messageUtil.sendMessage(sender, nameTarget, configManager.getTpaResponse());
+        plugin.getMessageUtil().sendMessage(sender, nameTarget, plugin.getConfigManager().getTpaResponse());
 
         // игрок хочет телепортироваться к вам
         if (type.equals("tpa")) {
-            messageUtil.sendMessage(target, namePlayer, configManager.getTpaResponseToTaget());
-            target.sendMessage(configManager.getAcceptDenyTpa());
+            plugin.getMessageUtil().sendMessage(target, namePlayer, plugin.getConfigManager().getTpaResponseToTaget());
+            target.sendMessage(plugin.getConfigManager().getAcceptDenyTpa());
         } else {
-            messageUtil.sendMessage(target, namePlayer, configManager.getTpahereResponse());
-            target.sendMessage(configManager.getAcceptDenyTpa());
+            plugin.getMessageUtil().sendMessage(target, namePlayer, plugin.getConfigManager().getTpahereResponse());
+            target.sendMessage(plugin.getConfigManager().getAcceptDenyTpa());
         }
 
         new BukkitRunnable() {
@@ -55,10 +51,10 @@ public class TpReqManager {
                     Player senderPlayer = Bukkit.getPlayer(sender.getUniqueId());
 
                     if (targetPlayer != null && targetPlayer.isOnline()) {
-                        messageUtil.sendMessage(targetPlayer, namePlayer, configManager.getTimesUpTp());
+                        plugin.getMessageUtil().sendMessage(targetPlayer, namePlayer, plugin.getConfigManager().getTimesUpTp());
                     }
                     if (senderPlayer != null && senderPlayer.isOnline()) {
-                        messageUtil.sendMessage(senderPlayer, nameTarget, configManager.getTimesUpTplayer());
+                        plugin.getMessageUtil().sendMessage(senderPlayer, nameTarget, plugin.getConfigManager().getTimesUpTplayer());
                     }
                 }
             }
@@ -69,25 +65,25 @@ public class TpReqManager {
         TpaRequest request = activeRequests.remove(target.getUniqueId());
 
         if (request == null) {
-            target.sendMessage(configManager.getNotActiveReq());
+            target.sendMessage(plugin.getConfigManager().getNotActiveReq());
             return;
         }
 
         Player sender = Bukkit.getPlayer(request.getSenderUuid());
 
         if (sender == null || !sender.isOnline()) {
-            target.sendMessage(configManager.getSenderTpLeave());
+            target.sendMessage(plugin.getConfigManager().getSenderTpLeave());
             return;
         }
 
         if (request.getType().equals("tpa")) {
             sender.teleport(target.getLocation());
-            messageUtil.sendMessage(sender, target.getName(), configManager.getSucessTeleportation());
-            messageUtil.sendMessage(target, sender.getName(), configManager.getSuccesTpForYou());
+            plugin.getMessageUtil().sendMessage(sender, target.getName(), plugin.getConfigManager().getSucessTeleportation());
+            plugin.getMessageUtil().sendMessage(target, sender.getName(), plugin.getConfigManager().getSuccesTpForYou());
         } else {
             target.teleport((sender.getLocation()));
-            sender.sendMessage(configManager.getTpahereAccept());
-            messageUtil.sendMessage(target, sender.getName(), configManager.getTpahereTp());
+            sender.sendMessage(plugin.getConfigManager().getTpahereAccept());
+            plugin.getMessageUtil().sendMessage(target, sender.getName(), plugin.getConfigManager().getTpahereTp());
         }
 
     }
@@ -96,17 +92,17 @@ public class TpReqManager {
         TpaRequest request = activeRequests.remove(target.getUniqueId());
 
         if (request == null) {
-            target.sendMessage(configManager.getNotActiveReq());
+            target.sendMessage(plugin.getConfigManager().getNotActiveReq());
             return;
         }
 
         Player sender = Bukkit.getPlayer(request.getSenderUuid());
 
         if (sender != null && sender.isOnline()) {
-            messageUtil.sendMessage(sender, target.getName(), configManager.getTpDeny());
+            plugin.getMessageUtil().sendMessage(sender, target.getName(), plugin.getConfigManager().getTpDeny());
         }
 
-        target.sendMessage(configManager.getTpDenyYou());
+        target.sendMessage(plugin.getConfigManager().getTpDenyYou());
     }
 
     public boolean hasRequest(Player target) {

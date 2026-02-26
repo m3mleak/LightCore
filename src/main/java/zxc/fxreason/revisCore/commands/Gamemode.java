@@ -7,15 +7,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import zxc.fxreason.revisCore.RevisCore;
-import zxc.fxreason.revisCore.managers.ConfigManager;
 
 public class Gamemode implements CommandExecutor {
-    private final RevisCore plugin;
-    private ConfigManager configManager;
 
-    public Gamemode(RevisCore plugin, ConfigManager configManager) {
+    private final RevisCore plugin;
+
+    public Gamemode(RevisCore plugin) {
         this.plugin = plugin;
-        this.configManager = configManager;
     }
 
     @Override
@@ -28,40 +26,40 @@ public class Gamemode implements CommandExecutor {
         Player player = (Player) sender;
         if (player.hasPermission("reviscore.gamemode")) {
             if (args.length == 0) {
-                player.sendMessage(configManager.getGamemodeCorrectUse());
+                player.sendMessage(plugin.getConfigManager().getGamemodeCorrectUse());
                 return true;
             } else if (args.length == 1) {
                 int gamemode = Integer.parseInt(args[0]);
 
                 switch (gamemode) {
                     case 1 -> {
-                        player.sendMessage(configManager.getGamemodeInstalled() + "креатив");
+                        player.sendMessage(plugin.getConfigManager().getGamemodeInstalled() + "креатив");
                         player.setGameMode(GameMode.CREATIVE);
                     }
                     case 0 -> {
-                        player.sendMessage(configManager.getGamemodeInstalled() + "выживание");
+                        player.sendMessage(plugin.getConfigManager().getGamemodeInstalled() + "выживание");
                         player.setGameMode(GameMode.SURVIVAL);
                     }
                     case 2 -> {
-                        player.sendMessage(configManager.getGamemodeInstalled() + "приключение");
+                        player.sendMessage(plugin.getConfigManager().getGamemodeInstalled() + "приключение");
                         player.setGameMode(GameMode.ADVENTURE);
                     }
                     case 3 -> {
-                        player.sendMessage(configManager.getGamemodeInstalled() + "наблюдатель");
+                        player.sendMessage(plugin.getConfigManager().getGamemodeInstalled() + "наблюдатель");
                         player.setGameMode(GameMode.SPECTATOR);
                     }
                     default -> {
-                        player.sendMessage(configManager.getIncorrectGamemode());
+                        player.sendMessage(plugin.getConfigManager().getIncorrectGamemode());
                     }
             }
 
             return true;
             } else {
-                player.sendMessage(configManager.getGamemodeCorrectUse());
+                player.sendMessage(plugin.getConfigManager().getGamemodeCorrectUse());
                 return true;
             }
         } else {
-            player.sendMessage(configManager.getNoPerms());
+            player.sendMessage(plugin.getConfigManager().getNoPerms());
             return true;
         }
     }

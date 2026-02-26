@@ -7,19 +7,17 @@ import zxc.fxreason.revisCore.RevisCore;
 import zxc.fxreason.revisCore.managers.ConfigManager;
 
 public class CMoveInvEvent implements Listener {
+
     private final RevisCore plugin;
 
-    private ConfigManager configManager;
-
-    public CMoveInvEvent(RevisCore plugin, ConfigManager configManager) {
+    public CMoveInvEvent(RevisCore plugin) {
         this.plugin = plugin;
-        this.configManager = configManager;
     }
 
     @EventHandler
     public void onIventoryClick(InventoryClickEvent event) {
         String title = event.getView().getTitle();
-        if (title.startsWith(this.configManager.getInvseeNameInv())) {
+        if (title.startsWith(plugin.getConfigManager().getInvseeNameInv())) {
             event.setCancelled(true);
         }
     }

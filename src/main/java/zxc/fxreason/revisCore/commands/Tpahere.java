@@ -11,16 +11,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import zxc.fxreason.revisCore.managers.ConfigManager;
-import zxc.fxreason.revisCore.managers.TpReqManager;
+import zxc.fxreason.revisCore.RevisCore;
 
 public class Tpahere implements CommandExecutor {
-    private TpReqManager tpReqManager;
-    private ConfigManager configManager;
 
-    public Tpahere(TpReqManager tpReqManager, ConfigManager configManager) {
-        this.tpReqManager = tpReqManager;
-        this.configManager = configManager;
+    private final RevisCore plugin;
+
+    public Tpahere(RevisCore plugin) {
+        this.plugin = plugin;
     }
 
     @Override
@@ -38,18 +36,18 @@ public class Tpahere implements CommandExecutor {
             String type = "tpahere";
 
             if (targetName.equals(player.getName())) {
-                player.sendMessage(configManager.getNonTpToMe());
+                player.sendMessage(plugin.getConfigManager().getNonTpToMe());
                 return true;
             }
 
             if (target != null) {
-                tpReqManager.sendRequest(player, target, type);
+                plugin.getTpReqManager().sendRequest(player, target, type);
             } else {
-                player.sendMessage(configManager.getNicknameNotFound());
+                player.sendMessage(plugin.getConfigManager().getNicknameNotFound());
             }
             return true;
         } else {
-            player.sendMessage(configManager.getTpahereUsage());
+            player.sendMessage(plugin.getConfigManager().getTpahereUsage());
         }
 
         return true;

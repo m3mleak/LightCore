@@ -12,13 +12,15 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import zxc.fxreason.revisCore.RevisCore;
 import zxc.fxreason.revisCore.managers.TpReqManager;
 
 public class TpaDeny implements CommandExecutor {
-    private final TpReqManager tpReqManager;
 
-    public TpaDeny(TpReqManager tpReqManager) {
-        this.tpReqManager = tpReqManager;
+    private final RevisCore plugin;
+
+    public TpaDeny(RevisCore plugin) {
+        this.plugin = plugin;
     }
 
     @Override
@@ -29,7 +31,7 @@ public class TpaDeny implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        tpReqManager.denyRequest(player);
+        plugin.getTpReqManager().denyRequest(player);
         return true;
     }
 }

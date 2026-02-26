@@ -11,20 +11,17 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import zxc.fxreason.revisCore.economy.CustomEconomy;
-import zxc.fxreason.revisCore.managers.ConfigManager;
+import zxc.fxreason.revisCore.RevisCore;
 import zxc.fxreason.revisCore.utils.MessageUtil;
 
 import java.math.BigDecimal;
 
 public class Pay implements CommandExecutor {
 
-    private final CustomEconomy economy;
-    private final ConfigManager configManager;
+    private final RevisCore plugin;
 
-    public Pay(CustomEconomy economy, ConfigManager configManager) {
-        this.economy = economy;
-        this.configManager = configManager;
+    public Pay(RevisCore plugin) {
+        this.plugin = plugin;
     }
 
     @Override
@@ -37,7 +34,7 @@ public class Pay implements CommandExecutor {
         Player player = (Player) sender;
 
         if (args.length < 2) {
-            player.sendMessage(configManager.getPayUsage());
+            player.sendMessage(plugin.getConfigManager().getPayUsage());
             return true;
         }
 
@@ -45,12 +42,12 @@ public class Pay implements CommandExecutor {
         Player target = Bukkit.getPlayer(targetName);
 
         if (target == null) {
-            player.sendMessage(configManager.getNicknameNotFound());
+            player.sendMessage(plugin.getConfigManager().getNicknameNotFound());
             return true;
         }
 
         if (target.equals(player)) {
-            player.sendMessage(configManager.getNotPayYou());
+            player.sendMessage(plugin.getConfigManager().getNotPayYou());
             return true;
         }
 
@@ -59,29 +56,29 @@ public class Pay implements CommandExecutor {
             BigDecimal amount = new BigDecimal(amnt);
 
             if (amount.compareTo(BigDecimal.ZERO) <= 0) {
-                player.sendMessage(configManager.getPayNotPostive());
+                player.sendMessage(plugin.getConfigManager().getPayNotPostive());
                 return true;
             }
 
-            if (!economy.hasEnough(player.getUniqueId(), amount)) {
-                player.sendMessage(configManager.getPayNotMoney());
+            if (!plugin.getCustomEconomy().hasEnough(player.getUniqueId(), amount)) {
+                player.sendMessage(plugin.getConfigManager().getPayNotMoney());
                 return true;
             }
 
-            if (economy.transfer(player.getUniqueId(), target.getUniqueId(), amount)) {
-                String am = economy.format(amount);
+            if (plugin.getCustomEconomy().transfer(player.getUniqueId(), target.getUniqueId(), amount)) {
+                String am = plugin.getCustomEconomy().format(amount);
 
-                String message1 = configManager.getPayMeSend() + target.getName();
+                String message1 = plugin.getConfigManager().getPayMeSend() + target.getName();
                 MessageUtil.sendMessageMoney(player, am, message1);
 
-                String message2 = configManager.getPayToSend() + player.getName();
+                String message2 = plugin.getConfigManager().getPayToSend() + player.getName();
                 MessageUtil.sendMessageMoney(target, am, message2);
             } else {
-                player.sendMessage(configManager.getPayNotSend());
+                player.sendMessage(plugin.getConfigManager().getPayNotSend());
             }
 
         } catch (NumberFormatException e) {
-            player.sendMessage(configManager.getErrAmount());
+            player.sendMessage(plugin.getConfigManager().getErrAmount());
             e.printStackTrace();
         }
 
