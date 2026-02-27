@@ -184,3 +184,5 @@ permissions:
     default: false
   reviscore.custom:
     default: false
+  reviscore.hat:
+    default: op

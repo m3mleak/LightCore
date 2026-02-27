@@ -45,7 +45,7 @@ public class Salary implements CommandExecutor, Listener {
 
         long timeLeft = this.cdManager.getCooldown(player);
         if (timeLeft > 0L) {
-            player.sendMessage(ColorUtils.parse(plugin.getConfigManager().getCooldownCMD() + " " + timeLeft + " секунд."));
+            player.sendMessage(plugin.getConfigManager().getCooldownCMD() + " " + timeLeft + " сек.");
             return true;
         }
 
