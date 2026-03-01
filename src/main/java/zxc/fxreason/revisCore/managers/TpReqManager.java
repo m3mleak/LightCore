@@ -1,6 +1,10 @@
 package zxc.fxreason.revisCore.managers;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import zxc.fxreason.revisCore.RevisCore;
@@ -76,16 +80,72 @@ public class TpReqManager {
             return;
         }
 
+        Location senderStartLoc = sender.getLocation();
+        Location targetStartLoc = target.getLocation();
+
+        BossBar bossBar = Bukkit.createBossBar(
+                "§bТелепортация через §a7 §bсекунд...",
+                BarColor.BLUE,
+                BarStyle.SOLID
+        );
+
         if (request.getType().equals("tpa")) {
-            sender.teleport(target.getLocation());
-            plugin.getMessageUtil().sendMessage(sender, target.getName(), plugin.getConfigManager().getSucessTeleportation());
-            plugin.getMessageUtil().sendMessage(target, sender.getName(), plugin.getConfigManager().getSuccesTpForYou());
+            bossBar.addPlayer(sender);
+            sender.sendMessage(plugin.getConfigManager().getTpStartDntMove());
         } else {
-            target.teleport((sender.getLocation()));
-            sender.sendMessage(plugin.getConfigManager().getTpahereAccept());
-            plugin.getMessageUtil().sendMessage(target, sender.getName(), plugin.getConfigManager().getTpahereTp());
+            bossBar.addPlayer(target);
+            target.sendMessage(plugin.getConfigManager().getTpStartDntMove());
         }
 
+        new BukkitRunnable() {
+            int secondsLeft = 7;
+
+            @Override
+            public void run() {
+                if (!sender.isOnline() || !target.isOnline()) {
+                    bossBar.removeAll();
+                    cancel();
+                    return;
+                }
+
+                if (request.getType().equals("tpa")) {
+                    if (hasMoved(sender, senderStartLoc)) {
+                        bossBar.removeAll();
+                        sender.sendMessage(plugin.getConfigManager().getTpCancelMove());
+                        cancel();
+                        return;
+                    }
+                } else {
+                    if (hasMoved(target, targetStartLoc)) {
+                        bossBar.removeAll();
+                        sender.sendMessage(plugin.getConfigManager().getTpCancelMove());
+                        cancel();
+                        return;
+                    }
+                }
+
+                if (secondsLeft <= 0) {
+                    if (request.getType().equals("tpa")) {
+                        sender.teleport(target.getLocation());
+                        plugin.getMessageUtil().sendMessage(sender, target.getName(), plugin.getConfigManager().getSucessTeleportation());
+                        plugin.getMessageUtil().sendMessage(target, sender.getName(), plugin.getConfigManager().getSuccesTpForYou());
+                    } else {
+                        target.teleport(sender.getLocation());
+                        sender.sendMessage(plugin.getConfigManager().getTpahereAccept());
+                        plugin.getMessageUtil().sendMessage(target, sender.getName(), plugin.getConfigManager().getTpahereTp());
+                    }
+
+                    bossBar.removeAll();
+                    cancel();
+                    return;
+                }
+
+                bossBar.setTitle("§bТелепортация через §a" + secondsLeft + " §bсекунд...");
+                bossBar.setProgress(secondsLeft / 7.0);
+
+                secondsLeft--;
+            }
+        }.runTaskTimer(plugin, 0L, 20L);
     }
 
     public void denyRequest(Player target) {
@@ -103,6 +163,13 @@ public class TpReqManager {
         }
 
         target.sendMessage(plugin.getConfigManager().getTpDenyYou());
+    }
+
+    public static boolean hasMoved(Player player, Location startLoc) {
+        Location currentLoc = player.getLocation();
+        return currentLoc.getBlockX() != startLoc.getBlockX() ||
+                currentLoc.getBlockY() != startLoc.getBlockY() ||
+                currentLoc.getBlockZ() != startLoc.getBlockZ();
     }
 
     public boolean hasRequest(Player target) {

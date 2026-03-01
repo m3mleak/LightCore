@@ -19,12 +19,14 @@ public class Tpa implements CommandExecutor {
     }
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        int seconds;
         if (!(sender instanceof Player)) {
             sender.sendMessage("§cЭта команда только для игроков!");
             return true;
         }
+
+        int seconds;
         Player player = (Player)sender;
+
         if (player.hasPermission("reviscore.cooldown-tpa.15")) {
             seconds = 15;
         } else if (player.hasPermission("reviscore.cooldown-tpa.20")) {
@@ -36,6 +38,7 @@ public class Tpa implements CommandExecutor {
         } else {
             seconds = 60;
         }
+
         long timeLeft = this.cdManager.getCooldown(player);
         if (timeLeft > 0L && !player.hasPermission("reviscore.noncooldown-tpa")) {
             player.sendMessage(plugin.getConfigManager().getCooldownCMD() + timeLeft + " §fсекунд.");
@@ -58,12 +61,11 @@ public class Tpa implements CommandExecutor {
             } else {
                 player.sendMessage(plugin.getConfigManager().getNicknameNotFound());
             }
-
+            this.cdManager.setCooldown(player, seconds);
 
         } else {
             player.sendMessage(this.plugin.getConfigManager().getUsageTpa());
         }
-        this.cdManager.setCooldown(player, seconds);
         return true;
     }
 }

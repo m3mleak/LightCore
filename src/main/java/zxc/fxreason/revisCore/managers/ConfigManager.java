@@ -425,6 +425,18 @@ public class ConfigManager {
         return this.config.getString("messages.wb-usage");
     }
 
+    public String getTpCancelMove() {
+        return this.config.getString("messages.tp-canceled-move");
+    }
+
+    public String getTpStartDntMove() {
+        return this.config.getString("messages.tp-start-dntmove");
+    }
+
+    public String getTpStartSeven() {
+        return this.config.getString("messages.tp-start-seven");
+    }
+
     public String getInvseeNameInv() {
         return this.config.getString("inventory_names.invsee");
     }

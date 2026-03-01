@@ -22,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import zxc.fxreason.revisCore.RevisCore;
 import zxc.fxreason.revisCore.managers.CooldownManager;
 import zxc.fxreason.revisCore.utils.ColorUtils;
+import zxc.fxreason.revisCore.utils.MessageUtil;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class Salary implements CommandExecutor, Listener {
 
     private final CooldownManager cdManager = new CooldownManager();
     private final RevisCore plugin;
+    private long timeLeft;
 
     public Salary(RevisCore plugin) {
         this.plugin = plugin;
@@ -43,11 +45,7 @@ public class Salary implements CommandExecutor, Listener {
             return true;
         }
 
-        long timeLeft = this.cdManager.getCooldown(player);
-        if (timeLeft > 0L) {
-            player.sendMessage(plugin.getConfigManager().getCooldownCMD() + " " + timeLeft + " сек.");
-            return true;
-        }
+        timeLeft = this.cdManager.getCooldown(player);
 
         BigDecimal amount = calculateAmount(player);
 
@@ -87,12 +85,20 @@ public class Salary implements CommandExecutor, Listener {
             player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 10, 1);
             player.closeInventory();
         } else {
-            plugin.getCustomEconomy().deposit(player.getUniqueId(), amount);
 
-            this.cdManager.setCooldown(player, 86400);
-            player.sendMessage(plugin.getConfigManager().getSalarySuccess());
-            player.playSound(player.getLocation(), Sound.BLOCK_SCULK_CATALYST_FALL, 10, 1);
-            player.closeInventory();
+            if (timeLeft > 0L) {
+                player.sendMessage(plugin.getConfigManager().getCooldownCMD()  + timeLeft + " §fсек.");
+                e.setCancelled(true);
+                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 10, 1);
+                player.closeInventory();
+            } else {
+                plugin.getCustomEconomy().deposit(player.getUniqueId(), amount);
+
+                this.cdManager.setCooldown(player, 86400);
+                MessageUtil.sendMessageMoney(player, String.valueOf(amount), plugin.getConfigManager().getSalarySuccess());
+                player.playSound(player.getLocation(), Sound.BLOCK_SCULK_CATALYST_FALL, 10, 1);
+                player.closeInventory();
+            }
         }
     }
 
