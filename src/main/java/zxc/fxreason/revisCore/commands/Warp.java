@@ -45,7 +45,6 @@ public class Warp implements CommandExecutor, TabCompleter {
         warpsFile = new File(pluginFolder, "warps.json");
     }
 
-
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
         if (!(sender instanceof Player)) {
@@ -86,55 +85,48 @@ public class Warp implements CommandExecutor, TabCompleter {
         return true;
     }
 
-    private void TeleportToWarp (Player player, Map<String, Object> warp) {
-        try {
+    private void TeleportToWarp(Player player, Map<String, Object> warp) {
+        double x = ((Number) warp.get("x")).doubleValue();
+        double y = ((Number) warp.get("y")).doubleValue();
+        double z = ((Number) warp.get("z")).doubleValue();
+        String worldName = (String) warp.get("world");
+        World world = Bukkit.getWorld(worldName);
 
-            BossBar bossBar = Bukkit.createBossBar(
-                    "§bТелепортация через §a7 §bсекунд...",
-                    BarColor.BLUE,
-                    BarStyle.SOLID
-            );
-
-            bossBar.addPlayer(player);
-            player.sendMessage(plugin.getConfigManager().getTpStartSeven());
-
-            new BukkitRunnable() {
-                int secondsLeft = 7;
-
-                @Override
-                public void run() {
-                    if (!player.isOnline()) {
-                        bossBar.removeAll();
-                        cancel();
-                        return;
-                    }
-                    if (secondsLeft <= 0) {
-                        float x = ((Number) warp.get("x")).floatValue();
-                        float y = ((Number) warp.get("y")).floatValue();
-                        float z = ((Number) warp.get("z")).floatValue();
-
-                        String worldName = (String) warp.get("world");
-                        World world = Bukkit.getWorld(worldName);
-
-                        if (world != null) {
-                            player.teleport(new Location(world, x, y, z));
-                        } else {
-                            player.sendMessage(plugin.getConfigManager().getWorldNotFoundWarp());
-                        }
-
-                        bossBar.removeAll();
-                        cancel();
-                    }
-
-                    bossBar.setTitle("§bТелепортация через §a" + secondsLeft + " §bсекунд...");
-                    bossBar.setProgress(secondsLeft / 7.0);
-
-                    secondsLeft--;
-                }
-            }.runTaskTimer(plugin, 0L, 20L);
-        } catch (Exception e) {
-            player.sendMessage(plugin.getConfigManager().getErrorLoadsCoordsWarp());
+        if (world == null) {
+            player.sendMessage(plugin.getConfigManager().getWorldNotFoundWarp());
+            return;
         }
+
+        Location loc = new Location(world, x, y, z);
+
+        BossBar bossBar = Bukkit.createBossBar("§bТелепортация через §a7 §bсекунд...", BarColor.BLUE, BarStyle.SOLID);
+        bossBar.addPlayer(player);
+        player.sendMessage(plugin.getConfigManager().getTpStartSeven());
+
+        new BukkitRunnable() {
+            int secondsLeft = 7;
+
+            @Override
+            public void run() {
+                if (!player.isOnline()) {
+                    bossBar.removeAll();
+                    cancel();
+                    return;
+                }
+
+                if (secondsLeft <= 0) {
+                    player.teleport(loc);
+                    bossBar.removeAll();
+                    cancel();
+                    return;
+                }
+
+                bossBar.setTitle("§bТелепортация через §a" + secondsLeft + " §bсекунд...");
+                bossBar.setProgress(secondsLeft / 7.0);
+
+                secondsLeft--;
+            }
+        }.runTaskTimer(plugin, 0L, 20L);
     }
 
     private Map<String, Object> loadData() {

@@ -2,6 +2,7 @@ package zxc.fxreason.revisCore;
 
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import zxc.fxreason.revisCore.commands.*;
@@ -43,6 +44,7 @@ public final class RevisCore extends JavaPlugin {
         setupVault();
 
         registerCommands();
+        registerTabCompletes();
         registerEvents();
 
         getLogger().info("RevisCore успешно включен!");
@@ -97,9 +99,21 @@ public final class RevisCore extends JavaPlugin {
         registerCommand("salary", salaryInstance);
     }
 
+    private void registerTabCompletes() {
+        registerTabCompleter("warp", new Warp(this));
+    }
+
     private void registerCommand(String name, CommandExecutor executor) {
         if (getCommand(name) != null) {
             getCommand(name).setExecutor(executor);
+        } else {
+            getLogger().warning("Команда " + name + " не найдена в plugin.yml");
+        }
+    }
+
+    private void registerTabCompleter(String name, TabCompleter tabCompleter) {
+        if (getCommand(name) != null) {
+            getCommand(name).setTabCompleter(tabCompleter);
         } else {
             getLogger().warning("Команда " + name + " не найдена в plugin.yml");
         }
