@@ -6,14 +6,10 @@ import com.google.gson.GsonBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.boss.BarColor;
-import org.bukkit.boss.BarStyle;
-import org.bukkit.boss.BossBar;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import zxc.fxreason.revisCore.RevisCore;
 import zxc.fxreason.revisCore.managers.CooldownManager;
@@ -135,52 +131,22 @@ public class Home implements CommandExecutor {
 
     private void teleportToHome(Player player, Map<String, Object> home) {
         try {
+            float x = ((Number) home.get("x")).floatValue();
+            float y = ((Number) home.get("y")).floatValue();
+            float z = ((Number) home.get("z")).floatValue();
 
-            BossBar bossBar = Bukkit.createBossBar(
-                    "§bТелепортация через §a7 §bсекунд...",
-                    BarColor.BLUE,
-                    BarStyle.SOLID
-            );
+            String worldName = (String) home.get("world");
+            World world = Bukkit.getWorld(worldName);
 
-            bossBar.addPlayer(player);
-            player.sendMessage(plugin.getConfigManager().getTpStartSeven());
+            String message = plugin.getConfigManager().getTeleportedPlayerToHome();
+            Location loc = new Location(world, x, y, z);
 
-            new BukkitRunnable() {
-                int secondsLeft = 7;
+            if (world == null) {
+                player.sendMessage(plugin.getConfigManager().getWorldHomeNotFound());
+                return;
+            }
 
-                @Override
-                public void run() {
-                    if (!player.isOnline()) {
-                        bossBar.removeAll();
-                        cancel();
-                        return;
-                    }
-
-                    if (secondsLeft <= 0) {
-                        float x = ((Number) home.get("x")).floatValue();
-                        float y = ((Number) home.get("y")).floatValue();
-                        float z = ((Number) home.get("z")).floatValue();
-
-                        String worldName = (String) home.get("world");
-                        World world = Bukkit.getWorld(worldName);
-
-                        if (world != null) {
-                            player.teleport(new Location(world, x, y, z));
-                            player.sendMessage(plugin.getConfigManager().getTeleportedPlayerToHome() + "§f.");
-                        } else {
-                            player.sendMessage(plugin.getConfigManager().getWorldHomeNotFound());
-                        }
-
-                        bossBar.removeAll();
-                        cancel();
-                    }
-
-                    bossBar.setTitle("§bТелепортация через §a" + secondsLeft + " §bсекунд...");
-                    bossBar.setProgress(secondsLeft / 7.0);
-
-                    secondsLeft--;
-                }
-            }.runTaskTimer(plugin, 0L, 20L);
+            plugin.getTeleportManager().startTeleport(player, message, loc, 7);
 
         } catch (Exception e) {
             player.sendMessage(plugin.getConfigManager().getErrorLoadsCoordHome());

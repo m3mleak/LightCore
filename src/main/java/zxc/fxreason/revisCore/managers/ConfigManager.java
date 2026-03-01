@@ -437,6 +437,14 @@ public class ConfigManager {
         return this.config.getString("messages.tp-start-seven");
     }
 
+    public String getTpCancelledDmg() {
+        return this.config.getString("messages.tp-canceled-dmg");
+    }
+
+    public String getSpawnNotPoint() {
+        return this.config.getString("messages.spawn-not-point");
+    }
+
     public String getInvseeNameInv() {
         return this.config.getString("inventory_names.invsee");
     }

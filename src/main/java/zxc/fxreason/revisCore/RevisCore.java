@@ -17,6 +17,7 @@ import zxc.fxreason.revisCore.economy.listeners.EcoListener;
 import zxc.fxreason.revisCore.events.CMoveInvEvent;
 import zxc.fxreason.revisCore.events.RespawnEvent;
 import zxc.fxreason.revisCore.managers.ConfigManager;
+import zxc.fxreason.revisCore.managers.TeleportManager;
 import zxc.fxreason.revisCore.managers.TpReqManager;
 import zxc.fxreason.revisCore.utils.MessageUtil;
 
@@ -26,6 +27,7 @@ public final class RevisCore extends JavaPlugin {
     private CustomEconomy customEconomy;
     private MessageUtil messageUtil;
     private TpReqManager tpReqManager;
+    private TeleportManager teleportManager;
     private CustomEcoLogic customEcoLogic;
     private Salary salaryInstance;
 
@@ -33,6 +35,7 @@ public final class RevisCore extends JavaPlugin {
     public CustomEconomy getCustomEconomy() { return customEconomy; }
     public MessageUtil getMessageUtil() { return messageUtil; }
     public TpReqManager getTpReqManager() { return tpReqManager; }
+    public TeleportManager getTeleportManager() {return teleportManager; }
 
     @Override
     public void onEnable() {
@@ -57,6 +60,7 @@ public final class RevisCore extends JavaPlugin {
         this.customEconomy = new CustomEconomy(customEcoLogic);
         this.tpReqManager = new TpReqManager(this);
         this.salaryInstance = new Salary(this);
+        this.teleportManager = new TeleportManager(this);
     }
 
     private void registerCommands() {

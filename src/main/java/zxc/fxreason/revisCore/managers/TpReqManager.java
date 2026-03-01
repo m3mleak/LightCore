@@ -6,6 +6,9 @@ import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import zxc.fxreason.revisCore.RevisCore;
 
@@ -13,15 +16,25 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class TpReqManager {
+public class TpReqManager implements Listener {
 
     private final Map<UUID, TpaRequest> activeRequests = new HashMap<>();
+    private final Map<UUID, Long> lastDamageTime = new HashMap<>(); // Храним время последнего урона
     private final RevisCore plugin;
 
     private static final int REQUEST_TIMEOUT = 30;
+    private static final int TELEPORT_DELAY = 7;
 
     public TpReqManager(RevisCore plugin) {
         this.plugin = plugin;
+        Bukkit.getPluginManager().registerEvents(this, plugin);
+    }
+
+    @EventHandler
+    public void onEntityDamage(EntityDamageEvent event) {
+        if (event.getEntity() instanceof Player) {
+            lastDamageTime.put(event.getEntity().getUniqueId(), System.currentTimeMillis());
+        }
     }
 
     public void sendRequest(Player sender, Player target, String type) {
@@ -33,10 +46,8 @@ public class TpReqManager {
         String nameTarget = target.getName();
         String namePlayer = sender.getName();
 
-        // запрос отправлен
         plugin.getMessageUtil().sendMessage(sender, nameTarget, plugin.getConfigManager().getTpaResponse());
 
-        // игрок хочет телепортироваться к вам
         if (type.equals("tpa")) {
             plugin.getMessageUtil().sendMessage(target, namePlayer, plugin.getConfigManager().getTpaResponseToTaget());
             target.sendMessage(plugin.getConfigManager().getAcceptDenyTpa());
@@ -80,25 +91,21 @@ public class TpReqManager {
             return;
         }
 
-        Location senderStartLoc = sender.getLocation();
-        Location targetStartLoc = target.getLocation();
+        Player teleporter = request.getType().equals("tpa") ? sender : target;
+        Location startLoc = teleporter.getLocation();
+        long acceptTime = System.currentTimeMillis();
 
         BossBar bossBar = Bukkit.createBossBar(
-                "§bТелепортация через §a7 §bсекунд...",
+                "§bТелепортация через §a" + TELEPORT_DELAY + " §bсекунд...",
                 BarColor.BLUE,
                 BarStyle.SOLID
         );
 
-        if (request.getType().equals("tpa")) {
-            bossBar.addPlayer(sender);
-            sender.sendMessage(plugin.getConfigManager().getTpStartDntMove());
-        } else {
-            bossBar.addPlayer(target);
-            target.sendMessage(plugin.getConfigManager().getTpStartDntMove());
-        }
+        bossBar.addPlayer(teleporter);
+        teleporter.sendMessage(plugin.getConfigManager().getTpStartDntMove());
 
         new BukkitRunnable() {
-            int secondsLeft = 7;
+            int secondsLeft = TELEPORT_DELAY;
 
             @Override
             public void run() {
@@ -108,20 +115,19 @@ public class TpReqManager {
                     return;
                 }
 
-                if (request.getType().equals("tpa")) {
-                    if (hasMoved(sender, senderStartLoc)) {
-                        bossBar.removeAll();
-                        sender.sendMessage(plugin.getConfigManager().getTpCancelMove());
-                        cancel();
-                        return;
-                    }
-                } else {
-                    if (hasMoved(target, targetStartLoc)) {
-                        bossBar.removeAll();
-                        sender.sendMessage(plugin.getConfigManager().getTpCancelMove());
-                        cancel();
-                        return;
-                    }
+                if (hasMoved(teleporter, startLoc)) {
+                    bossBar.removeAll();
+                    teleporter.sendMessage(plugin.getConfigManager().getTpCancelMove());
+                    cancel();
+                    return;
+                }
+
+                Long lastDamage = lastDamageTime.get(teleporter.getUniqueId());
+                if (lastDamage != null && lastDamage > acceptTime) {
+                    bossBar.removeAll();
+                    teleporter.sendMessage(plugin.getConfigManager().getTpCancelledDmg());
+                    cancel();
+                    return;
                 }
 
                 if (secondsLeft <= 0) {
@@ -141,7 +147,7 @@ public class TpReqManager {
                 }
 
                 bossBar.setTitle("§bТелепортация через §a" + secondsLeft + " §bсекунд...");
-                bossBar.setProgress(secondsLeft / 7.0);
+                bossBar.setProgress((double) secondsLeft / TELEPORT_DELAY);
 
                 secondsLeft--;
             }
@@ -189,21 +195,8 @@ public class TpReqManager {
             this.timestamp = System.currentTimeMillis();
         }
 
-        public UUID getSenderUuid() {
-            return senderUuid;
-        }
-
-        public UUID getTargetUuid() {
-            return targetUuid;
-        }
-
-        public long getTimestamp() {
-            return timestamp;
-        }
-
-        public String getType() {
-            return type;
-        }
+        public UUID getSenderUuid() { return senderUuid; }
+        public String getType() { return type; }
 
         @Override
         public boolean equals(Object obj) {

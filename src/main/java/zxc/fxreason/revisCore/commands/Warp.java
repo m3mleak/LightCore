@@ -75,7 +75,6 @@ public class Warp implements CommandExecutor, TabCompleter {
             }
 
             if (teleportation) {
-                player.sendMessage(plugin.getConfigManager().getSuccessTeleportToWarp() + targetWarp.get("warpname"));
                 TeleportToWarp(player, targetWarp);
                 this.cdManager.setCooldown(player, cooldown);
             }
@@ -99,34 +98,9 @@ public class Warp implements CommandExecutor, TabCompleter {
 
         Location loc = new Location(world, x, y, z);
 
-        BossBar bossBar = Bukkit.createBossBar("§bТелепортация через §a7 §bсекунд...", BarColor.BLUE, BarStyle.SOLID);
-        bossBar.addPlayer(player);
-        player.sendMessage(plugin.getConfigManager().getTpStartSeven());
+        String message = plugin.getConfigManager().getSuccessTeleportToWarp() + warp.get("warpname");
 
-        new BukkitRunnable() {
-            int secondsLeft = 7;
-
-            @Override
-            public void run() {
-                if (!player.isOnline()) {
-                    bossBar.removeAll();
-                    cancel();
-                    return;
-                }
-
-                if (secondsLeft <= 0) {
-                    player.teleport(loc);
-                    bossBar.removeAll();
-                    cancel();
-                    return;
-                }
-
-                bossBar.setTitle("§bТелепортация через §a" + secondsLeft + " §bсекунд...");
-                bossBar.setProgress(secondsLeft / 7.0);
-
-                secondsLeft--;
-            }
-        }.runTaskTimer(plugin, 0L, 20L);
+        plugin.getTeleportManager().startTeleport(player, message, loc, 7);
     }
 
     private Map<String, Object> loadData() {
