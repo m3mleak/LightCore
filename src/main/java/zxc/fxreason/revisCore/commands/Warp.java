@@ -53,7 +53,7 @@ public class Warp implements CommandExecutor, TabCompleter {
         }
 
         Player player = (Player) sender;
-        int cooldown = 10;
+        int cooldown = 15;
         long timeLeft = this.cdManager.getCooldown(player);
         if (timeLeft > 0L) {
             player.sendMessage(plugin.getConfigManager().getCooldownCMD() + timeLeft + " §fсекунд.");
@@ -77,6 +77,7 @@ public class Warp implements CommandExecutor, TabCompleter {
             if (teleportation) {
                 TeleportToWarp(player, targetWarp);
                 this.cdManager.setCooldown(player, cooldown);
+                player.sendMessage(plugin.getConfigManager().getTpStartSeven());
             }
         } else {
             player.sendMessage(plugin.getConfigManager().getWarpUsage());

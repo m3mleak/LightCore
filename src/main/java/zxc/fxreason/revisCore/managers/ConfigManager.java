@@ -425,8 +425,8 @@ public class ConfigManager {
         return this.config.getString("messages.wb-usage");
     }
 
-    public String getTpCancelMove() {
-        return this.config.getString("messages.tp-canceled-move");
+    public String getPlayerTpToggle() {
+        return this.config.getString("messages.player-tptoggle");
     }
 
     public String getTpStartDntMove() {

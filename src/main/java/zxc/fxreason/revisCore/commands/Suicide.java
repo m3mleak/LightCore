@@ -11,10 +11,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import zxc.fxreason.revisCore.RevisCore;
+import zxc.fxreason.revisCore.managers.CooldownManager;
 
 public class Suicide implements CommandExecutor {
 
     private final RevisCore plugin;
+    private final CooldownManager cdManager = new CooldownManager();
 
     public Suicide(RevisCore plugin) {
         this.plugin = plugin;
@@ -28,9 +30,16 @@ public class Suicide implements CommandExecutor {
         }
 
         Player player = (Player) sender;
+        int cooldown = getCooldowns(player);
+        long timeLeft = this.cdManager.getCooldown(player);
+        if (timeLeft > 0L) {
+            player.sendMessage(plugin.getConfigManager().getCooldownCMD() + timeLeft + " §fсекунд.");
+            return true;
+        }
 
         if (!player.hasPermission("reviscore.suicide")) {
             player.sendMessage(plugin.getConfigManager().getNoPerms());
+            this.cdManager.setCooldown(player, cooldown);
             return true;
         }
 
@@ -42,5 +51,13 @@ public class Suicide implements CommandExecutor {
         }
 
         return false;
+    }
+
+    private int getCooldowns(Player player) {
+        if (player.hasPermission("reviscore.phantom")) {
+            return 120;
+        } else {
+            return 150;
+        }
     }
 }

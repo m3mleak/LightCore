@@ -50,9 +50,8 @@ public class Home implements CommandExecutor {
 
 
         Player player = (Player) sender;
-        String playerName = player.getName();
 
-        int secondsCooldown = 10;
+        int secondsCooldown = 15;
         long timeLeft = this.cdManager.getCooldown(player);
         if (timeLeft > 0L) {
             player.sendMessage(plugin.getConfigManager().getCooldownCMD() + timeLeft + " §fсекунд.");
@@ -90,6 +89,7 @@ public class Home implements CommandExecutor {
             if (args.length == 0 || (args.length == 1 && args[0].equals(playerHome.get("namehome")))) {
                 teleportToHome(player, playerHome);
                 this.cdManager.setCooldown(player, secondsCooldown);
+                player.sendMessage(plugin.getConfigManager().getTpStartSeven());
                 return true;
             } else if (args.length == 1) {
                 String homeName = playerHome.get("namehome").toString();
@@ -116,6 +116,7 @@ public class Home implements CommandExecutor {
                 if (targetHome != null) {
                     teleportToHome(player, targetHome);
                     this.cdManager.setCooldown(player, secondsCooldown);
+                    player.sendMessage(plugin.getConfigManager().getTpStartSeven());
                     return true;
                 } else {
                     player.sendMessage(plugin.getConfigManager().getNotFoundPointHome() + targetHomeName + " §fне найдена!");

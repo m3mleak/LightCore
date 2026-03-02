@@ -79,6 +79,8 @@ commands:
     description: Зарплата
   hat:
     description: Надеть предмет на голову
+  tptoggle:
+    description: Отмена запросов телепортации
 
 permissions:
   sethome.set:
@@ -185,4 +187,8 @@ permissions:
   reviscore.custom:
     default: false
   reviscore.hat:
+    description: Надеть блок на голову
+    default: op
+  reviscore.tptoggle:
+    description: Отключить запросы на телепортацию
     default: op

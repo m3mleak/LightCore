@@ -20,7 +20,6 @@ public class Spawn implements CommandExecutor {
         this.plugin = plugin;
     }
 
-
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
         if (!(sender instanceof Player)) {
@@ -30,7 +29,7 @@ public class Spawn implements CommandExecutor {
 
         Player player = (Player) sender;
         long timeLeft = this.cdManager.getCooldown(player);
-        int cooldown = 10;
+        int cooldown = 15;
 
         if (timeLeft > 0L) {
             player.sendMessage(plugin.getConfigManager().getCooldownCMD() + timeLeft + " §fсекунд.");
@@ -40,6 +39,7 @@ public class Spawn implements CommandExecutor {
         if (args.length == 0) {
             teleportToSpawn(player);
             this.cdManager.setCooldown(player, cooldown);
+            player.sendMessage(plugin.getConfigManager().getTpStartSeven());
         } else {
             sender.sendMessage(plugin.getConfigManager().getSpawnCorrect());
         }

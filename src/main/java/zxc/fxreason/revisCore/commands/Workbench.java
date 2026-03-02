@@ -29,6 +29,7 @@ public class Workbench implements CommandExecutor {
 
         if (!player.hasPermission("reviscore.workbench")) {
             player.sendMessage(plugin.getConfigManager().getNoPerms());
+            return true;
         }
 
         if (args.length == 0) {

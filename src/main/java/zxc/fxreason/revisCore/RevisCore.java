@@ -17,6 +17,7 @@ import zxc.fxreason.revisCore.economy.listeners.EcoListener;
 import zxc.fxreason.revisCore.events.CMoveInvEvent;
 import zxc.fxreason.revisCore.events.RespawnEvent;
 import zxc.fxreason.revisCore.managers.ConfigManager;
+import zxc.fxreason.revisCore.managers.DataManager;
 import zxc.fxreason.revisCore.managers.TeleportManager;
 import zxc.fxreason.revisCore.managers.TpReqManager;
 import zxc.fxreason.revisCore.utils.MessageUtil;
@@ -28,6 +29,7 @@ public final class RevisCore extends JavaPlugin {
     private MessageUtil messageUtil;
     private TpReqManager tpReqManager;
     private TeleportManager teleportManager;
+    private DataManager TogglesDataManager;
     private CustomEcoLogic customEcoLogic;
     private Salary salaryInstance;
 
@@ -35,7 +37,8 @@ public final class RevisCore extends JavaPlugin {
     public CustomEconomy getCustomEconomy() { return customEconomy; }
     public MessageUtil getMessageUtil() { return messageUtil; }
     public TpReqManager getTpReqManager() { return tpReqManager; }
-    public TeleportManager getTeleportManager() {return teleportManager; }
+    public TeleportManager getTeleportManager() { return teleportManager; }
+    public DataManager getTogglesDataManager() { return TogglesDataManager; }
 
     @Override
     public void onEnable() {
@@ -61,6 +64,7 @@ public final class RevisCore extends JavaPlugin {
         this.tpReqManager = new TpReqManager(this);
         this.salaryInstance = new Salary(this);
         this.teleportManager = new TeleportManager(this);
+        this.TogglesDataManager = new DataManager("toggles", this);
     }
 
     private void registerCommands() {
@@ -89,6 +93,7 @@ public final class RevisCore extends JavaPlugin {
         registerCommand("tphere", new Tphere(this));
         registerCommand("tpahere", new Tpahere(this));
         registerCommand("tppos", new TpPos(this));
+        registerCommand("tptoggle", new TpToggle(this));
         registerCommand("near", new Near(this));
 
         registerCommand("day", new Day(this));

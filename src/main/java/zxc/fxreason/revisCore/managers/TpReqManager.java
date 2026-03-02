@@ -19,7 +19,8 @@ import java.util.UUID;
 public class TpReqManager implements Listener {
 
     private final Map<UUID, TpaRequest> activeRequests = new HashMap<>();
-    private final Map<UUID, Long> lastDamageTime = new HashMap<>(); // Храним время последнего урона
+    private final Map<UUID, Long> lastDamageTime = new HashMap<>();
+    private final Map<UUID, Boolean> TpToggles = new HashMap<>();
     private final RevisCore plugin;
 
     private static final int REQUEST_TIMEOUT = 30;
@@ -38,6 +39,18 @@ public class TpReqManager implements Listener {
     }
 
     public void sendRequest(Player sender, Player target, String type) {
+
+        if (plugin.getTogglesDataManager().getConfig().getConfigurationSection("players") != null) {
+            for (String key : plugin.getTogglesDataManager().getConfig().getConfigurationSection("players").getKeys(false)) {
+                TpToggles.put(UUID.fromString(key), plugin.getTogglesDataManager().getConfig().getBoolean("players." + key));
+            }
+        }
+
+        if (TpToggles.getOrDefault(target.getUniqueId(), false)) {
+            sender.sendMessage(plugin.getConfigManager().getPlayerTpToggle());
+            return;
+        }
+
         activeRequests.remove(target.getUniqueId());
 
         TpaRequest request = new TpaRequest(sender.getUniqueId(), target.getUniqueId(), type);
@@ -92,7 +105,7 @@ public class TpReqManager implements Listener {
         }
 
         Player teleporter = request.getType().equals("tpa") ? sender : target;
-        Location startLoc = teleporter.getLocation();
+
         long acceptTime = System.currentTimeMillis();
 
         BossBar bossBar = Bukkit.createBossBar(
@@ -101,8 +114,9 @@ public class TpReqManager implements Listener {
                 BarStyle.SOLID
         );
 
+        teleporter.sendMessage(plugin.getConfigManager().getTpStartSeven());
+
         bossBar.addPlayer(teleporter);
-        teleporter.sendMessage(plugin.getConfigManager().getTpStartDntMove());
 
         new BukkitRunnable() {
             int secondsLeft = TELEPORT_DELAY;
@@ -111,13 +125,6 @@ public class TpReqManager implements Listener {
             public void run() {
                 if (!sender.isOnline() || !target.isOnline()) {
                     bossBar.removeAll();
-                    cancel();
-                    return;
-                }
-
-                if (hasMoved(teleporter, startLoc)) {
-                    bossBar.removeAll();
-                    teleporter.sendMessage(plugin.getConfigManager().getTpCancelMove());
                     cancel();
                     return;
                 }
@@ -169,13 +176,6 @@ public class TpReqManager implements Listener {
         }
 
         target.sendMessage(plugin.getConfigManager().getTpDenyYou());
-    }
-
-    public static boolean hasMoved(Player player, Location startLoc) {
-        Location currentLoc = player.getLocation();
-        return currentLoc.getBlockX() != startLoc.getBlockX() ||
-                currentLoc.getBlockY() != startLoc.getBlockY() ||
-                currentLoc.getBlockZ() != startLoc.getBlockZ();
     }
 
     public boolean hasRequest(Player target) {

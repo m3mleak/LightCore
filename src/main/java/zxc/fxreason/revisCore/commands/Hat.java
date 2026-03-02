@@ -42,15 +42,15 @@ public class Hat implements CommandExecutor {
             return true;
         }
 
-        if (playerInv.getHelmet() != null) {
-            player.sendMessage(plugin.getConfigManager().getHatHelmErr());
-            return true;
-        }
-
         ItemStack item = playerInv.getItemInMainHand();
 
         if (item.getType() == Material.AIR) {
             player.sendMessage(plugin.getConfigManager().getHatNotItemMH());
+            return true;
+        }
+
+        if (playerInv.getHelmet() != null) {
+            player.sendMessage(plugin.getConfigManager().getHatHelmErr());
             return true;
         }
 
