@@ -85,6 +85,7 @@ public final class RevisCore extends JavaPlugin {
         registerCommand("suicide", new Suicide(this));
         registerCommand("workbench", new Workbench(this));
         registerCommand("hat", new Hat(this));
+        registerCommand("clear", new Clear(this));
 
         registerCommand("tpa", new Tpa(this));
         registerCommand("tpaccept", new TpaAccept(this));
@@ -94,6 +95,7 @@ public final class RevisCore extends JavaPlugin {
         registerCommand("tpahere", new Tpahere(this));
         registerCommand("tppos", new TpPos(this));
         registerCommand("tptoggle", new TpToggle(this));
+        registerCommand("rtp", new RTP(this));
         registerCommand("near", new Near(this));
 
         registerCommand("day", new Day(this));

@@ -41,12 +41,18 @@ public class TpToggle implements CommandExecutor {
         }
 
         if (args.length > 0) {
-            player.sendMessage("Использование: /tptoggle");
+            player.sendMessage(plugin.getConfigManager().getTpToggleUsage());
             return true;
         }
 
         boolean current = TpToggles.getOrDefault(player.getUniqueId(), false);
         TpToggles.put(player.getUniqueId(), !current);
+
+        if (!current) {
+            player.sendMessage(plugin.getConfigManager().getTpToggleOn());
+        } else {
+            player.sendMessage(plugin.getConfigManager().getTpToggleOff());
+        }
 
         for (Map.Entry<UUID, Boolean> entry : TpToggles.entrySet()) {
             plugin.getTogglesDataManager().getConfig().set("players." + entry.getKey().toString(), entry.getValue());

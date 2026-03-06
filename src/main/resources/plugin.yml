@@ -81,6 +81,10 @@ commands:
     description: Надеть предмет на голову
   tptoggle:
     description: Отмена запросов телепортации
+  rtp:
+    description: рандомная телепортация
+  clear:
+    description: Очистка инвентаря
 
 permissions:
   sethome.set:
@@ -191,4 +195,7 @@ permissions:
     default: op
   reviscore.tptoggle:
     description: Отключить запросы на телепортацию
+    default: op
+  reviscore.rtp-long:
+    description: Телепортация на дальние координаты
     default: op

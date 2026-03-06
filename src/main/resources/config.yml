@@ -106,6 +106,14 @@ messages:
   tp-canceled-dmg: "§b✽ §7➛ §fТелепортация отменена из-за полученного урона."
   spawn-not-point: "§b✽ §7➛ §fТочка спавна не установлена."
   player-tptoggle: "§b✽ §7➛ §fИгрок отключил запросы на телепортации!"
+  tptoggle-usage: "§b✽ §7➛ §fИспользование: /tptoggle"
+  tptoggle-on: "§b✽ §7➛ §fЗапросы на телепортацию §aвключены§f!"
+  tptoggle-off: "§b✽ §7➛ §fЗапросы на телепортацию §cотключены§f!"
+  rtp-notserch: "§b✽ §7➛ §fНе удалось найти безопасное место. Попробуйте еще раз."
+  rtp-success: "§b✽ §7➛ §fВы были успешно телепортированы на рандомные координаты!"
+  rtp-usage: "§b✽ §7➛ §fИспользование: /rtp [default/long]"
+  clear-success: "§b✽ §7➛ §fИвентарь успешно очищен!"
+  clear-usage: "§b✽ §7➛ §fИспользование: /clear"
 
 inventory_names:
   invsee: '§0⚡ Инвентарь: §a'
@@ -116,6 +124,8 @@ settings:
   teleport-on-first-join: true
   # Начальный баланс игроков
   default-balance: 100.0
+  # Мир для rtp
+  world: world
 
 # Координаты спавна
 spawn:

@@ -45,6 +45,7 @@ public class SetHome implements CommandExecutor, TabCompleter {
         }
 
         Player player = (Player) sender;
+        int homesCount = getHomesCount(player);
 
         if (args.length == 0) {
             player.sendMessage(plugin.getConfigManager().getEnterHomePoint());
@@ -71,7 +72,7 @@ public class SetHome implements CommandExecutor, TabCompleter {
 
             if (!player.hasPermission("sethome.unlimited")) {
                 int currentHomes = getPlayerHomesCount(nickname);
-                if (currentHomes >= 2) {
+                if (currentHomes >= homesCount) {
                     player.sendMessage(plugin.getConfigManager().getMaxPointsHome());
                     return true;
                 }
@@ -89,6 +90,14 @@ public class SetHome implements CommandExecutor, TabCompleter {
         }
 
         return true;
+    }
+
+    private int getHomesCount(Player player) {
+        if (player.hasPermission("reviscore.void")) return 3;
+        if (player.hasPermission("reviscore.elder")) return 4;
+        if (player.hasPermission("reviscore.warden")) return 5;
+        if (player.hasPermission("reviscore.ancient")) return 6;
+        return 2;
     }
 
     private int getPlayerHomesCount(String username) {

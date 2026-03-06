@@ -429,6 +429,18 @@ public class ConfigManager {
         return this.config.getString("messages.player-tptoggle");
     }
 
+    public String getTpToggleUsage() {
+        return this.config.getString("messages.tptoggle-usage");
+    }
+
+    public String getTpToggleOn() {
+        return this.config.getString("messages.tptoggle-on");
+    }
+
+    public String getTpToggleOff() {
+        return this.config.getString("messages.tptoggle-off");
+    }
+
     public String getTpStartDntMove() {
         return this.config.getString("messages.tp-start-dntmove");
     }
@@ -453,8 +465,32 @@ public class ConfigManager {
         return this.config.getString("inventory_names.salary");
     }
 
+    public String getRtpNotSearchSafe() {
+        return this.config.getString("messages.rtp-notserch");
+    }
+
+    public String getRtpSuccess() {
+        return this.config.getString("messages.rtp-success");
+    }
+
+    public String getRtpUsage() {
+        return this.config.getString("messages.rtp-usage");
+    }
+
+    public String getClearSuccess() {
+        return this.config.getString("messages.clear-success");
+    }
+
+    public String getClearUsage() {
+        return this.config.getString("messages.clear-usage");
+    }
+
     public BigDecimal getDefaultBalance() {
         return BigDecimal.valueOf(this.config.getDouble("settings.default-balance", 100.0));
+    }
+
+    public String getWorldRTP() {
+        return this.config.getString("settings.world");
     }
 
     public Double getx() {
