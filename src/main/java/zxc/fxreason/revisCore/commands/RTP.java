@@ -66,7 +66,8 @@ public class RTP implements CommandExecutor {
                 return;
             }
 
-            plugin.getTeleportManager().startTeleport(player, plugin.getConfigManager().getRtpSuccess(), loc, 7);
+            player.teleport(loc);
+            player.sendMessage(plugin.getConfigManager().getRtpSuccess());
             cdManager.setCooldown(player, 30);
         });
     }

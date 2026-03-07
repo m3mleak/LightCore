@@ -33,12 +33,15 @@ public final class RevisCore extends JavaPlugin {
     private CustomEcoLogic customEcoLogic;
     private Salary salaryInstance;
 
+    private Msg msg;
+
     public ConfigManager getConfigManager() { return configManager; }
     public CustomEconomy getCustomEconomy() { return customEconomy; }
     public MessageUtil getMessageUtil() { return messageUtil; }
     public TpReqManager getTpReqManager() { return tpReqManager; }
     public TeleportManager getTeleportManager() { return teleportManager; }
     public DataManager getTogglesDataManager() { return TogglesDataManager; }
+    public Msg getMsg() { return msg; }
 
     @Override
     public void onEnable() {
@@ -65,6 +68,7 @@ public final class RevisCore extends JavaPlugin {
         this.salaryInstance = new Salary(this);
         this.teleportManager = new TeleportManager(this);
         this.TogglesDataManager = new DataManager("toggles", this);
+        this.msg = new Msg(this);
     }
 
     private void registerCommands() {
@@ -86,6 +90,8 @@ public final class RevisCore extends JavaPlugin {
         registerCommand("workbench", new Workbench(this));
         registerCommand("hat", new Hat(this));
         registerCommand("clear", new Clear(this));
+        registerCommand("msg", msg);
+        registerCommand("reply", new Reply(this));
 
         registerCommand("tpa", new Tpa(this));
         registerCommand("tpaccept", new TpaAccept(this));

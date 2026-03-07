@@ -85,6 +85,15 @@ commands:
     description: рандомная телепортация
   clear:
     description: Очистка инвентаря
+  msg:
+    description: Личные сообщения
+    aliases:
+      - tell
+      - m
+  reply:
+    description: Ответить на личное сообщение
+    aliases:
+      - r
 
 permissions:
   sethome.set:
