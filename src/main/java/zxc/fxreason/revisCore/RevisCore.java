@@ -16,10 +16,7 @@ import zxc.fxreason.revisCore.economy.commands.Pay;
 import zxc.fxreason.revisCore.economy.listeners.EcoListener;
 import zxc.fxreason.revisCore.events.CMoveInvEvent;
 import zxc.fxreason.revisCore.events.RespawnEvent;
-import zxc.fxreason.revisCore.managers.ConfigManager;
-import zxc.fxreason.revisCore.managers.DataManager;
-import zxc.fxreason.revisCore.managers.TeleportManager;
-import zxc.fxreason.revisCore.managers.TpReqManager;
+import zxc.fxreason.revisCore.managers.*;
 import zxc.fxreason.revisCore.utils.MessageUtil;
 
 public final class RevisCore extends JavaPlugin {
@@ -28,6 +25,7 @@ public final class RevisCore extends JavaPlugin {
     private CustomEconomy customEconomy;
     private MessageUtil messageUtil;
     private TpReqManager tpReqManager;
+    private DirectMessageManager directMessageManager;
     private TeleportManager teleportManager;
     private DataManager TogglesDataManager;
     private CustomEcoLogic customEcoLogic;
@@ -41,6 +39,7 @@ public final class RevisCore extends JavaPlugin {
     public TpReqManager getTpReqManager() { return tpReqManager; }
     public TeleportManager getTeleportManager() { return teleportManager; }
     public DataManager getTogglesDataManager() { return TogglesDataManager; }
+    public DirectMessageManager getDirectMessageManager() { return directMessageManager; }
     public Msg getMsg() { return msg; }
 
     @Override
@@ -92,6 +91,7 @@ public final class RevisCore extends JavaPlugin {
         registerCommand("clear", new Clear(this));
         registerCommand("msg", msg);
         registerCommand("reply", new Reply(this));
+        registerCommand("msgtoggle", new MsgToggle(this));
 
         registerCommand("tpa", new Tpa(this));
         registerCommand("tpaccept", new TpaAccept(this));
@@ -140,6 +140,7 @@ public final class RevisCore extends JavaPlugin {
         getServer().getPluginManager().registerEvents(salaryInstance, this);
         getServer().getPluginManager().registerEvents(new RespawnEvent(this), this);
         getServer().getPluginManager().registerEvents(new CMoveInvEvent(this), this);
+        getServer().getPluginManager().registerEvents(new TpReqManager(this), this);
         getServer().getPluginManager().registerEvents(new EcoListener(customEcoLogic), this);
     }
 

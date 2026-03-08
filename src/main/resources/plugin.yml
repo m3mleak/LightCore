@@ -94,6 +94,8 @@ commands:
     description: Ответить на личное сообщение
     aliases:
       - r
+  msgtoggle:
+    description: Отключить личные сообщения
 
 permissions:
   sethome.set:

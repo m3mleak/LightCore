@@ -114,6 +114,8 @@ messages:
   rtp-usage: "§b✽ §7➛ §fИспользование: /rtp [default/long]"
   clear-success: "§b✽ §7➛ §fИвентарь успешно очищен!"
   clear-usage: "§b✽ §7➛ §fИспользование: /clear"
+  msg-usage: "§b✽ §7➛ §fИспользование: /msg [никнейм] [сообщение]"
+  msg-dontsend-me: "§b✽ §7➛ §fВы не можете отправить сообщение самому себе!"
 
 inventory_names:
   invsee: '§0⚡ Инвентарь: §a'

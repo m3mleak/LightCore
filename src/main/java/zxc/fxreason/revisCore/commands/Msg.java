@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import zxc.fxreason.revisCore.RevisCore;
+import zxc.fxreason.revisCore.managers.CooldownManager;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -13,6 +14,7 @@ import java.util.UUID;
 public class Msg implements CommandExecutor {
 
     private final RevisCore plugin;
+    private final CooldownManager cdManager = new CooldownManager();
     private HashMap<UUID, UUID> lastMessage = new HashMap<>();
 
     public Msg(RevisCore plugin) {
@@ -26,12 +28,18 @@ public class Msg implements CommandExecutor {
             return true;
         }
 
-        Player target = plugin.getServer().getPlayer(args[0]);
-
-        if (args.length < 2) {
-            player.sendMessage("Использование: ");
+        long timeLeft = cdManager.getCooldown(player);
+        if (timeLeft > 0) {
+            player.sendMessage(plugin.getConfigManager().getCooldownCMD() + timeLeft + " §fсекунд.");
             return true;
         }
+
+        if (args.length < 2) {
+            player.sendMessage(plugin.getConfigManager().getMsgUsage());
+            return true;
+        }
+
+        Player target = plugin.getServer().getPlayer(args[0]);
 
         if (target == null) {
             player.sendMessage(plugin.getConfigManager().getNicknameNotFound());
@@ -40,6 +48,16 @@ public class Msg implements CommandExecutor {
 
         if (target.equals(player)) {
             player.sendMessage("Нельзя отправить сообщение самому себе");
+            return true;
+        }
+
+        if (plugin.getDirectMessageManager().isMsgToggleEnabled(target.getUniqueId())) {
+            player.sendMessage("Игрок отлкючил личные сообщения!");
+            return true;
+        }
+
+        if (plugin.getDirectMessageManager().isMsgToggleEnabled(player.getUniqueId())) {
+            player.sendMessage("У вас отключены личные сообщения!");
             return true;
         }
 
@@ -52,11 +70,13 @@ public class Msg implements CommandExecutor {
         lastMessage.put(player.getUniqueId(), target.getUniqueId());
         lastMessage.put(target.getUniqueId(), player.getUniqueId());
 
-        String fromFormat = "§7(ЛС) §d[&eЯ §7➩ " + player.getName() + "§d] §f" + message;
-        String toFormat = "§7(ЛС) §d[" + player.getName() + " §7➩ &eЯ §d] §f" + message;
+        String fromFormat = "§7(ЛС) §d[§eЯ §7➩ §f" + player.getName() + "§d] §f" + message;
+        String toFormat = "§7(ЛС) §d[§e" + player.getName() + " §7➩ §fЯ §d] §f" + message;
 
         player.sendMessage(fromFormat);
         target.sendMessage(toFormat);
+
+        cdManager.setCooldown(player, 3);
 
         return true;
     }

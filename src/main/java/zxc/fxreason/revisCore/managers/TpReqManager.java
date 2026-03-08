@@ -1,7 +1,6 @@
 package zxc.fxreason.revisCore.managers;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
@@ -28,7 +27,25 @@ public class TpReqManager implements Listener {
 
     public TpReqManager(RevisCore plugin) {
         this.plugin = plugin;
-        Bukkit.getPluginManager().registerEvents(this, plugin);
+        loadToggles();
+    }
+
+    private void loadToggles() {
+        var config = plugin.getTogglesDataManager().getConfig();
+        var section = config.getConfigurationSection("players.tptoggle");
+        if (section != null) {
+            for (String key : section.getKeys(false)) {
+                TpToggles.put(UUID.fromString(key), config.getBoolean("players.tptoggle." + key));
+            }
+        }
+    }
+
+    public void setTpToggle(UUID uuid, boolean state) {
+        TpToggles.put(uuid, state);
+    }
+
+    public boolean isTpToggleEnabled(UUID uuid) {
+        return TpToggles.getOrDefault(uuid, false);
     }
 
     @EventHandler
@@ -40,13 +57,7 @@ public class TpReqManager implements Listener {
 
     public void sendRequest(Player sender, Player target, String type) {
 
-        if (plugin.getTogglesDataManager().getConfig().getConfigurationSection("players") != null) {
-            for (String key : plugin.getTogglesDataManager().getConfig().getConfigurationSection("players").getKeys(false)) {
-                TpToggles.put(UUID.fromString(key), plugin.getTogglesDataManager().getConfig().getBoolean("players." + key));
-            }
-        }
-
-        if (TpToggles.getOrDefault(target.getUniqueId(), false)) {
+        if (isTpToggleEnabled(target.getUniqueId())) {
             sender.sendMessage(plugin.getConfigManager().getPlayerTpToggle());
             return;
         }

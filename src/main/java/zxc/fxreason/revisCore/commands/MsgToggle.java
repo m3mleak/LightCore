@@ -9,11 +9,11 @@ import zxc.fxreason.revisCore.RevisCore;
 
 import java.util.UUID;
 
-public class TpToggle implements CommandExecutor {
+public class MsgToggle implements CommandExecutor {
 
-    private final RevisCore plugin;
+    private final RevisCore plugin;;
 
-    public TpToggle(RevisCore plugin) {
+    public MsgToggle(RevisCore plugin) {
         this.plugin = plugin;
     }
 
@@ -24,25 +24,25 @@ public class TpToggle implements CommandExecutor {
             return true;
         }
 
-        if (!player.hasPermission("reviscore.tptoggle")) {
+        if (!player.hasPermission("reviscore.msgtoggle")) {
             player.sendMessage(plugin.getConfigManager().getNoPerms());
             return true;
         }
 
         if (args.length > 0) {
-            player.sendMessage(plugin.getConfigManager().getTpToggleUsage());
+            player.sendMessage("Использование: ");
             return true;
         }
 
         UUID uuid = player.getUniqueId();
-        boolean currentState = plugin.getTpReqManager().isTpToggleEnabled(uuid);
+        boolean currentState = plugin.getDirectMessageManager().isMsgToggleEnabled(uuid);
         boolean newState = !currentState;
 
-        plugin.getTpReqManager().setTpToggle(uuid, newState);
+        plugin.getDirectMessageManager().setMsgToggle(uuid, newState);
 
-        player.sendMessage(newState ? plugin.getConfigManager().getTpToggleOn() : plugin.getConfigManager().getTpToggleOff());
+        player.sendMessage(newState ? "Включено" : "Выключено");
 
-        plugin.getTogglesDataManager().getConfig().set("players.tptoggle." + uuid, newState);
+        plugin.getTogglesDataManager().getConfig().set("players.msgtoggle." + uuid, newState);
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
             plugin.getTogglesDataManager().save();
         });

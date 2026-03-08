@@ -469,6 +469,14 @@ public class ConfigManager {
         return this.config.getString("messages.rtp-notserch");
     }
 
+    public String getMsgUsage() {
+        return this.config.getString("messages.msg-usage");
+    }
+
+    public String getMsgDontSendMe() {
+        return this.config.getString("messages.msg-dontsend-me");
+    }
+
     public String getRtpSuccess() {
         return this.config.getString("messages.rtp-success");
     }
