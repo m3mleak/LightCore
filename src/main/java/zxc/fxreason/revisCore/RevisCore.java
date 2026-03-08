@@ -60,13 +60,14 @@ public final class RevisCore extends JavaPlugin {
 
     private void initializeManagers() {
         this.configManager = new ConfigManager(getConfig());
+        this.TogglesDataManager = new DataManager("toggles", this);
         this.messageUtil = new MessageUtil(this);
         this.customEcoLogic = new CustomEcoLogic(this);
         this.customEconomy = new CustomEconomy(customEcoLogic);
         this.tpReqManager = new TpReqManager(this);
         this.salaryInstance = new Salary(this);
         this.teleportManager = new TeleportManager(this);
-        this.TogglesDataManager = new DataManager("toggles", this);
+        this.directMessageManager = new DirectMessageManager(this);
         this.msg = new Msg(this);
     }
 
