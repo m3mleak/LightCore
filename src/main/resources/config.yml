@@ -116,6 +116,11 @@ messages:
   clear-usage: "§b✽ §7➛ §fИспользование: /clear"
   msg-usage: "§b✽ §7➛ §fИспользование: /msg [никнейм] [сообщение]"
   msg-dontsend-me: "§b✽ §7➛ §fВы не можете отправить сообщение самому себе!"
+  msg-toggle-usage: "§b✽ §7➛ §fИспользование: /msgtoggle"
+  msg-toggle-target: "§b✽ §7➛ §fИгрок отключил запросы телепортации."
+  msg-toggle-player: "§b✽ §7➛ §fУ вас отключены запросы на телепортацию."
+  msg-toggle-on: "§b✽ §7➛ §fЛичные сообщения §aвключены"
+  msg-toggle-off: "§b✽ §7➛ §fЛичные сообщения §сотключены"
 
 inventory_names:
   invsee: '§0⚡ Инвентарь: §a'

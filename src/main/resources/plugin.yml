@@ -96,6 +96,8 @@ commands:
       - r
   msgtoggle:
     description: Отключить личные сообщения
+  ad:
+    description: Отправить рекламное сообщение
 
 permissions:
   sethome.set:

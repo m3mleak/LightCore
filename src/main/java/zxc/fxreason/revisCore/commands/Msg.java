@@ -47,17 +47,17 @@ public class Msg implements CommandExecutor {
         }
 
         if (target.equals(player)) {
-            player.sendMessage("Нельзя отправить сообщение самому себе");
+            player.sendMessage(plugin.getConfigManager().getMsgDontSendMe());
             return true;
         }
 
         if (plugin.getDirectMessageManager().isMsgToggleEnabled(target.getUniqueId())) {
-            player.sendMessage("Игрок отлкючил личные сообщения!");
+            player.sendMessage(plugin.getConfigManager().getMsgToggleTarget());
             return true;
         }
 
         if (plugin.getDirectMessageManager().isMsgToggleEnabled(player.getUniqueId())) {
-            player.sendMessage("У вас отключены личные сообщения!");
+            player.sendMessage(plugin.getConfigManager().getMsgTogglePlayer());
             return true;
         }
 
@@ -71,7 +71,7 @@ public class Msg implements CommandExecutor {
         lastMessage.put(target.getUniqueId(), player.getUniqueId());
 
         String fromFormat = "§7(ЛС) §d[§eЯ §7➩ §f" + player.getName() + "§d] §f" + message;
-        String toFormat = "§7(ЛС) §d[§e" + player.getName() + " §7➩ §fЯ §d] §f" + message;
+        String toFormat = "§7(ЛС) §d[§e" + player.getName() + " §7➩ §fЯ§d] §f" + message;
 
         player.sendMessage(fromFormat);
         target.sendMessage(toFormat);

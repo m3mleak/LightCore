@@ -93,6 +93,7 @@ public final class RevisCore extends JavaPlugin {
         registerCommand("msg", msg);
         registerCommand("reply", new Reply(this));
         registerCommand("msgtoggle", new MsgToggle(this));
+        registerCommand("ad", new Ad(this));
 
         registerCommand("tpa", new Tpa(this));
         registerCommand("tpaccept", new TpaAccept(this));

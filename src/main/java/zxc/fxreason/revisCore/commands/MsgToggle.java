@@ -30,7 +30,7 @@ public class MsgToggle implements CommandExecutor {
         }
 
         if (args.length > 0) {
-            player.sendMessage("Использование: ");
+            player.sendMessage(plugin.getConfigManager().getMsgToggleUsage());
             return true;
         }
 
@@ -40,7 +40,7 @@ public class MsgToggle implements CommandExecutor {
 
         plugin.getDirectMessageManager().setMsgToggle(uuid, newState);
 
-        player.sendMessage(newState ? "Включено" : "Выключено");
+        player.sendMessage(newState ? plugin.getConfigManager().getMsgToggleOff() : plugin.getConfigManager().getMsgToggleOn());
 
         plugin.getTogglesDataManager().getConfig().set("players.msgtoggle." + uuid, newState);
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {

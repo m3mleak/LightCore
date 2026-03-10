@@ -40,7 +40,7 @@ public class TpToggle implements CommandExecutor {
 
         plugin.getTpReqManager().setTpToggle(uuid, newState);
 
-        player.sendMessage(newState ? plugin.getConfigManager().getTpToggleOn() : plugin.getConfigManager().getTpToggleOff());
+        player.sendMessage(newState ? plugin.getConfigManager().getTpToggleOff() : plugin.getConfigManager().getTpToggleOn());
 
         plugin.getTogglesDataManager().getConfig().set("players.tptoggle." + uuid, newState);
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {

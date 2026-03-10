@@ -477,6 +477,26 @@ public class ConfigManager {
         return this.config.getString("messages.msg-dontsend-me");
     }
 
+    public String getMsgToggleUsage() {
+        return this.config.getString("messages.msg-toggle-usage");
+    }
+
+    public String getMsgTogglePlayer() {
+        return this.config.getString("messages.msg-toggle-player");
+    }
+
+    public String getMsgToggleTarget() {
+        return this.config.getString("messages.msg-toggle-target");
+    }
+
+    public String getMsgToggleOn() {
+        return this.config.getString("messages.msg-toggle-on");
+    }
+
+    public String getMsgToggleOff() {
+        return this.config.getString("messages.msg-toggle-off");
+    }
+
     public String getRtpSuccess() {
         return this.config.getString("messages.rtp-success");
     }
