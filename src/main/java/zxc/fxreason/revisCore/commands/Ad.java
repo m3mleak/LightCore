@@ -6,10 +6,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import zxc.fxreason.revisCore.RevisCore;
+import zxc.fxreason.revisCore.managers.CooldownManager;
 
 public class Ad implements CommandExecutor {
 
     private final RevisCore plugin;
+    private final CooldownManager cdManager = new CooldownManager();
 
     public Ad(RevisCore plugin) {
         this.plugin = plugin;
@@ -23,12 +25,18 @@ public class Ad implements CommandExecutor {
         }
 
         if (!player.hasPermission("reviscore.ad")) {
-            plugin.getConfigManager().getNoPerms();
+            player.sendMessage(plugin.getConfigManager().getNoPerms());
             return true;
         }
 
         if (args.length < 1) {
             player.sendMessage("Использование: /ad [рекламное сообщение]");
+            return true;
+        }
+
+        long timeLeft = cdManager.getCooldown(player);
+        if (timeLeft > 0) {
+            player.sendMessage(plugin.getConfigManager().getCooldownCMD() + timeLeft + " §fсекунд.");
             return true;
         }
 
@@ -39,11 +47,13 @@ public class Ad implements CommandExecutor {
 
         String ad = adBuilder.toString().trim();
 
-        String toFormat = "§4§lРЕКЛАМА §7➩ §f" + ad;
+        String toFormat = "§4§lРЕКЛАМА §7➩ §f" + ad + " §7(" + player.getName() + ")";
 
         for (Player target : plugin.getServer().getOnlinePlayers()) {
             target.sendMessage(toFormat);
         }
+
+        cdManager.setCooldown(player, 30);
 
         return true;
     }

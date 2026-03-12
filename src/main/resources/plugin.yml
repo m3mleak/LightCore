@@ -98,6 +98,8 @@ commands:
     description: Отключить личные сообщения
   ad:
     description: Отправить рекламное сообщение
+  heal:
+    description: Восполнить хп
 
 permissions:
   sethome.set:
@@ -211,4 +213,13 @@ permissions:
     default: op
   reviscore.rtp-long:
     description: Телепортация на дальние координаты
+    default: op
+  reviscore.ad:
+    description: Рекламное сообщение
+    default: op
+  reviscore.heal:
+    description: Восполнить хп самому себе
+    default: op
+  reviscore.heal-players:
+    description: Восполнить хп игрока
     default: op
