@@ -517,6 +517,14 @@ public class ConfigManager {
         return this.config.getString("messages.ad-usage");
     }
 
+    public String getHealSuccess() {
+        return this.config.getString("messages.heal-success");
+    }
+
+    public String getHealSuccessPlayer() {
+        return this.config.getString("messages.heal-success-player");
+    }
+
     public BigDecimal getDefaultBalance() {
         return BigDecimal.valueOf(this.config.getDouble("settings.default-balance", 100.0));
     }

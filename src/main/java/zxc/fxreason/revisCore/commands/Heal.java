@@ -31,7 +31,7 @@ public class Heal implements CommandExecutor {
 
         if (args.length == 0) {
             player.heal(player.getAttribute(Attribute.MAX_HEALTH).getBaseValue());
-            player.sendMessage("Вы успешно восполнили свое здоровье!");
+            player.sendMessage(plugin.getConfigManager().getHealSuccess());
             return true;
         } else if (args.length == 1) {
             if (!player.hasPermission("reviscore.heal-players")) {
@@ -47,7 +47,7 @@ public class Heal implements CommandExecutor {
             }
 
             target.heal(target.getAttribute(Attribute.MAX_HEALTH).getBaseValue());
-            player.sendMessage("Вы успешно восолнили здоровье игрока!");
+            player.sendMessage(plugin.getConfigManager().getHealSuccessPlayer());
 
             return true;
         }
