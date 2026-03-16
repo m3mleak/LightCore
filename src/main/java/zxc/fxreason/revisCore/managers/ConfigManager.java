@@ -513,6 +513,10 @@ public class ConfigManager {
         return this.config.getString("messages.clear-usage");
     }
 
+    public String getAdUsage() {
+        return this.config.getString("messages.ad-usage");
+    }
+
     public BigDecimal getDefaultBalance() {
         return BigDecimal.valueOf(this.config.getDouble("settings.default-balance", 100.0));
     }

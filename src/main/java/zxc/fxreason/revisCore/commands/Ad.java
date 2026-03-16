@@ -30,7 +30,7 @@ public class Ad implements CommandExecutor {
         }
 
         if (args.length < 1) {
-            player.sendMessage("Использование: /ad [рекламное сообщение]");
+            player.sendMessage(plugin.getConfigManager().getAdUsage());
             return true;
         }
 
