@@ -7,15 +7,16 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import zxc.fxreason.revisCore.RevisCore;
+import zxc.fxreason.revisCore.managers.CooldownManager;
 
 public class Heal implements CommandExecutor {
 
     private final RevisCore plugin;
+    private final CooldownManager cdManager = new CooldownManager();
 
     public Heal(RevisCore plugin) {
         this.plugin = plugin;
     }
-
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
@@ -29,9 +30,16 @@ public class Heal implements CommandExecutor {
             return true;
         }
 
+        long timeLeft = cdManager.getCooldown(player);
+        if (timeLeft > 0) {
+            player.sendMessage(plugin.getConfigManager().getCooldownCMD() + timeLeft + " §fсекунд.");
+            return true;
+        }
+
         if (args.length == 0) {
             player.heal(player.getAttribute(Attribute.MAX_HEALTH).getBaseValue());
             player.sendMessage(plugin.getConfigManager().getHealSuccess());
+            cdManager.setCooldown(player, 30);
             return true;
         } else if (args.length == 1) {
             if (!player.hasPermission("reviscore.heal-players")) {
@@ -48,7 +56,7 @@ public class Heal implements CommandExecutor {
 
             target.heal(target.getAttribute(Attribute.MAX_HEALTH).getBaseValue());
             player.sendMessage(plugin.getConfigManager().getHealSuccessPlayer());
-
+            cdManager.setCooldown(player, 30);
             return true;
         }
 

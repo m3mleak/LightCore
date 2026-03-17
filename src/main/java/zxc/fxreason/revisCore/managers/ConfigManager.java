@@ -525,6 +525,10 @@ public class ConfigManager {
         return this.config.getString("messages.heal-success-player");
     }
 
+    public String getFeedSuccessYou() {
+        return this.config.getString("messages.feed-success-you");
+    }
+
     public BigDecimal getDefaultBalance() {
         return BigDecimal.valueOf(this.config.getDouble("settings.default-balance", 100.0));
     }
