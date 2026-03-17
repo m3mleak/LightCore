@@ -1,5 +1,6 @@
 package zxc.fxreason.revisCore.commands;
 
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -23,6 +24,11 @@ public class Fly implements CommandExecutor {
         }
 
         Player player = (Player) sender;
+
+        if ((!player.hasPermission("reviscore.fly-nonelytra")) || (!player.getInventory().getChestplate().equals(Material.ELYTRA))) {
+            player.sendMessage("Наденьте элитры для полета!");
+            return true;
+        }
 
         if (sender.hasPermission("reviscore.fly")) {
             boolean newState = !player.getAllowFlight();
