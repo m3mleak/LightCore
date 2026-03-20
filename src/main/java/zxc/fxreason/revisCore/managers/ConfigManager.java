@@ -529,6 +529,10 @@ public class ConfigManager {
         return this.config.getString("messages.feed-success-you");
     }
 
+    public String getClanMenuInvName() {
+        return this.config.getString("inventory_names.clans");
+    }
+
     public BigDecimal getDefaultBalance() {
         return BigDecimal.valueOf(this.config.getDouble("settings.default-balance", 100.0));
     }

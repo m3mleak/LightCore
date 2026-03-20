@@ -45,7 +45,7 @@ public class Salary implements CommandExecutor, Listener {
             return true;
         }
 
-        timeLeft = this.cdManager.getCooldown(player);
+        timeLeft = cdManager.getCooldown(player);
 
         BigDecimal amount = calculateAmount(player);
 

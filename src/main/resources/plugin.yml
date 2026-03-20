@@ -100,6 +100,8 @@ commands:
     description: Отправить рекламное сообщение
   heal:
     description: Восполнить хп
+  clan:
+    description: Основная команда клановой системы
 
 permissions:
   sethome.set:

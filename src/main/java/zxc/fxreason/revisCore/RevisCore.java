@@ -5,6 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
+import zxc.fxreason.revisCore.clansystem.ClanCMD;
 import zxc.fxreason.revisCore.commands.*;
 import zxc.fxreason.revisCore.economy.CustomEcoLogic;
 import zxc.fxreason.revisCore.economy.CustomEcoProvider;
@@ -80,6 +81,7 @@ public final class RevisCore extends JavaPlugin {
         registerCommand("setwarp", new SetWarp(this));
         registerCommand("warp", new Warp(this));
         registerCommand("reviscore", new Reload(this));
+        registerCommand("clan", new ClanCMD(this));
 
         registerCommand("fly", new Fly(this));
         registerCommand("gm", new Gamemode(this));

@@ -129,6 +129,7 @@ messages:
 inventory_names:
   invsee: '§0⚡ Инвентарь: §a'
   salary: '§0⚡ Зарплата'
+  clans: '§0⚡ Клан-меню'
 
 settings:
   # Телепортация на спавн при первом входе игрока
