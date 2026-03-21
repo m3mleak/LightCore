@@ -147,6 +147,7 @@ public final class RevisCore extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new CMoveInvEvent(this), this);
         getServer().getPluginManager().registerEvents(new TpReqManager(this), this);
         getServer().getPluginManager().registerEvents(new EcoListener(customEcoLogic), this);
+        getServer().getPluginManager().registerEvents(new ClanCMD(this), this);
     }
 
     private void setupVault() {

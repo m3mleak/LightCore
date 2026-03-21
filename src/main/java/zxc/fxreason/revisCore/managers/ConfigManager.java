@@ -533,6 +533,18 @@ public class ConfigManager {
         return this.config.getString("inventory_names.clans");
     }
 
+    public String getMenuClanInvName() {
+        return this.config.getString("inventory_names.menu-clan");
+    }
+
+    public String getMenuBankClanName() {
+        return this.config.getString("inventory_names.bank-clan");
+    }
+
+    public String getMenuTopClansName() {
+        return this.config.getString("inventory_names.top-clans");
+    }
+
     public BigDecimal getDefaultBalance() {
         return BigDecimal.valueOf(this.config.getDouble("settings.default-balance", 100.0));
     }
