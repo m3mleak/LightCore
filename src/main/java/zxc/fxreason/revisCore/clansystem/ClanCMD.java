@@ -2,6 +2,7 @@ package zxc.fxreason.revisCore.clansystem;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -19,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import zxc.fxreason.revisCore.RevisCore;
 import zxc.fxreason.revisCore.utils.ColorUtils;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 public class ClanCMD extends BukkitRunnable implements CommandExecutor, Listener {
@@ -191,8 +193,8 @@ public class ClanCMD extends BukkitRunnable implements CommandExecutor, Listener
             }
 
             if (players.containsKey(player.getUniqueId())) {
+                player.sendMessage("§cВы уже ожидаете ввод названия клана!");
                 player.closeInventory();
-                player.sendMessage("Вы еще не написали название клана");
                 return;
             }
 
@@ -208,19 +210,43 @@ public class ClanCMD extends BukkitRunnable implements CommandExecutor, Listener
     private void onChat(AsyncChatEvent e) {
 
         Player player =  e.getPlayer();
-        Component message = e.message();
-
-        Component clanName = Component.text("Клан ")
-                .append(message.color(NamedTextColor.GREEN))
-                .append(Component.text(" успешно создан!")).color(NamedTextColor.WHITE);
-
-        e.setCancelled(true);
 
         if (!players.containsKey(player.getUniqueId())) {
             return;
         }
 
-        player.sendMessage(clanName);
+        e.setCancelled(true);
+
+        String clanTag = ((TextComponent) e.message()).content();
+
+        players.remove(player.getUniqueId());
+
+        if (clanTag == null || clanTag.trim().isEmpty()) {
+            player.sendMessage("Тег клана не может быть пустым!");
+            return;
+        }
+
+        if (clanTag.length() < 3 || clanTag.length() > 7) {
+            player.sendMessage("Тег клана должен быть длиной от 3 до 7 символов!");
+            return;
+        }
+
+        if (!clanTag.matches("[a-zA-Zа-яА-Я0-9]+")) {
+            player.sendMessage("Тег клана может содержать только буквы и цифры!");
+            return;
+        }
+
+        // проверка на тег
+
+        // проверка на деньги
+
+        // plugin.getCustomEconomy().withdraw(player.getUniqueId(), BigDecimal.valueOf(25000));
+
+        // создание клана
+
+        player.sendMessage("DEBUG: Клан создан");
+
+        players.remove(player.getUniqueId());
     }
 
 }
