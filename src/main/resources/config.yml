@@ -125,6 +125,8 @@ messages:
   heal-success: "§b✽ §7➛ §fВы успешно восполнили свое здоровье!"
   heal-success-player: "§b✽ §7➛ §fВы успешно восполнили здоровье игрока!"
   feed-success-you: "§b✽ §7➛ §fВаш голод успешно восполнен!"
+  incorrect-item: "§b✽ §7➛ §fНеверный предмет!"
+  count-int: "§b✽ §7➛ §fКоличество должно быть числом!"
 
 inventory_names:
   invsee: '§0⚡ Инвентарь: §a'
@@ -133,6 +135,8 @@ inventory_names:
   menu-clan: '§0⚡ Меню клана: '
   bank-clan: '§0⚡ Казна клана'
   top-clans: "§0⚡ Топ кланов"
+  clan-create: "§0⚡ Создать клан"
+
 
 settings:
   # Телепортация на спавн при первом входе игрока

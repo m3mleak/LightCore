@@ -1,9 +1,11 @@
 package zxc.fxreason.revisCore.commands;
 
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import zxc.fxreason.revisCore.RevisCore;
 import zxc.fxreason.revisCore.managers.CooldownManager;
@@ -29,19 +31,21 @@ public class Clear implements CommandExecutor {
         }
 
         if (args.length == 0) {
+
             if (!sender.hasPermission("reviscore.clear")) {
-                player.sendMessage(plugin.getConfigManager().getNoPerms());
+                sender.sendMessage(plugin.getConfigManager().getNoPerms());
                 return true;
             }
 
             player.getInventory().clear();
             player.sendMessage(plugin.getConfigManager().getClearSuccess());
-            this.cdManager.setCooldown(player, 15);
+            cdManager.setCooldown(player, 15);
 
             return true;
-        } else if (args.length == 1) {
+        }
+        if (args.length == 1) {
             if (!sender.hasPermission("reviscore.clear-all")) {
-                player.sendMessage(plugin.getConfigManager().getNoPerms());
+                sender.sendMessage(plugin.getConfigManager().getNoPerms());
                 return true;
             }
 
@@ -54,9 +58,68 @@ public class Clear implements CommandExecutor {
             sender.sendMessage(plugin.getConfigManager().getClearSuccess());
 
             return true;
-        } else {
-            sender.sendMessage(plugin.getConfigManager().getClearUsage());
         }
+
+        if (args.length == 3) {
+            if (!sender.hasPermission("clear-items")) {
+                sender.sendMessage(plugin.getConfigManager().getNoPerms());
+                return true;
+            }
+
+            Player target = plugin.getServer().getPlayer(args[0]);
+            if (target == null) {
+                sender.sendMessage(plugin.getConfigManager().getNicknameNotFound());
+                return true;
+            }
+
+            Material material = Material.matchMaterial(args[1].toUpperCase());
+            if (material == null) {
+                sender.sendMessage(plugin.getConfigManager().getIncorrectItem());
+                return true;
+            }
+
+            int amount;
+            try {
+                amount = Integer.parseInt(args[2]);
+            } catch (NumberFormatException e) {
+                sender.sendMessage(plugin.getConfigManager().getCountInt());
+                return true;
+            }
+
+            int removed = removeItems(target, material, amount);
+            sender.sendMessage("Удалено " + removed + " предметов " + material.name());
+        }
+
         return true;
+    }
+
+    private int removeItems(Player player, Material material, int amount) {
+        int toRemove  = amount;
+        int removed = 0;
+
+        ItemStack contents[] = player.getInventory().getContents();
+
+        for (int i = 0; i < contents.length && toRemove > 0; i++) {
+            ItemStack item = contents[i];
+
+
+            if (item != null && item.getType() == material) {
+                int itemAmount = item.getAmount();
+
+                if (itemAmount <= toRemove) {
+                    removed += itemAmount;
+                    toRemove -= itemAmount;
+                    player.getInventory().setItem(i, null);
+                } else {
+                    item.setAmount(itemAmount - toRemove);
+                    removed += toRemove;
+                    toRemove = 0;
+                    player.getInventory().setItem(i, item);
+                }
+            }
+        }
+
+        player.updateInventory();
+        return removed;
     }
 }

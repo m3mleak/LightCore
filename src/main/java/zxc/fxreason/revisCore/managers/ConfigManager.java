@@ -529,6 +529,13 @@ public class ConfigManager {
         return this.config.getString("messages.feed-success-you");
     }
 
+    public String getIncorrectItem() {
+        return this.config.getString("messages.incorrect-item");
+    }
+    public String getCountInt() {
+        return this.config.getString("messages.count-int");
+    }
+
     public String getClanMenuInvName() {
         return this.config.getString("inventory_names.clans");
     }
@@ -543,6 +550,10 @@ public class ConfigManager {
 
     public String getMenuTopClansName() {
         return this.config.getString("inventory_names.top-clans");
+    }
+
+    public String getMenuClanCreate() {
+        return this.config.getString("inventory_names.clan-create");
     }
 
     public BigDecimal getDefaultBalance() {
