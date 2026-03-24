@@ -61,7 +61,7 @@ public class Clear implements CommandExecutor {
         }
 
         if (args.length == 3) {
-            if (!sender.hasPermission("clear-items")) {
+            if (!sender.hasPermission("reviscore.clear-items")) {
                 sender.sendMessage(plugin.getConfigManager().getNoPerms());
                 return true;
             }
@@ -87,7 +87,7 @@ public class Clear implements CommandExecutor {
             }
 
             int removed = removeItems(target, material, amount);
-            sender.sendMessage("Удалено " + removed + " предметов " + material.name());
+            sender.sendMessage("§b✽ §7➛ §fУдалено §a" + removed + "§f предметов §a" + material.name() + "§f у игрока §a" + player.getName() + "§f.");
         }
 
         return true;

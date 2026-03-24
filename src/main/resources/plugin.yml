@@ -102,6 +102,8 @@ commands:
     description: Восполнить хп
   clan:
     description: Основная команда клановой системы
+  expgive:
+    description: Выдать опыт
 
 permissions:
   sethome.set:
@@ -225,3 +227,10 @@ permissions:
   reviscore.heal-players:
     description: Восполнить хп игрока
     default: op
+  reviscore.expgive:
+    description: Выдать опыт
+    default: op
+  reviscore.clear-items:
+    description: Очистка определенного предмета
+    default: op
+

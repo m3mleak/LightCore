@@ -532,8 +532,13 @@ public class ConfigManager {
     public String getIncorrectItem() {
         return this.config.getString("messages.incorrect-item");
     }
+
     public String getCountInt() {
         return this.config.getString("messages.count-int");
+    }
+
+    public String getExpGiveUsage() {
+        return this.config.getString("messages.expgive-usage");
     }
 
     public String getClanMenuInvName() {

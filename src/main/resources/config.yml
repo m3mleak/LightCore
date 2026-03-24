@@ -127,6 +127,7 @@ messages:
   feed-success-you: "§b✽ §7➛ §fВаш голод успешно восполнен!"
   incorrect-item: "§b✽ §7➛ §fНеверный предмет!"
   count-int: "§b✽ §7➛ §fКоличество должно быть числом!"
+  expgive-usage: "§b✽ §7➛ §fИспользование: /expgive [никнейм] [количество]"
 
 inventory_names:
   invsee: '§0⚡ Инвентарь: §a'
