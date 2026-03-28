@@ -22,15 +22,19 @@ public class Clear implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
 
-        Player player = (Player) sender;
-        long timeLeft = this.cdManager.getCooldown(player);
-
-        if (timeLeft > 0L) {
-            player.sendMessage(plugin.getConfigManager().getCooldownCMD() + timeLeft + " §fсекунд.");
-            return true;
-        }
-
         if (args.length == 0) {
+            if (!(sender instanceof Player)) {
+                sender.sendMessage("§cЭта команда может быть выполнена только игроком!");
+                return true;
+            }
+
+            Player player = (Player) sender;
+            long timeLeft = this.cdManager.getCooldown(player);
+
+            if (timeLeft > 0L) {
+                player.sendMessage(plugin.getConfigManager().getCooldownCMD() + timeLeft + " §fсекунд.");
+                return true;
+            }
 
             if (!sender.hasPermission("reviscore.clear")) {
                 sender.sendMessage(plugin.getConfigManager().getNoPerms());
@@ -87,7 +91,7 @@ public class Clear implements CommandExecutor {
             }
 
             int removed = removeItems(target, material, amount);
-            sender.sendMessage("§b✽ §7➛ §fУдалено §a" + removed + "§f предметов §a" + material.name() + "§f у игрока §a" + player.getName() + "§f.");
+            sender.sendMessage("§b✽ §7➛ §fУдалено §a" + removed + "§f предметов §a" + material.name() + "§f у игрока §a" + target.getName() + "§f.");
         }
 
         return true;

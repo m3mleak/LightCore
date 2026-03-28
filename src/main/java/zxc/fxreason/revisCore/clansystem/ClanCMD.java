@@ -53,7 +53,6 @@ public class ClanCMD extends BukkitRunnable implements CommandExecutor, Listener
         String menuCreateClanTitle = plugin.getConfigManager().getMenuClanCreate();
         Inventory mainClanMenu = plugin.getServer().createInventory(null, 27, menuTitle);
         Inventory clanCreateMenu = plugin.getServer().createInventory(null, 27, menuCreateClanTitle);
-        Inventory clanAcceptCreateMenu = plugin.getServer().createInventory(null, 27, menuTitle);
 
         ItemStack bluePanel = new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE);
         ItemStack whitePanel = new ItemStack(Material.WHITE_STAINED_GLASS_PANE);
@@ -119,6 +118,59 @@ public class ClanCMD extends BukkitRunnable implements CommandExecutor, Listener
         }
 
         return true;
+    }
+
+    private Inventory clanTagAccept(String clanTag) {
+
+        /*
+        * Clan tag accept menu
+        * This menu for accept clan tag and create clan
+        * */
+
+        String menuTitle = plugin.getConfigManager().getClanMenuInvName();
+        Inventory clanAcceptCreateMenu = plugin.getServer().createInventory(null, 27, menuTitle);
+
+        ItemStack bluePanel = new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE);
+        ItemStack whitePanel = new ItemStack(Material.WHITE_STAINED_GLASS_PANE);
+        ItemStack descriptConfirm = new ItemStack(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE);
+        ItemStack accept = new ItemStack(Material.LIME_CANDLE);
+        ItemStack deny = new ItemStack(Material.RED_CANDLE);
+
+        ItemMeta descriptConfirmMeta = descriptConfirm.getItemMeta();
+        ItemMeta acceptMeta = accept.getItemMeta();
+        ItemMeta denyMeta = deny.getItemMeta();
+
+        String confirm = "<gradient:#E700FF:#3B34BE>⏻ пᴏдтʙᴇᴘдить ᴄᴏздᴀʜиᴇ ᴋлᴀʜᴀ?</gradient>";
+        String acceptName = "<color:#0EFF00>✔ ᴄᴏздᴀть</color>";
+        String denyName = "<color:#0EFF00>✖ отменить</color>";
+
+        descriptConfirmMeta.displayName(ColorUtils.parseItem(confirm));
+        acceptMeta.displayName(ColorUtils.parseItem(acceptName));
+        denyMeta.displayName(ColorUtils.parseItem(denyName));
+
+        List<Component> confirmLore = new ArrayList<>();
+        confirmLore.add(ColorUtils.parseItem("<white>- Вы действительно хотите создать клан с тегом: </white>" + clanTag + "<white>?</white>"));
+        confirmLore.add(ColorUtils.parseItem("<white>- После подтверждения у вас спишется</white> <color:#0EFF00>25.000$</color> <white>за создание клана!</white>"));
+
+        descriptConfirmMeta.lore(confirmLore);
+
+        descriptConfirm.setItemMeta(descriptConfirmMeta);
+        accept.setItemMeta(acceptMeta);
+        deny.setItemMeta(denyMeta);
+
+        int[] lightBluePanels = {0, 1, 7, 8, 10, 16, 18, 19, 25, 26};
+
+        for (int slot : lightBluePanels) {
+            clanAcceptCreateMenu.setItem(slot, bluePanel);
+        }
+
+        clanAcceptCreateMenu.setItem(9, whitePanel);
+        clanAcceptCreateMenu.setItem(17, whitePanel);
+        clanAcceptCreateMenu.setItem(12, accept);
+        clanAcceptCreateMenu.setItem(13, descriptConfirm);
+        clanAcceptCreateMenu.setItem(14, deny);
+
+        return clanAcceptCreateMenu;
     }
 
     private Inventory clanMenu() {
@@ -242,9 +294,8 @@ public class ClanCMD extends BukkitRunnable implements CommandExecutor, Listener
 
         // plugin.getCustomEconomy().withdraw(player.getUniqueId(), BigDecimal.valueOf(25000));
 
-        // создание клана
-
-        player.sendMessage("DEBUG: Клан создан");
+        player.sendMessage("DEBUG: Клан создан. NAME: " + clanTag);
+        player.openInventory(clanTagAccept(clanTag));
 
         players.remove(player.getUniqueId());
     }
