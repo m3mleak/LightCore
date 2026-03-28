@@ -295,7 +295,13 @@ public class ClanCMD extends BukkitRunnable implements CommandExecutor, Listener
         // plugin.getCustomEconomy().withdraw(player.getUniqueId(), BigDecimal.valueOf(25000));
 
         player.sendMessage("DEBUG: Клан создан. NAME: " + clanTag);
-        player.openInventory(clanTagAccept(clanTag));
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                player.openInventory(clanTagAccept(clanTag));
+            }
+        }.runTask(plugin);
 
         players.remove(player.getUniqueId());
     }
