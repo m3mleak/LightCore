@@ -1,4 +1,4 @@
-# RevisCore plugin for RevisCube
+# LightCore plugin for LightCube
 
 ## Build: 
 ```./gradlew build```

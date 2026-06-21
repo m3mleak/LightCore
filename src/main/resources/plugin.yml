@@ -1,6 +1,6 @@
 name: RevisCore
 version: '0.2.1'
-main: zxc.fxreason.revisCore.RevisCore
+main: zxc.fxreason.lightCore.LightCore
 api-version: '1.21'
 
 softdepend: [Vault]
