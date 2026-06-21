@@ -53,14 +53,14 @@ public class ClanCMD extends BukkitRunnable implements CommandExecutor, Listener
         Inventory mainClanMenu = plugin.getServer().createInventory(null, 27, menuTitle);
         Inventory clanCreateMenu = plugin.getServer().createInventory(null, 27, menuCreateClanTitle);
 
-        ItemStack bluePanel = new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE);
-        ItemStack whitePanel = new ItemStack(Material.WHITE_STAINED_GLASS_PANE);
+        ItemStack bluePanel = new ItemStack(Material.RED_STAINED_GLASS_PANE);
+        ItemStack whitePanel = new ItemStack(Material.ORANGE_STAINED_GLASS_PANE);
         ItemStack menuClanButton = new ItemStack(Material.OMINOUS_TRIAL_KEY);
         ItemStack menuBalanceInd = new ItemStack(Material.NETHER_STAR);
         ItemStack menuClanTopInd = new ItemStack(Material.ENDER_EYE);
         ItemStack clanCreateAccept = new ItemStack(Material.LIME_CANDLE);
         ItemStack clanCreateDeny = new ItemStack(Material.RED_CANDLE);
-        ItemStack createClanButton = new ItemStack(Material.WARD_ARMOR_TRIM_SMITHING_TEMPLATE);
+        ItemStack createClanButton = new ItemStack(Material.NETHERITE_SWORD);
 
         ItemMeta menuClanMeta = menuClanButton.getItemMeta();
         ItemMeta menuBalanceMeta = menuBalanceInd.getItemMeta();
@@ -82,8 +82,8 @@ public class ClanCMD extends BukkitRunnable implements CommandExecutor, Listener
 
         List<Component> loreClanCreateButton = new ArrayList<>();
         loreClanCreateButton.add(0, Component.text("").color(NamedTextColor.WHITE));
-        loreClanCreateButton.add(1, Component.text("Стоимость создания клана: 25.000$").color(NamedTextColor.WHITE));
-        loreClanCreateButton.add(2, Component.text("После нажатия у вас будет 10 секунд чтобы ввести тег клана!").color(NamedTextColor.WHITE));
+        loreClanCreateButton.add(ColorUtils.parseItem("<white>- Cтоимость создания клана составляет </white> <green>100.000$</green><white>.</white>"));
+        loreClanCreateButton.add(ColorUtils.parseItem("<white>- После нажатия у вас будет 10 секунд, чтобы ввести тег клана!</white>"));
 
         createClanButtonMeta.lore(loreClanCreateButton);
 

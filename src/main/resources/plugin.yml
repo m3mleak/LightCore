@@ -1,4 +1,4 @@
-name: RevisCore
+name: LightCore
 version: '0.2.1'
 main: zxc.fxreason.lightCore.LightCore
 api-version: '1.21'

@@ -25,12 +25,13 @@ public class Fly implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        if ((!player.hasPermission("reviscore.fly-nonelytra")) || (!player.getInventory().getChestplate().equals(Material.ELYTRA))) {
-            player.sendMessage("Наденьте элитры для полета!");
-            return true;
-        }
-
         if (sender.hasPermission("reviscore.fly")) {
+
+            if ((!player.hasPermission("reviscore.fly-nonelytra")) || (!player.getInventory().getChestplate().equals(Material.ELYTRA))) {
+                player.sendMessage("Наденьте элитры для полета!");
+                return true;
+            }
+
             boolean newState = !player.getAllowFlight();
             player.setAllowFlight(newState);
 
